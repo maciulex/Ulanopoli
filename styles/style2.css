@@ -1,0 +1,314 @@
+* {
+	margin: 0px;
+	padding: 0px;
+	font-family: 'Roboto', sans-serif;
+}
+body {
+	background-color: #3d4f61;
+	height: 100vh;
+	width: 100vw;
+	overflow-x: hidden;
+	overflow-y: hidden;
+}
+header {
+	width: 100%;
+	height: 75px;
+	background-color: #2c3e50;
+	z-index: 95;
+}
+
+button {
+	padding: 5px;
+	border-radius: 5px;
+	background-color: white;
+}
+
+button:focus {
+	outline: 0;
+}
+
+input {
+	border-radius: 5px;
+}
+#blueBox {
+	background-color: blue;
+	width: 40%;
+	height: 110%;
+	margin: auto;
+	margin-top: 5%;
+}
+#greyBox {
+	background-color: lightgrey;
+	width: 50%;
+	height: 60%;
+	margin: auto;
+	margin-top: 10%;
+}
+#gridBox {
+	display: grid;
+}
+#textHolder {
+	text-align: center;
+	position: relative;
+	top: 10%;
+}
+#RegInB {
+	margin-left: 2.5%;
+}
+#LogInB {
+	margin-right: 2.5%;
+}
+
+#profil-ico {
+	border: black solid 2px;
+	width: 3em;
+	height: 3em;
+	border-radius: 90%;
+	float: right;
+ 	position: relative;
+ 	bottom: 0.5em;
+	right: 2em;
+}
+
+.png {
+	max-height: 100%;
+	max-width: 100%;
+	color: white;
+}
+
+.psc {
+	max-height: 25px;
+}
+
+main {
+	width: 100vw;
+	height: calc(100vh - 75px)
+}
+
+aside {
+	width: 15%;
+	height: 100%;
+	background-color: #34495e;
+	float: left;
+	text-align: center;
+}
+
+.games {
+	float: left;
+	position: relative;
+	width: 85vw;
+	height: calc(100vh - 75px);
+	text-align: center;
+	overflow-y: auto;
+}
+.option {
+	display: inline-block;
+	width: 19%;
+}
+nav {
+	min-width: 705px;
+	width: 92%;
+	margin: 30px auto 20px;
+	color: grey;
+	position: relative;
+}
+
+section {
+	background: linear-gradient(to right, #ee0979, #ff6a00);
+	height: 30px;
+	min-width: 705px;
+	width: 93%;
+	padding: 10px 0;
+	margin: 20px auto;
+	color: white;
+	text-shadow: 0.8px 0.5px 2px black;
+	font-weight: 500;
+	font-size: 20px;
+	position: relative;
+	border-radius: 50px 20px;
+	box-shadow: 0 0 10px gray;
+	transition: .1s;
+}
+
+section:first-child {
+	margin-top: 5px;
+}
+
+section:hover {
+	box-shadow: 0 0 20px gray;
+	transform: scale(1.01);
+}
+
+section button {
+	position: relative;
+	width: 100%;
+	height: 50px;
+	margin-top: -10px;
+	margin-left: 40px;
+	background: linear-gradient(to right, white);
+	border: none;
+	border-top-right-radius: 40px 30px;
+	border-bottom-right-radius: 50px 90px;
+	color: gray;
+	font-weight: 500;
+	font-size: 25px;
+	transition: ease-in-out .2;
+	margin-left: 13.5%;
+	cursor: pointer;
+}
+
+section button::after {
+	content: "";
+	position: absolute;
+	left: -19.5px;
+	bottom: 0;
+	width: 0;
+	height: 100%;
+	border-bottom: 50px solid white;
+	border-left: 20px solid transparent;
+}
+
+.fa-lock-open::before {
+	margin-left: 7px;
+}
+
+.page {
+	width: 150px;
+	height: 40px;
+	position: absolute;
+	top: -20px;
+	font-size: 20px;
+	border-radius: 50px 20px;
+	background: linear-gradient(to right, #ee0979, #ff6a00);
+	border: none;
+	color: white;
+	transition: .2s;
+	cursor: pointer;
+}
+
+.page::after {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: linear-gradient(to right, #ee0979,#ff6a00);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ee0979', endColorstr='#ff6a00',GradientType=1 );
+	filter: blur(8px);
+	z-index: -1;
+}
+
+.page:hover {
+	transform: scale(1.05);
+}
+
+.right { right: 0; }
+.left { 
+	top: 30px;
+	left: 30px; 
+}
+
+.whiteBox {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 400vw;
+	height: 100vh;
+	background: #2c3e50;
+	z-index: 99;
+	visibility: hidden;
+}
+
+.toGameCreate {
+	animation: moveFromRight 1s ease-in-out both; 
+}
+
+.toGameList {
+	animation: moveFromLeft 1s ease-in-out both; 
+}
+
+@keyframes moveFromLeft {
+	0% {
+		transform: translateX(-100%);
+		visibility: visible;
+	}
+	50% {
+		transform: translateX(0%);
+	}
+	100% {
+		transform: translateX(100%);
+		visibility: hidden;
+	}
+}
+
+@keyframes moveFromRight {
+	0% {
+		transform: translateX(100%);
+		visibility: visible;
+	}
+	50% {
+		transform: translateX(0%);
+	}
+	100% {
+		transform: translateX(-100%);
+		visibility: hidden;
+	}
+}
+
+.regGame {
+	position: absolute;
+	top: 75px;
+	visibility: hidden;
+}
+
+.regGame form {
+	text-align: center;
+	padding: 30px;
+}
+
+.regGame form input, .regGame form div {
+	display: inline-block;
+}
+
+.regGame input[type="radio"] {
+	position: absolute;
+	left: 0;
+	top: 0;
+	cursor: none;
+	opacity: 0;
+}
+
+.regGame input[type="radio"]:checked + .selectp {
+	border-image-source: linear-gradient(to bottom right, #ee0979, #ff6a00);;
+}
+
+.selectp {
+	position: relative;
+	padding: 60px 40px;
+	margin: 10px;
+	border: 3px solid;
+	border-image-slice: 1;
+	text-align: center;
+}
+
+.selectp div {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+}
+
+.select i::before {
+	width: 50px;
+}
+
+.selectp img {
+	width: 20px;
+	height: 16px;
+}
+
+.submit {
+	position: absolute;
+	bottom: 30px;
+	right: 30px;
+}

@@ -1,0 +1,86 @@
+BAZA DANYCH 
+	users
+
+	game
+		gameID 		 = Primary key - id gry (int)
+		serverName   = Nazwa gry (string) 
+		gamePasscode = Hasło gry if null -> brak hasła (string, no hash)
+		gameStatus   = status gry: 0 nie rozpoczęta, 1 rozpoczęta, 2 zakończona 
+		activePlayer = aktywna liczba graczy range (0-4) (int)
+		baseMoney    = podstawowe pieniądze na start
+		maxPlayers   = maksymalna liczba graczy range(2-4)
+		time	     = maksymalny czas gry
+		timeForTour  = czas na pojedyńczą ture
+		tour		 = tura +1 po ruchu każdego z graczy
+		eventCode	 = 
+		logs		 = pełen zapis rozgrywki
+		players		 = Id graczy w zapise 12:13:14:15 gdzie ":" odziela id poszczególnych graczy
+		startTime	 = godzina rozpoczęcia gry
+		whosTour 	 = Czyja jest tura po id
+		fildsNfo	 = Informacje na temat poszczególnych pól | id gracza posiadającego pole : poziom pola : boost pola za każdą liczbe +0.1 do czynszu ; <- odzielacz poszczególnych pól
+		place        = miejsce gracza na planszy range (0,31) w zapise 12:13:14:15 gdzie ":" odziela miejsce dla każdego gracza
+		money		 = pieniądze gracza w zapisie 12:13:14:15 gdzie ":" odziela pieniądze każdego gracza
+		cards		 = karty specjalne graczy w zapisie 12:13:14:15 gdzie ":" odziela karty dla każdego gracza
+		trowed		 = jakie liczby zostały wylosowane w zapise 5:3 gdzie ":" odziela każdą kostkę 
+		movesCodes 	 = co już zostało zrobione w rundzie | 0 - nic w tej rundzie się nie wydarzyło, 1 - kostki zostały rzucone, 2 - decyzje do zakupu pola zostały podjęte
+		islands      = ilość posiadanych wysp w zapise 1:2:1:1 gdzie : odziela liczbe wysp dla każdego gracza
+		wealth		 = bogactwo jest to suma wartości odkupienia wszystkich posiadłości + pieniądze
+	filds
+
+
+GAME BOARD DOC
+	index.php
+		szkielet strony
+	style.css
+		wygląd strony
+	app.js
+		działanie strony
+			class Game:
+				zmienne:
+					serverName 				Nazwa gry z bazy danych
+        			activePlayerePlayer		Aktywna liczba graczy
+        			baseMoney				Podstawowa ilość pieniędzy
+        			maxPlayer				maksymalna liczba graczy
+        			time     				Maksymalny czas trwania całej gry
+        			timeForTour				Maksymalny czas trwania tury
+        			tour     				Liczba tury 1 tura = ruch każdego z graczy
+        			players					Id graczy w zapise 12:13:14:15 gdzie ":" odziela id poszczególnych graczy
+        			startTime				godzina rozpoczęcia gry
+        			whosTour				Czyja jest tura po id
+        			fildsNfo				Informacje na temat poszczególnych pól | id gracza posiadającego pole : poziom pola : boost pola za każdą liczbe +0.1 do czynszu ; <- odzielacz poszczególnych pól
+        			timeLeft				Pozostały czas do zakończenia gry
+			class Player:
+				zmienne:
+					id		id użytkownika z bazy danych
+					name	nazwa użytkownika z bazy danych
+					money	pienądzę gracza w tej konkretnej grze z bazy danych
+					place	miejsce gracza na planszy z bazy danych
+					idPlace miejsce id gracza w zapisie bazy danych np 12:13:14:15 gracz z id 13 ma miejsce id = 1
+			function getAllGameData() 
+				zwraca wszelkie dane gry z bazy danych
+					z faktu ilości zwracanych danych jest nie zalecana
+					W razie nie powodzenia zwróci 'Error'
+					Dane są odzielone ";;"
+						zwraca w kolejności: 
+						[0] gameID, [1] serverName, [2]gamePasscode, [3]gameStatus, [4]activePlaye,
+						[5]baseMoney, [6]maxPlayers, [7]time, [8]timeForTour, [9]tour, [10]eventCode,
+						[11]logs, [12]players, [13]startTime, [14]whosTour, [15]fildsNfo, [16]place, [17]money,
+						[18]cards, [19]trowed, [20]movesCodes, [21]islands, [22]wealth	
+			function onLoad() 
+				Wywołuje funkcje getAllGameData() 
+				następnie tworzy klasę gry i klasy graczy (uzupełnia je) 
+				zamienia dane w szkielecie na dane graczy 
+/				wywołuje interwał odświeżenia 
+
+	getGameData.php 
+			zwraca wszelkie dane gry z bazy danych
+				z faktu ilości zwracanych danych jest nie zalecana
+				W razie nie powodzenia zwróci 'Error'
+				Dane są odzielone ";;"
+					zwraca w kolejności: 
+					[0] gameID, [1] serverName, [2]gamePasscode, [3]gameStatus, [4]activePlaye,
+					[5]baseMoney, [6]maxPlayers, [7]time, [8]timeForTour, [9]tour, [10]eventCode,
+					[11]logs, [12]players, [13]startTime, [14]whosTour, [15]fildsNfo, [16]place, [17]money,
+					[18]cards, [19]trowed, [20]movesCodes, [21]islands, [22]wealth	
+			
+		 	

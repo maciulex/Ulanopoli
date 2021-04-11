@@ -1,0 +1,55 @@
+body {
+	background-color: lightblue;
+}
+header {
+	margin: auto;
+	margin-top: 2.5%;
+	width: 40%;
+	height: 110%;
+	text-align: center;
+	padding: 1%;
+	background-color: yellow;
+	border-radius: 25px;
+}
+button {
+	border-radius: 5px;
+	background-color: white;
+}
+input {
+	border-radius: 5px;
+}
+#blueBox {
+	border-radius: 25px;
+	background-color: blue;
+	width: 50%;
+	height: 90%;
+	padding: 30px;
+	margin: auto;
+	margin-top: 5%;
+}
+#greyBox {
+	border-radius: 25px;
+	background-color: lightgrey;
+	width: 50%;
+	height: 70%;
+	margin: auto;
+	margin-top: 10%;
+}
+#gridBox {
+	border-radius: 15px;
+	display: grid;
+}
+#textHolder {
+	text-align: center;
+	position: relative;
+	top: 10%;
+}
+#RegInB {
+	margin-left: 2.5%;
+}
+#LogInB {
+	margin-right: 2.5%;
+}
+#form {
+	margin-top: 10%;
+}

@@ -1,0 +1,233 @@
+*{
+    padding: 0;
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+}
+
+body {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background: #3d4f61;
+}
+
+header {
+    position: absolute;
+    width: 100%;
+    height: 75px;
+    background: #2c3e50;
+}
+
+.logo {
+    position: absolute;
+    top: 50%;
+    left: 25px;
+    transform: translateY(-50%);
+    font-size: 32px;
+    color: white;
+    text-decoration: none;
+}
+
+.logo::before{
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(to right, #ee0979, #ff6a00);
+    transform: scaleX(0);
+    transition: .3s;
+}
+
+.logo:hover::before {
+    transform: scaleX(1);
+}
+
+.avatar {
+    position: absolute;
+    top: 0;
+    right: 25px;
+}
+
+.profile {
+    position: relative;
+    top: 125px;
+    width: 800px;
+    height: 500px;
+    margin: 0 auto;
+    background: dimgray;
+    box-shadow: 0 0 15px rgb(50, 50, 50);
+}
+
+.profilePicture {
+    position: absolute;
+    width: 50%;
+    height: 100%;
+}
+
+.statisticsContainer {
+    position: absolute;
+    width: 50%;
+    height: 100%;
+    right: 0;
+}
+
+.statisticsContainer::before {
+    content: "";
+    position: absolute;
+    border-bottom: 500px solid dimgray;
+    border-left: 50px solid transparent;
+    left: -50px;
+}
+
+.colorfullText {
+    background-image: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+    background-size: 400%;
+    background-repeat: repeat;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradientText 10s infinite;
+}
+
+.profileInfo {
+    position: relative;
+    width: 100%;
+    height: 40%;
+}
+
+.nickname {
+    position: relative;
+    width: 100%;
+    height: 50%;
+}
+
+.nickname span {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 50px;
+    color: white;
+}
+
+@keyframes gradientText {
+	0% {
+		background-position: 0%;
+	}
+	50% {
+		background-position: 100%;
+	}
+	100% {
+		background-position: 0%;
+	}
+}
+
+.buttons {
+    text-align: center;
+}
+
+.buttons button {
+    position: relative;
+    padding: 10px 15px;
+    background: dimgray;
+    color: black;
+    font-size: 1.2em;
+    border-radius: 50px 20px;
+    cursor: pointer;
+    border: none;
+    z-index: 0;
+
+}
+
+.button button::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    border-bottom: 1px solid red;
+}
+
+.buttons button::before {
+    content: "";
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    width: 100%;
+    height: 100%;
+    background-color: teal;
+    border-radius: 50px 20px;
+    padding: 5px;
+    z-index: -1;
+    transform: scaleX(0);
+    transition: .5s;
+}
+
+.buttons button:hover::before {
+    transform: scaleX(1);
+}
+
+.statistics {
+    position: absolute;
+    width: 100%;
+    height: 60%;
+}
+
+.statistics div {
+    position: relative;
+    width: calc(90% - 6%);
+    height: calc(50% / 3 - 2px);
+    margin: 0 auto;
+    border-image-source: lightgray; 
+    border-image-slice: 1;
+}
+
+.statistics div::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 15px;
+    width: 3px;
+    height: 60%;
+    background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+    background-size: 100% 400%;
+    animation: gradientPointer 10s ease infinite;
+}
+
+@keyframes gradientPointer {
+    0% {
+		background-position: 50% 0%;
+	}
+	50% {
+		background-position: 50% 100%;
+	}
+	100% {
+		background-position: 50% 0%;
+	}
+}
+
+.statistics div span {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 85%;
+    font-size: 20px;
+    color: white;
+    text-shadow: 0 0 3px black;
+}
+
+.settings {
+    position: absolute;
+    top: 75px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 500px;
+    height: 500px;
+    background: white;
+    visibility: hidden;
+}

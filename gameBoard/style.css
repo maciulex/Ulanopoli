@@ -1,0 +1,201 @@
+* {
+	padding: 0;
+	margin: 0;
+}
+
+body {
+	background-color: #efefef;
+	overflow: hidden;
+	background: linear-gradient(white, #efefef);
+}
+
+#gamePlaceHolder {
+	height: 100vh;
+	width: 100vh;
+}
+
+#gameBoard {
+	z-index: 99;
+	width: 100vh;
+	height: 100vh;
+	transform: translate(-50%, -50%) rotate(45deg);
+	position: absolute;
+	top: 45%;
+	left: 50%;
+}
+
+#gamebordBack {
+	background-color: green;
+	transform: scale(0.95) perspective(5000px) rotate3d(1, -1, 0, 45deg);
+	box-shadow: 15px 15px 15px gray;
+}
+
+.gameClusters {
+	display: flex;	
+	font-size: 90%;
+	font-weight: bold;
+	text-align: center;
+}
+
+.cityName {
+	font-size: 1.5vh;
+	color: black;
+}
+
+.cornerBlock {
+	width: 15vh;
+	height: 15vh;
+	background-color: deepskyblue;
+}
+
+.cornerBlock .cityBlock {
+	width: 15vh;
+	height: 15vh;
+}
+
+.cityLvl {
+	display: inline-flex;
+	font-size: 0.75vw;
+}
+
+.cityBlock{
+	width: 10vh;
+	height: 15vh;
+}
+
+.cityBlock *{
+	color: white;
+	text-shadow: 1px 1px 1px black;
+}
+
+.cityBlockISLA {
+	background-color: orange;
+}
+
+.normalBlock {
+	width: 10vh;
+	height: 15vh;
+}
+
+.normalBlockM {
+	width: 10vh;
+	height: 15vh;
+	transform: rotate(-90deg);
+	margin: -2.5vh 2.5vh;
+}
+.cityLvlBlock {
+	display: block;
+	font-size: 90% !important;
+}
+
+.cityLvlBlock > .cityName {
+	font-size: 90% !important;
+	margin-left: 5px;
+}
+
+#startBlock {
+	background-color: yellow;
+	width: 15vh;
+	height: 15vh;
+}
+
+.colorOfThisBlock {
+	background-color: lightgrey;
+}
+
+.chance {
+	background-color: yellow;
+}
+
+.right {
+	position: absolute;
+	right: 0;
+}
+
+.rentalCost{
+	padding-top: 5px;
+}
+
+.playerIn {
+	width: 100%;
+	display: inline-flex;
+	font-size: 1.25vw;
+	font-family: 'Cabin', sans-serif;
+	text-align: center;
+}
+
+.playerName {
+	width: 50%;
+	padding: 10px 30px;
+	color: white;
+	border-bottom-left-radius: 40px;
+	border-top-left-radius: 40px;
+	text-shadow: 1px 1px 5px black;
+}
+
+#player1 .playerName { background: linear-gradient(to right, rgb(0, 132, 255), deepskyblue); }
+#player2 .playerName { background: linear-gradient(to right,rgb(255, 238, 0), orange); }
+#player3 .playerName { background: linear-gradient(to right, rgb(255, 0, 191), purple); }
+#player4 .playerName { background: linear-gradient(to right, #11998e, #38ef7d); }
+
+.money {
+	width: 50%;
+	padding: 10px 0;
+	border-top-right-radius: 40px;
+	border-bottom-right-radius: 40px;
+	background-color: white;
+}
+
+#player1 .money { box-shadow: 0px 0px 15px deepskyblue; }
+#player2 .money { box-shadow: 0px 0px 15px orange; }
+#player3 .money { box-shadow: 0px 0px 15px purple; }
+#player4 .money { box-shadow: 0px 0px 15px #38ef7d; }
+
+.moneyAmmount {
+	display: inline-flex;
+}
+
+.players > div {
+	position: fixed;
+	width: 20%;
+}
+
+#player1 {
+	top: 10px;
+	left: 10px;
+}
+
+#player2 {
+	top: 10px;
+	right: 10px;
+}
+
+#player3 {
+	bottom: 10px;
+	left: 10px;
+}
+
+#player4 {
+	bottom: 10px;
+	right: 10px;
+}
+
+#PlayerB0 {
+	font-size: 20px;
+	color: blue;
+}
+
+#PlayerB1 {
+	font-size: 20px;
+	color: orange;
+}
+
+#PlayerB2 {
+	font-size: 20px;
+	color: purple;	
+}
+
+#PlayerB3 {
+	font-size: 20px;
+	color: green;
+}
