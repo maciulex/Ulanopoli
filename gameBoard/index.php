@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -6,6 +7,9 @@
 	<link rel="preconnect" href="https://fonts.gstatic.com">
 	<link href="https://fonts.googleapis.com/css2?family=Cabin:wdth@90&display=swap" rel="stylesheet">
 	<meta charset="utf-8">
+	<script>
+		var nick = "<?php echo $_SESSION['nick']; ?>";
+	</script>
 	<script src="app.js" defer></script>
 </head>
 <body>

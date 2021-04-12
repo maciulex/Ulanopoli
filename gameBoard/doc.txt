@@ -1,3 +1,7 @@
+To repair/to do
+	gameBoard/app.js/onLoad timeLeft
+	można spróbować zatrzymać interwał reflsha podczas tury gracza
+
 BAZA DANYCH 
 	users
 
@@ -17,7 +21,7 @@ BAZA DANYCH
 		players		 = Id graczy w zapise 12:13:14:15 gdzie ":" odziela id poszczególnych graczy
 		startTime	 = godzina rozpoczęcia gry
 		whosTour 	 = Czyja jest tura po id
-		fildsNfo	 = Informacje na temat poszczególnych pól | id gracza posiadającego pole : poziom pola : boost pola za każdą liczbe +0.1 do czynszu ; <- odzielacz poszczególnych pól
+		fildsNfo	 = Informacje na temat poszczególnych pól | miejsce id gracza w kolumnie players posiadającego pole : poziom pola : boost pola za każdą liczbe +0.1 do czynszu ; <- odzielacz poszczególnych pól
 		place        = miejsce gracza na planszy range (0,31) w zapise 12:13:14:15 gdzie ":" odziela miejsce dla każdego gracza
 		money		 = pieniądze gracza w zapisie 12:13:14:15 gdzie ":" odziela pieniądze każdego gracza
 		cards		 = karty specjalne graczy w zapisie 12:13:14:15 gdzie ":" odziela karty dla każdego gracza
@@ -35,6 +39,13 @@ GAME BOARD DOC
 		wygląd strony
 	app.js
 		działanie strony
+			zmienne globalne:
+				Cgame - przechowuje klase gry
+				Cplayers - array przechowuje klasy każdego z graczy
+				idPositons - array zawiera kolejne id graczy kolejność zgodna z Cplayers 
+				myTour - (true/false) true jeżeli jest tura gracza
+				intervals - przechowuje interwał do funkcji refleshCheck()
+				fildsData - 2 wymiarowy array z informacjami dla każdego pola
 			class Game:
 				zmienne:
 					serverName 				Nazwa gry z bazy danych
@@ -57,30 +68,81 @@ GAME BOARD DOC
 					place	miejsce gracza na planszy z bazy danych
 					idPlace miejsce id gracza w zapisie bazy danych np 12:13:14:15 gracz z id 13 ma miejsce id = 1
 			function getAllGameData() 
-				zwraca wszelkie dane gry z bazy danych
+				zwraca wszelkie dane gry z bazy danych oprócz gameId i gamePasscode
 					z faktu ilości zwracanych danych jest nie zalecana
 					W razie nie powodzenia zwróci 'Error'
 					Dane są odzielone ";;"
 						zwraca w kolejności: 
-						[0] gameID, [1] serverName, [2]gamePasscode, [3]gameStatus, [4]activePlaye,
-						[5]baseMoney, [6]maxPlayers, [7]time, [8]timeForTour, [9]tour, [10]eventCode,
-						[11]logs, [12]players, [13]startTime, [14]whosTour, [15]fildsNfo, [16]place, [17]money,
-						[18]cards, [19]trowed, [20]movesCodes, [21]islands, [22]wealth	
+						[0] serverName, [1]gameStatus, [2]activePlaye,
+						[3]baseMoney, [4]maxPlayers, [5]time, [6]timeForTour, [7]tour, [8]eventCode,
+						[9]logs, [10]players, [11]startTime, [12]whosTour, [13]fildsNfo, [14]place, [15]money,
+						[16]cards, [17]trowed, [18]movesCodes, [19]islands, [20]wealth, [21] nicks
+			function getChangingGameData()
+					zwraca dane które podczas rozgrywki się zmieniają
+					w razie nie powodzenia zwróci 'Error'
+					zwraca dane w postaci arraya
+					zwraca w kolejności
+					[0] gameStatus, [1] activePlayer, [2] tour, [3] eventCode, 
+					[4] players, [5] whosTour, [6] fildsNfo, [7] place, [8] money
+					[9] cards, [10] trowed, [11] movesCodes, [12] islands, [13] wealth
 			function onLoad() 
-				Wywołuje funkcje getAllGameData() 
+				Wywołuje funkcje getAllGameData(), getFildsData()
 				następnie tworzy klasę gry i klasy graczy (uzupełnia je) 
 				zamienia dane w szkielecie na dane graczy 
-/				wywołuje interwał odświeżenia 
+				wywołuje interwał odświeżenia w zmiennej intervals wywoływana funkcja: refleshCheck()
+			function drawFilds() 
+				funckcja bierze dane (fildsNfo) z klasy game i następnie rysuje dla każdego pola jaki ma poziom i do kogo należy 
+				i ile tego pola wynosi czynsz
+				przy okazji bierze dane z klas graczy i ich też rysuje
+			function refleshCheck() 
+				funkcja sprawdza czy jest już tura gracza następnie już w zależności 
+				funkcja dane pobiera z funkcji getChangingGameData()
+					jeżeli jest to wywołuje funkcje myTourEngine() która podejmnie dalsze kroki 
+						wykonywanie interwału nie jest zatrzymane jedynie wartość zmiennej myTour zmienia się na true
+					jeżeli nie odświeży dane w klasach i wypisze je używając drawFilds()
+						analogicznie w tym wypadku wartość zmiennej myTour zmienia się na false
+				zmienna myTour ma zapobiec powtórnemu wykonaniu funkcji myTourEngine() 
+			function myTourEngine() 
+				Funkcja odpowiada za poprowadzenie gracza przez turę od rzutu kostki po zakończenie
+				posiada funckcje: 
+					function xmlCreator(what)
+						która przekierowuje do jednego z plików wywoływanego przez pozostałe funkcje argument what jest nazwą pliku w folderze scripts/tourScripts
+					function tourDealer()
+						wywołuje funkcję xmlCreator by następnie sprawdzić postęp rundy by wykonać bądź pominąć kolejne segmenty rundy które już zostały zrobione
+
+			function getFildsData() 
+				funkcja pobiera dane o polach (z tabeli fild) z bazy danych i następnie wprowadza je
+				do zmiennej fildsData pierwszy wymiar to pole 0-31 drugi to poziomy budynku z wymiaru pierwszego 
 
 	getGameData.php 
-			zwraca wszelkie dane gry z bazy danych
+			zwraca wszelkie dane gry z bazy danych oprócz gameId i gamePasscode
+				+nicki graczy (nie ma tego w tabeli game)
 				z faktu ilości zwracanych danych jest nie zalecana
 				W razie nie powodzenia zwróci 'Error'
 				Dane są odzielone ";;"
 					zwraca w kolejności: 
-					[0] gameID, [1] serverName, [2]gamePasscode, [3]gameStatus, [4]activePlaye,
-					[5]baseMoney, [6]maxPlayers, [7]time, [8]timeForTour, [9]tour, [10]eventCode,
-					[11]logs, [12]players, [13]startTime, [14]whosTour, [15]fildsNfo, [16]place, [17]money,
-					[18]cards, [19]trowed, [20]movesCodes, [21]islands, [22]wealth	
-			
-		 	
+					[0] serverName, [1]gameStatus, [2]activePlaye,
+					[3]baseMoney, [4]maxPlayers, [5]time, [6]timeForTour, [7]tour, [8]eventCode,
+					[9]logs, [10]players, [11]startTime, [12]whosTour, [13]fildsNfo, [14]place, 
+					[15]money, [16]cards, [17]trowed, [18]movesCodes, [19]islands, [20]wealth, [21]nicki graczy	
+	getGameChangingData.php
+		zwraca dane które podczas rozgrywki się zmieniają
+		w razie nie powodzenia zwróci 'Error'
+		Dane są odzielone ";;"
+		zwraca w kolejności
+		[0] gameStatus, [1] activePlayer, [2] tour, [3] eventCode, 
+		[4] players, [5] whosTour, [6] fildsNfo, [7] place, [8] money
+		[9] cards, [10] trowed, [11] movesCodes, [12] islands, [13] wealth
+	getFildsFromFilds.php
+		Zwraca dane wszystkich pól z tabeli filds
+		id :: poz1 : poz2 : poz3 : poz4 : poz5 ;
+	tourValidityCheck.php 
+		plik zwraca czy true false w zależności czy jest tura gracza
+		jeżeli jest w dodatku zwraca postęp rundy odzielacz (:)
+	tourBaseDataGet.php
+		łączenie z bazą tworzenie sesji
+		sprawdzanie czy są zadeklarowane id, gameId w sesji
+		w dodatku do zmiennej gameData która jest arrayem uzupełnia danymi w kolejności 
+		dane są w postaci arraya jeden raz explodowanego oprócz cards z nimi nic nie było robione
+		 [0]eventCode, [1]whosTour, [2]trowed, [3]movesCodes, [4]players, [5]fildsNfo, 
+		 [6]place, [7]gameStatus, [8]cards, [9]money, [10]islands, [11]wealth

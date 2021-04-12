@@ -199,3 +199,18 @@ body {
 	font-size: 20px;
 	color: green;
 }
+.Player0 {
+	color: blue;
+}
+
+.Player1 {
+	color: orange;
+}
+
+.Player2 {
+	color: purple;	
+}
+
+.Player3 {
+	color: green;
+}
