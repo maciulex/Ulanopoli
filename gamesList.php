@@ -83,7 +83,7 @@
 				<span style="padding: 1em;display: flex;">Status gry:&nbsp;<div id="serverStatus"></div></span>
 				<span style="padding: 1em;display: flex;">Liczba graczy:&nbsp;<div id="players"></div> </span>
 				<span style="padding: 1em;display: flex;"><a href="queue.php"><button>Powrót</button></a></span>
-				<span style="padding: 1em;display: flex;"><a href="leaveGame.php"><button>Wyjście z gry</button></a></span>
+				<span style="padding: 1em;display: flex;"><a href="scripts/leaveGame.php"><button>Wyjście z gry</button></a></span>
 			</div>
 			<script type="text/javascript" defer>
 				var status = '.$_SESSION['serverStatus'].';

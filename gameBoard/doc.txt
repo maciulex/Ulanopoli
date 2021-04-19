@@ -16,12 +16,12 @@ BAZA DANYCH
 		time	     = maksymalny czas gry
 		timeForTour  = czas na pojedyńczą ture
 		tour		 = tura +1 po ruchu każdego z graczy
-		eventCode	 = 
+		eventCode	 = 0-nic nie zostało zrobione, 1-kostki zostały rzucone, 2 decyzje do pól podjęte, 3-potrzebna sprzedarz/bankructwo
 		logs		 = pełen zapis rozgrywki
 		players		 = Id graczy w zapise 12:13:14:15 gdzie ":" odziela id poszczególnych graczy
 		startTime	 = godzina rozpoczęcia gry
 		whosTour 	 = Czyja jest tura po id
-		fildsNfo	 = Informacje na temat poszczególnych pól | miejsce id gracza w kolumnie players posiadającego pole : poziom pola : boost pola za każdą liczbe +0.1 do czynszu ; <- odzielacz poszczególnych pól
+		fildsNfo	 = Informacje na temat poszczególnych pól | miejsce id gracza w kolumnie players posiadającego pole + 1 : poziom pola : boost pola za każdą liczbe +0.1 do czynszu ; <- odzielacz poszczególnych pól
 		place        = miejsce gracza na planszy range (0,31) w zapise 12:13:14:15 gdzie ":" odziela miejsce dla każdego gracza
 		money		 = pieniądze gracza w zapisie 12:13:14:15 gdzie ":" odziela pieniądze każdego gracza
 		cards		 = karty specjalne graczy w zapisie 12:13:14:15 gdzie ":" odziela karty dla każdego gracza

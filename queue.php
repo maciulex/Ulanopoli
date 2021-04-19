@@ -78,7 +78,7 @@
 		<span>Czas na ture: <?php echo $_SESSION['timeForTour']; ?>sec.</span><br>
 		<span>Podstawowy social: <span id="social"></span>. </span><br><br>
 		<span id="startButt" style="padding: 1em;display: flex; text-align:center;"> </span>
-		<span style="padding: 1em;display: flex; text-align:center;"><a href="leaveGame.php"><button>Wyjście z gry</button></a></span><br>
+		<span style="padding: 1em;display: flex; text-align:center;"><a href="scripts/leaveGame.php"><button>Wyjście z gry</button></a></span><br>
 	</aside>
 </body>
 </html>

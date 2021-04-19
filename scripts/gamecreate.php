@@ -130,9 +130,9 @@
             $stmt -> close();
             mysqli_close($connection);
             if ($passcodeSet == true) {
-                header("Location: scripts/join.php?p=".$passcode."&q=".$id);
+                header("Location: join.php?p=".$passcode."&q=".$id);
             } else {
-                header("Location: scripts/join.php?q=".$id);
+                header("Location: join.php?q=".$id);
             }
 		} 
 	}
