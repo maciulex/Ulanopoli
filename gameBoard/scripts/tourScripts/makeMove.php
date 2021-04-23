@@ -6,10 +6,11 @@
     } 
     if ($gameData[4][$gameData[1]] == $_SESSION['id']) {
         if ($gameData[0] == 0) {
-            //$trow1 = rand(1,6);
-            //$trow2 = rand(1,6);
-            $trow1 = 0;
-            $trow2 = 0;
+            $trow1 = rand(1,6);
+            $trow2 = rand(1,6);
+            $eventCode = 1;
+            //$trow1 = 0;
+            //$trow2 = 0;
             $gameData[6][$gameData[1]] += $trow1 + $trow2;
             if ($gameData[6][$gameData[1]] > 31) {
                 $gameData[6][$gameData[1]] -= 31;
@@ -31,14 +32,22 @@
                     $data[] = $row->l5;
                     $data[] = $row->l1;
                 }
-                $gameData[9][$gameData[1]] -= $data[$fildInfo[1]];
-                $gameData[11][$gameData[1]] -= $data[$fildInfo[1]];
-                $gameData[9][$fildInfo[0]-1] += $data[$fildInfo[1]];
-                $gameData[11][$fildInfo[0]-1] += $data[$fildInfo[1]];
+                $gameData[9][$gameData[1]] -= $data[$fildInfo[1]]/2;
+                $gameData[11][$gameData[1]] -= $data[$fildInfo[1]]/2;
+                $gameData[9][$fildInfo[0]-1] += $data[$fildInfo[1]]/2;
+                $gameData[11][$fildInfo[0]-1] += $data[$fildInfo[1]]/2;
             }
-            $sql = 'UPDATE game SET money = "'.implode(":",$gameData[9]).'",wealth="'.implode(":",$gameData[11]).'", place = "'.implode(":",$gameData[6]).'", trowed = "'.$trow1.$trow2.'", eventCode = 1 WHERE gameID = '.$_SESSION["gameId"];
-            $connection->query($sql);
             echo $trow1.":".$trow2;
+            if ($gameData[11][$gameData[1]] < 0) {
+                //endthisguygame
+            } else if ($gameData[9][$gameData[1]] < 0) {
+                $eventCode = 3;
+                echo ":true";
+            } else {
+                echo ":false";
+            }
+            $sql = 'UPDATE game SET money = "'.implode(":",$gameData[9]).'",wealth="'.implode(":",$gameData[11]).'", place = "'.implode(":",$gameData[6]).'", trowed = "'.$trow1.$trow2.'", eventCode = '.$eventCode.' WHERE gameID = '.$_SESSION["gameId"];
+            $connection->query($sql);
             exit();
         } else {
             echo "Error";

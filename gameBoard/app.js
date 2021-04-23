@@ -6,7 +6,7 @@ var fildsDataGame = [];
 var myTour;
 var intervals;
 var meIntVal;
-
+var sellData = [false, 0, []];
 class Game {
     constructor (gameStatus, serverName, activePlayer, baseMoney, maxPlayer, time, timeForTour, tour, players, startTime, whosTour, fildsNfo, timeLeft = 3600) {
         this.gameStatus =   gameStatus;
@@ -64,7 +64,7 @@ function getChangingGameData() {
         xml.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
                 if (this.responseText != "Error") {
-                    console.log("here we go");
+                    //console.log("here we go");
                     resolve(this.responseText.split(";;"));
                 } else {
                     resolve("Error");
@@ -93,11 +93,11 @@ async function refleshCheck() {
         Cplayers[i].money   = parseInt(money[i]);
         Cplayers[i].wealth  = parseInt(wealth[i]);
         Cplayers[i].cards   = cards[i];
-        Cplayers[i].islands = islands[i];
+        Cplayers[i].islands = parseInt(islands[i]);
     }
-    console.log(baseData);
+    //console.log(baseData);
     if (Cplayers[baseData[5]].me == true) {
-        console.log("It's me mario 1");
+        //console.log("It's me mario 1");
         if (myTour != true) {
             console.log("It's me mario 2");
             myTour = true;    
@@ -113,6 +113,7 @@ function fildsDealer(level) {
         if (this.readyState == 4 && this.status == 200) {
             console.log(this.responseText);
             endTour();
+
         }
     }
     xml.open("GET", "scripts/tourScripts/buyFild.php?l="+level, true);
@@ -139,6 +140,7 @@ function endTourG() {
     xml.send();
 
 }
+
 async function myTourEngine() {
     var data;
     async function xmlCreator(what) {
@@ -173,9 +175,19 @@ async function myTourEngine() {
             data = data.split(";");
             console.log(data);
             switch (data[1]) {
+                case "3":
+                    sellData[0] = true;
+                    //await sellFild();
+                    cityClicked("N2");
+                break;
                 case "0":
-                    await throwCube();
-                    await buyFilds();    
+                    if (await throwCube() != "true") {
+                        await buyFilds();    
+                    } else {
+                        sellData[0] = true;
+                        //await sellFild();
+                        cityClicked("N2");
+                    }
                 break;
                 case "1":
                     buyFilds();
@@ -189,16 +201,18 @@ async function myTourEngine() {
     async function throwCube() {
         alert("Rzut kostką!");
         var result = await xmlCreator("makeMove.php");
-        document.querySelector("#throwResult").innerHTML = result;
+        result = result.split(":");
+        document.querySelector("#throwResult").innerHTML = "Kostka 1: "+result[0]+" Kostka 2: "+result[1];
+        console.log(result[2]);
         await refleshCheck();
-        return;
+        return result[2];
     }
     async function buyFilds() {
         var place;
         for (var i = 0; i < Cgame.maxPlayer; i++) {
             if (Cplayers[i].me == true) {
                 place = Cplayers[i].place;
-                console.log(i+" "+Cplayers[i].place);
+                //console.log(i+" "+Cplayers[i].place);
                 break;
             }
         }
@@ -217,7 +231,26 @@ async function myTourEngine() {
             case 18:
             case 25:
                 //wyspy
-                document.querySelector("#buyFild").innerHTML = '<button onclick="endTourG()">Zakończ</button>';
+                var fild = Cgame.fildsNfo[place].split(":");
+                switch (Cplayers[meIntVal].islands) {
+                    case 0:
+                        var price = 25000;
+                    break;
+                    case 1:
+                        var price = 50000;
+                    break;
+                    case 2:
+                        var price = 100000;
+                    break;
+                    case 3:
+                        var price = 200000;
+                    break;
+                }
+                if (fild[0] != "0") {
+                    document.querySelector("#buyFild").innerHTML = '<button onclick="endTourG()">Zakończ</button>';
+                } else {
+                    document.querySelector("#buyFild").innerHTML = `<button onclick="fildsDealer(1)">Kup wyspę za: ${price}</button>`;
+                }
             break;
             case 12:
             case 20:
@@ -267,7 +300,7 @@ async function myTourEngine() {
                     }
                 } else {
                     for (var i = 0; i < 5; i++) {
-                        if (fild[1] >= i) {
+                        if (fild[1] > i) {
                             price.push(fildsDataGame[place][i]*2);
                             disable[i] = "disabled";
                         } else {
@@ -327,6 +360,134 @@ function getFildsData() {
         }
     });
 }
+
+function cityClicked(cityId) {
+    var place = document.querySelector("#sellOrFildInfo");
+    place.innerHTML = "";
+    cityId = cityId.slice(1);
+
+    console.log(cityId);
+
+    if (sellData[0] == false) {
+        if (cityId == -1) {
+            plcae = "";
+            return;
+        }
+        place.innerHTML += "Pole o nazwie: "+document.querySelector("#N"+cityId).textContent+"<br>";
+        for (var i = 0; i < 5; i++) {
+            place.innerHTML += "Koszt budynku na poziomie "+(i+1)+": "+fildsDataGame[cityId][i]+"<br>";
+        }
+        place.innerHTML += '<button onclick="cityClicked(-1)">Zamknij</button><br>';
+    } else {
+        var fildData = Cgame.fildsNfo[cityId].split(":");    
+        fildData[0] = parseInt(fildData[0]);
+        if (fildData[0]-1 == meIntVal) {
+            var state = true;
+            for (var i = 0; i < sellData[2].length; i++) {
+                if (sellData[2][i][0] == cityId) {
+                    state = false;
+                    break;
+                }
+            }
+            if (state) {
+                var fildName = document.querySelector("#N"+cityId).textContent;
+                var fildCost = fildsDataGame[cityId][fildData[1]];
+                sellData[1] += parseInt(fildCost);
+                sellData[2].unshift([parseInt(cityId),fildName,fildCost]);
+            }
+        }
+        place.innerHTML += "Wartość pól: "+sellData[1]+"<br>";
+        place.innerHTML += "Sprzedajesz pola: <br>";
+        for (var i = 0; i < sellData[2].length; i++) {
+            place.innerHTML += `<div onclick="deleteCityFromSold(${i})">${sellData[2][i][1]}, Wartość: ${sellData[2][i][2]}</div>`;
+        }
+        if (Cplayers[meIntVal].money*(-1) < sellData[1]) {
+            var state = "";
+        } else {
+            var state = "disabled";
+        }
+        document.querySelector("#buyFild").innerHTML = `<button onclick="sellFild()" ${state}>Sprzedaj i zakończ</button>`;
+    }
+    return;
+}
+function deleteCityFromSold(i) {
+    var place = document.querySelector("#sellOrFildInfo");
+    place.innerHTML = "";
+    sellData[1]-=sellData[2][i][2];
+    sellData[2].splice(i,1);
+    place.innerHTML += "Wartość pól: "+sellData[1]+"<br>";
+    place.innerHTML += "Sprzedajesz pola: <br>";
+    for (var z = 0; z < sellData[2].length; z++) {
+        place.innerHTML += `<div onclick="deleteCityFromSold(${z})">${sellData[2][z][1]}, Wartość: ${sellData[2][z][2]}</div>`;
+    }
+    if (Cplayers[meIntVal].money*(-1) < sellData[1]) {
+        var state = "";
+    } else {
+        var state = "disabled";
+    }
+    document.querySelector("#buyFild").innerHTML = `<button onclick="sellFild()" ${state}>Sprzedaj i zakończ</button>`;
+    return;
+}
+
+async function sellFild() {
+    console.log("Hur dur");
+    var data = sellData[2][0][0];
+    for (var i = 1; i < sellData[2].length;i++) {
+        data += ":"+sellData[2][i][0];
+    }
+    var xml = new XMLHttpRequest;
+    xml.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            console.log(this.responseText);
+            if (this.responseText == "LIFU") {
+                document.querySelector("#sellOrFildInfo").innerHTML = "";
+                document.querySelector("#buyFild").innerHTML = '<button onclick="endTourG()">Zakończ</button>';
+            } else {
+                alert("przeładuj strone ERROR");
+            }
+        }
+    }
+    xml.open("POST", "scripts/tourScripts/sellThisFilds.php", true);
+    xml.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    xml.send("data="+data);
+}
+
+function drawFilds() {
+    var fildsData = Cgame.fildsNfo;
+    for (var i = 0; i <= 31; i++) {
+        var localData = fildsData[i].split(":");
+        switch(i) {
+            case 0:
+            case 8:
+            case 12:
+            case 16:
+            case 20:
+            case 24:
+            case 28:
+            case 30:
+            break;
+            default:
+                if (localData[0] != 0) {
+                    document.querySelector("#N"+i).removeAttribute('class');
+                    //console.log("KAME HAME");
+                    if (document.getElementsByClassName("Player"+localData[0]).length > 0) {
+                        document.querySelector(".Player"+localData[0]).classList.remove("Player"+(localData[0]-1));
+                    }
+                   document.querySelector("#N"+i).classList.add("Player"+(localData[0]-1));
+                   document.querySelector("#L"+i).innerHTML = parseInt(localData[1])+1;
+                   document.querySelector("#C"+i).innerHTML = (fildsDataGame[i][parseInt(localData[1])])*parseFloat(localData[2])/2;
+                }
+            break;
+        }
+    }
+    for (var i = 0; i < Cgame.maxPlayer; i++) {
+        document.querySelector("#PlayerB"+i).remove();
+        document.querySelector("#playerInCity"+Cplayers[i].place).innerHTML += `<span id="PlayerB${i}">P</span>`;
+        document.querySelector("#player"+(i+1)+" .moneyNumber").innerHTML = Cplayers[i].money;
+    }
+    return;
+}
+
 async function onLoad() {
     document.querySelector("#idk").innerHTML = "";
     var allGameData = await getAllGameData();
@@ -352,7 +513,7 @@ async function onLoad() {
             me = true;
             meIntVal = i;
         }
-        var placeholderClass = new Player (parseInt(id[i]),nicks[i],parseInt(money[i]),parseInt(place[i]),cards[i], me, islands[i], parseInt(wealth[i]));
+        var placeholderClass = new Player (parseInt(id[i]),nicks[i],parseInt(money[i]),parseInt(place[i]),cards[i], me, parseInt(islands[i]), parseInt(wealth[i]));
         Cplayers.push(placeholderClass);
         idPositons.push(id[i]);
     }
@@ -369,42 +530,25 @@ async function onLoad() {
     //console.log(allGameData);
     await getFildsData();
     drawFilds();
-    intervals = setInterval(refleshCheck,500);
-    return;
-}
-
-function drawFilds() {
-    var fildsData = Cgame.fildsNfo;
-    for (var i = 0; i <= 31; i++) {
-        var localData = fildsData[i].split(":");
-        switch(i) {
-            case 0:
-            case 8:
-            case 12:
-            case 16:
-            case 20:
-            case 24:
-            case 28:
-            case 30:
-            break;
-            default:
-                if (localData[0] != 0) {
-                    //console.log("KAME HAME");
-                    if (document.getElementsByClassName("Player"+localData[0]).length > 0) {
-                        document.querySelector(".Player"+localData[0]).classList.remove("Player"+(localData[0]-1));
-                    }
-                   document.querySelector("#N"+i).classList.add("Player"+(localData[0]-1));
-                   document.querySelector("#L"+i).innerHTML = parseInt(localData[1])+1;
-                   document.querySelector("#C"+i).innerHTML = (fildsDataGame[i][parseInt(localData[1])])*parseFloat(localData[2]);
-                }
+    for (var i = 0; i < document.querySelectorAll(".normalBlock").length; i++) {
+        switch (i) {
+            case 3:  
+                continue;
             break;
         }
+        document.querySelectorAll(".normalBlock")[i].setAttribute("onclick", "cityClicked(\""+(document.querySelectorAll(".normalBlock")[i].querySelector(".cityName div").id)+"\")");
     }
-    for (var i = 0; i < Cgame.maxPlayer; i++) {
-        document.querySelector("#PlayerB"+i).remove();
-        document.querySelector("#playerInCity"+Cplayers[i].place).innerHTML += `<span id="PlayerB${i}">P</span>`;
-        document.querySelector("#player"+(i+1)+" .moneyNumber").innerHTML = Cplayers[i].money;
+    for (var i = 0; i < document.querySelectorAll(".normalBlockM").length; i++) {
+        switch (i) {
+            case 6:  
+            case 7:  
+            case 11:  
+                continue;
+            break;
+        }
+        document.querySelectorAll(".normalBlockM")[i].setAttribute("onclick", "cityClicked(\""+document.querySelectorAll(".normalBlockM")[i].querySelector(".cityName div").id+"\")");
     }
+    intervals = setInterval(refleshCheck, 500);
     return;
 }
 

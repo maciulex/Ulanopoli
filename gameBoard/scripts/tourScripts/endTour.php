@@ -5,7 +5,7 @@
         exit();
     } 
     if ($gameData[4][$gameData[1]] == $_SESSION['id']) {
-        echo $gameData[0] ;
+        echo $gameData[0];
         if ($gameData[0] == 2 || $gameData[0] == 1) {
             $whoTour = $gameData[1];
             $tour = "";
@@ -20,7 +20,7 @@
                     }
                 }
                 if ($whoTour == $playersNum-1) {
-                    $whoTour=0;
+                    $whoTour = 0;
                 } else {
                     $whoTour = $gameData[1]+1;
                     $tour = ", tour=tour+1";

@@ -33,9 +33,11 @@
 			
 		</div>
 	</div>
-	<div style="width: 20vh;height: 20vh;background-color:grey; margin-top: 15vh;">
-		<?php print_r($_SESSION);?>
+	<div style="width: 35vh;height: 20vh;background-color:grey; margin-top: 15vh;">
 		<div id="buyBlock">
+			
+		</div>
+		<div id="sellOrFildInfo">
 			
 		</div>
 	</div>
