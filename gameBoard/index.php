@@ -41,6 +41,9 @@
 			
 		</div>
 	</div>
+	<div id="logPlace" style="width: 35vh;height: 40vh;background-color:grey; margin-top: -15vh;float: right;overflow-y:auto">
+
+	</div>
 	<div id="gamePlaceHolder">
 		<div class="players">
 			<div id="player1">

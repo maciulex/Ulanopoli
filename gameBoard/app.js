@@ -26,7 +26,7 @@ class Game {
 }
 
 class Player {
-    constructor (id,name,money,place,cards,me,islands,wealth) {
+    constructor (id,name,money,place,cards,me,islands,wealth,moveCode) {
         this.id =      id;
         this.name =    name;
         this.money =   money;
@@ -35,7 +35,7 @@ class Player {
         this.me =      me;
         this.islands = islands;
         this.wealth =  wealth;
-
+        this.moveCode = moveCode;
     }
 }
 
@@ -78,6 +78,18 @@ function getChangingGameData() {
     });
 }
 
+function getLogs() {
+    var xml = new XMLHttpRequest;
+    xml.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            console.log(this.responseText);
+            document.querySelector("#logPlace").innerHTML = this.responseText;
+        }
+    }
+    xml.open("GET", "scripts/getLogs.php", true);
+    xml.send();
+}
+
 async function refleshCheck() {
     var baseData = await getChangingGameData();
     Cgame.fildsNfo = baseData[6].split(";");
@@ -86,6 +98,7 @@ async function refleshCheck() {
     var place   = baseData[7].split(":");
     var money   = baseData[8].split(":");
     var cards   = baseData[9].split(":");
+    var moveCode= baseData[11].split(":");
     var islands = baseData[12].split(":");
     var wealth  = baseData[13].split(":");
     for (var i = 0; i < Cgame.maxPlayer; i++) {
@@ -94,6 +107,7 @@ async function refleshCheck() {
         Cplayers[i].wealth  = parseInt(wealth[i]);
         Cplayers[i].cards   = cards[i];
         Cplayers[i].islands = parseInt(islands[i]);
+        Cplayers[i].moveCode= parseInt(moveCode[i]);
     }
     //console.log(baseData);
     if (Cplayers[baseData[5]].me == true) {
@@ -105,6 +119,7 @@ async function refleshCheck() {
         }
     }
     drawFilds();
+    getLogs();
     return;
 }
 function fildsDealer(level) {
@@ -131,9 +146,7 @@ function endTourG() {
             console.log(this.responseText);
             document.querySelector("#throwResult").innerHTML = "";
             document.querySelector("#buyFild").innerHTML = "";
-            console.log(Cplayers[meIntVal].myTour);
             myTour = false;
-            console.log(Cplayers[meIntVal].myTour);
         }
     }
     xml.open("GET", "scripts/tourScripts/endTour.php", true);
@@ -181,11 +194,13 @@ async function myTourEngine() {
                     cityClicked("N2");
                 break;
                 case "0":
-                    if (await throwCube() != "true") {
+                    if (Cplayers[meIntVal].moveCode != 0) {
+                        buyFilds();
+                    } else if (await throwCube() != "true") {
                         await buyFilds();    
                     } else {
                         sellData[0] = true;
-                        //await sellFild();
+                        await sellFild();
                         cityClicked("N2");
                     }
                 break;
@@ -224,7 +239,9 @@ async function myTourEngine() {
             break;
             case 8:
                 //bezludna wyspa
-                document.querySelector("#buyFild").innerHTML = '<button onclick="endTourG()">Zakończ</button>';
+                document.querySelector("#buyFild").innerHTML += '<button onclick="fildsDealer(1)">Zapłać 200k</button>';
+                document.querySelector("#buyFild").innerHTML += '<button onclick="fildsDealer(2)">Użyj karty</button>';
+                document.querySelector("#buyFild").innerHTML += '<button onclick="endTourG()">Czekaj</button>';
             break;
             case 4:
             case 14:
@@ -503,9 +520,11 @@ async function onLoad() {
     var place =    allGameData[14].split(":");
     var money =    allGameData[15].split(":");
     var cards =    allGameData[16].split(":");
+    var moveCode = allGameData[18].split(":");
     var islands =  allGameData[19].split(":");
     var wealth =   allGameData[20].split(":");
     var nicks =    allGameData[21].split(":");
+
     Cgame = new Game (allGameData[1],allGameData[0],allGameData[2],allGameData[3],allGameData[4],allGameData[5],allGameData[6],allGameData[7],players,allGameData[11],allGameData[12],fildsNfo,timeLeft);
     for (var i = 0; i < allGameData[4]; i++) {
         var me = false;
@@ -513,7 +532,7 @@ async function onLoad() {
             me = true;
             meIntVal = i;
         }
-        var placeholderClass = new Player (parseInt(id[i]),nicks[i],parseInt(money[i]),parseInt(place[i]),cards[i], me, parseInt(islands[i]), parseInt(wealth[i]));
+        var placeholderClass = new Player (parseInt(id[i]),nicks[i],parseInt(money[i]),parseInt(place[i]),cards[i], me, parseInt(islands[i]), parseInt(wealth[i]),parseInt(moveCode[i]));
         Cplayers.push(placeholderClass);
         idPositons.push(id[i]);
     }

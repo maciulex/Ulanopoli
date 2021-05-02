@@ -214,3 +214,7 @@ body {
 .Player3 {
 	color: green;
 }
+#logPlace span::after {
+    content: "\a";
+    white-space: pre;
+}
