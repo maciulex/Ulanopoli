@@ -1,6 +1,7 @@
 To repair/to do
 	gameBoard/app.js/onLoad timeLeft
 	można spróbować zatrzymać interwał reflsha podczas tury gracza
+	dodanie zwiększonej ceny na polu mistrzost świata
 	BANKRUCTWA W:
 	 	makeMove.PHP 42: //endthisguygame
 		sellThisFilds.php //endthisguygame
@@ -33,6 +34,7 @@ BAZA DANYCH
 		movesCodes 	 = co już zostało zrobione w rundzie | 0 - nic w tej rundzie się nie wydarzyło, 1 - kostki zostały rzucone, 2 - decyzje do zakupu pola zostały podjęte
 		islands      = ilość posiadanych wysp w zapise 1:2:1:1 gdzie : odziela liczbe wysp dla każdego gracza
 		wealth		 = bogactwo jest to suma wartości odkupienia wszystkich posiadłości + pieniądze
+		championsFild= zawiera int'a z numerem pola mającym mistrzostwa świata powinno 
 	filds
 
 	KARTY
@@ -138,7 +140,8 @@ GAME BOARD DOC
 					[0] serverName, [1]gameStatus, [2]activePlaye,
 					[3]baseMoney, [4]maxPlayers, [5]time, [6]timeForTour, [7]tour, [8]eventCode,
 					[9]logs, [10]players, [11]startTime, [12]whosTour, [13]fildsNfo, [14]place, 
-					[15]money, [16]cards, [17]trowed, [18]movesCodes, [19]islands, [20]wealth, [21]nicki graczy	
+					[15]money, [16]cards, [17]trowed, [18]movesCodes, [19]islands, [20]wealth, 
+					[21] championsFild [22]nicki graczy	
 	getGameChangingData.php
 		zwraca dane które podczas rozgrywki się zmieniają
 		w razie nie powodzenia zwróci 'Error'
@@ -159,5 +162,5 @@ GAME BOARD DOC
 		w dodatku do zmiennej gameData która jest arrayem uzupełnia danymi w kolejności 
 		dane są w postaci arraya jeden raz explodowanego oprócz cards z nimi nic nie było robione
 		 [0]eventCode, [1]whosTour, [2]trowed, [3]movesCodes, [4]players, [5]fildsNfo, 
-		 [6]place, [7]gameStatus, [8]cards, [9]money, [10]islands, [11]wealth
+		 [6]place, [7]gameStatus, [8]cards, [9]money, [10]islands, [11]wealth [12] championsFild
 0:0:1;2:1:1;0:0:1;0:0:1;0:0:1;0:0:1;1:4:1;0:0:1;0:0:1;1:0:1;0:0:1;0:0:1;0:0:1;1:1:1;0:0:1;0:0:1;0:0:1;0:0:1;0:0:1;0:0:1;0:0:1;0:0:1;1:0:1;0:0:1;0:0:1;0:0:1;0:0:1;0:0:1;0:0:1;2:0:1;0:0:1;1:0:1

@@ -7,6 +7,7 @@
     } 
     $logsValue = "";
     $movesCodes = "";
+
     if ($gameData[4][$gameData[1]] == $_SESSION['id']) {
         echo $gameData[0];
         if ($gameData[0] == 2 || $gameData[0] == 1 || ($gameData[0] == 0 && $gameData[6][$gameData[1]] == 8)) {

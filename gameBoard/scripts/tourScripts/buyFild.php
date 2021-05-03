@@ -9,12 +9,13 @@
         echo "Fatal_Error";
         exit();
     }
+    $chempionFild="";
     $logsValue = '<div class="L_BuyFilds">';
     $lvlNumber = intval($_GET['l'])-1; 
     $fild = $gameData[6][$gameData[1]];
     $eventCode = 2;
     if ($gameData[4][$gameData[1]] == $_SESSION['id']) {
-        if ($gameData[0] == 1 || ($gameData[0] == 0 && $gameData[6][$gameData[1]] == 8)) {
+        if ($gameData[0] == 1 || ($gameData[0] == 0 && $gameData[6][$gameData[1]] == 8) || ($gameData[0]==4 && $gameData[6][$gameData[1]] == 16)) {
             $result = $connection -> query("SELECT * FROM filds WHERE id = ".$fild);
             $row = $result -> fetch_object();
             $lvl = array($row->l1,$row->l2,$row->l3,$row->l4,$row->l5);
@@ -134,7 +135,35 @@
                 break;
                 case 16:
                     //Mistrzostwa świata
-    
+                    if ($_GET['l'] == 1) {
+                        $eventCode = 4;
+                        if ($gameData[9][$gameData[1]] >= 50000) {
+                            $logsValue .= "Gracz kupuje Mistrzostwa świata!";
+                            $gameData[9][$gameData[1]]  -=50000;
+                            $gameData[11][$gameData[1]] -=50000;
+                        } else {
+                            $logsValue .= "Biedak próbuje kupić mistrzostwa ale go nie stać xD";
+                        }
+                        echo "true";
+                    } else {
+                        if (!isset($_GET['id'])) {
+                            echo "ERRGOR";
+                            exit();
+                        }
+                        $fild = explode(":",$gameData[5][$_GET['id']]);
+                        if ($fild[0] != $gameData[1]+1) {
+                            echo "ERRGOR";
+                            exit();
+                        }
+                        $fild[2] = round( floatval($fild[2]) + ( floatval($fild[2])*0.5 ),1);
+                        $gameData[5][$_GET['id']] = implode(":", $fild);
+                        $eventCode = 2;
+                        $logsValue .= "Gracz kupił mistrzostwa świata na polu o numerze: ".(intval($_GET['id'])+1);
+                        $chempionFild = ', championsFild = '.$_GET['id'].'';
+                        //echo "git ".$gameData[5][$_GET['id']];
+                        echo "Trued";
+                        //exit();
+                    }
                 break;
                 case 24:
                     //Podróż
@@ -218,7 +247,8 @@
                 break;
             }
             $logsValue .= "</div>";
-            $sql = 'UPDATE game SET money = "'.implode(":",$gameData[9]).'", wealth = "'.implode(":", $gameData[11]).'", fildsNfo = "'.implode(";",$gameData[5]).'", eventCode = '.$eventCode.', islands ="'.implode(":",$gameData[10]).'", movesCodes = "'.implode(":", $gameData[3]).'", cards = "'.implode(":", $gameData[8]).'" WHERE gameID = '. $_SESSION['gameId'];
+            $sql = 'UPDATE game SET money = "'.implode(":",$gameData[9]).'", wealth = "'.implode(":", $gameData[11]).'", fildsNfo = "'.implode(";",$gameData[5]).'", eventCode = '.$eventCode.', islands ="'.implode(":",$gameData[10]).'", movesCodes = "'.implode(":", $gameData[3]).'", cards = "'.implode(":", $gameData[8]).'" '.$chempionFild.' WHERE gameID = '. $_SESSION['gameId'];
+            //echo $sql;
             $sql2 = 'UPDATE game SET logs = CONCAT(logs, \''.$logsValue.'\') WHERE gameID = '.$_SESSION["gameId"];
             $connection -> multi_query($sql.";".$sql2);
         } else {

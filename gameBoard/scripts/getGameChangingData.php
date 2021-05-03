@@ -32,6 +32,7 @@
             echo $row->movesCodes.";;";
             echo $row->islands.";;";
             echo $row->wealth.";;";
+            echo $row->championsFild.";;";
         }
     }
 ?>

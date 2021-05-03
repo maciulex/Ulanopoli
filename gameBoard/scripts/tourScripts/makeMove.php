@@ -5,16 +5,16 @@
         exit();
     } 
     $logsValue = '<div class="L_MakeMove">';
-    $trow1=0;
-    $trow2=0;
+    $trow1=-1;
+    $trow2=1;
     $eventCode=1;
     if ($gameData[4][$gameData[1]] == $_SESSION['id']) {
         if ($gameData[0] == 0) {
             if ($gameData[3][$gameData[1]] == 0) {
-                $trow1 = rand(1,6);
-                $trow2 = rand(1,6);
-                //$trow1 = 0;
-                //$trow2 = 0;
+                //$trow1 = rand(1,6);
+                //$trow2 = rand(1,6);
+                $trow1 = 0;
+                $trow2 = 0;
                 $eventCode = 1;
                 $logsValue .= "<span>Rzut kostkami: ".$trow1.", ".$trow2."</span>";
                 $gameData[6][$gameData[1]] += $trow1 + $trow2;
@@ -39,33 +39,49 @@
                         $data[] = $row->l5;
                         $data[] = $row->l1;
                     }
-                    $gameData[9][$gameData[1]] -= $data[$fildInfo[1]]/2;
-                    $gameData[11][$gameData[1]] -= $data[$fildInfo[1]]/2;
-                    $gameData[9][$fildInfo[0]-1] += $data[$fildInfo[1]]/2;
-                    $gameData[11][$fildInfo[0]-1] += $data[$fildInfo[1]]/2;
+                    $price = 0;
+                    if ($gameData[12] != $gameData[6][$gameData[1]]) {
+                        $price = $data[$fildInfo[1]]/2;
+                        $gameData[9][$gameData[1]] -= $price;
+                        $gameData[11][$gameData[1]] -= $price;
+                        $gameData[9][$fildInfo[0]-1] += $price;
+                        $gameData[11][$fildInfo[0]-1] += $price;
+                    } else {
+                        $price = ($data[$fildInfo[1]]/2)*floatval($fildInfo[2]);
+                        $gameData[9][$gameData[1]] -= $price;
+                        $gameData[11][$gameData[1]] -= $price;
+                        $gameData[9][$fildInfo[0]-1] += $price;
+                        $gameData[11][$fildInfo[0]-1] += $price;
+                    }
                     $logsValue .= "<span>Gracz(".($gameData[1]+1).") wylądował na polu innego gracza(".$fildInfo[0].").</span>";
                     $logsValue .= "<span>Koszt: ".($data[$fildInfo[1]]/2)."</span>";
-                    $logsValue .= "<span>Saldo gracza: ".$gameData[9][$gameData[1]].", przed: ".($gameData[9][$gameData[1]]+$data[$fildInfo[1]]/2)."</span>";
-                    $logsValue .= "<span>Saldo właściciela pola: ".$gameData[9][$fildInfo[0]-1].", przed: ".($gameData[9][$fildInfo[0]-1]-$data[$fildInfo[1]]/2)."</span>";
+                    $logsValue .= "<span>Saldo gracza: ".$gameData[9][$gameData[1]].", przed: ".($gameData[9][$gameData[1]]+$price)."</span>";
+                    $logsValue .= "<span>Saldo właściciela pola: ".$gameData[9][$fildInfo[0]-1].", przed: ".($gameData[9][$fildInfo[0]-1]-$price)."</span>";
 
                 }
             }
-            if ($gameData[6][$gameData[1]] == 30) {
-                $logsValue .= "<span>Gracz wylądował na polu podatku!</span>";
-                $logsValue .= "<span>Opłata wynosi 5% majątku</span>";
-                $logsValue .= "<span>Saldo przed operacją: ".$gameData[9][$gameData[1]].", po operacji: ".($gameData[9][$gameData[1]]-($gameData[11][$gameData[1]]*0.05))."</span>";
-                $gameData[9][$gameData[1]]-=($gameData[11][$gameData[1]]*0.05);
-                $gameData[11][$gameData[1]]-=($gameData[11][$gameData[1]]*0.05);
-            } else if ($gameData[6][$gameData[1]] == 8) {
-                if ($gameData[3][$gameData[1]] != 0) {
-                    $gameData[3][$gameData[1]] -= 1;
-                    $logsValue .= "<span>Gracz jest na Bezludnej wyspie!</span>";
-                    $logsValue .= "<span>Może zapłacić 200k, poczekać jeszcze ".$gameData[3][$gameData[1]]." tury lub użyć karty jeżeli ma.</span>";
-                } else {
-                    $gameData[3][$gameData[1]] = 3;
-                    $logsValue .= "<span>Gracz trafił na Bezludna wyspę!</span>";
-                    $logsValue .= "<span>Może zapłacić 200k, poczekać 3 tury lub użyć karty jeżeli ma.</span>";
-                }
+            switch ($gameData[6][$gameData[1]]) {
+                case 30:
+                    $logsValue .= "<span>Gracz wylądował na polu podatku!</span>";
+                    $logsValue .= "<span>Opłata wynosi 10% majątku</span>";
+                    $logsValue .= "<span>Saldo przed operacją: ".$gameData[9][$gameData[1]].", po operacji: ".($gameData[9][$gameData[1]]-($gameData[11][$gameData[1]]*0.05))."</span>";
+                    $gameData[9][$gameData[1]]-=($gameData[11][$gameData[1]]*0.1);
+                    $gameData[11][$gameData[1]]-=($gameData[11][$gameData[1]]*0.1);
+                break;
+                case 8:
+                    if ($gameData[3][$gameData[1]] != 0) {
+                        $gameData[3][$gameData[1]] -= 1;
+                        $logsValue .= "<span>Gracz jest na Bezludnej wyspie!</span>";
+                        $logsValue .= "<span>Może zapłacić 200k, poczekać jeszcze ".$gameData[3][$gameData[1]]." tury lub użyć karty jeżeli ma.</span>";
+                    } else {
+                        $gameData[3][$gameData[1]] = 3;
+                        $logsValue .= "<span>Gracz trafił na Bezludna wyspę!</span>";
+                        $logsValue .= "<span>Może zapłacić 200k, poczekać 3 tury lub użyć karty jeżeli ma.</span>";
+                    }
+                break;
+                case 16:
+                    $logsValue .= "<span>Gracz Wylądował na polu Mistrzostw świata!</span>";
+                break;
             }
             echo $trow1.":".$trow2;
             if ($gameData[11][$gameData[1]] < 0) {

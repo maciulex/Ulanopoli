@@ -41,6 +41,8 @@
             echo $row->movesCodes.";;";
             echo $row->islands.";;";
             echo $row->wealth.";;";
+            echo $row->championsFild.";;";
+
         }
         $players = explode(":", $players);
         for ($i = 0; $i < $maxPlayers; $i++) {

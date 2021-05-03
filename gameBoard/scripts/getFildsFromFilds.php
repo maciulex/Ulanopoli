@@ -22,7 +22,7 @@
             echo $row->l3.":";
             echo $row->l4.":";
             echo $row->l5.":";
-            echo $row->l1.";";
+            echo $row->name.";";
         }
     }
 ?>
