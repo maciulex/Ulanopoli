@@ -36,10 +36,15 @@ BAZA DANYCH
 	filds
 
 	KARTY
-		1: Ucieczka z wyspy
-		2: 
-
-
+		a: Ucieczka z wyspy
+		b: 
+		c:
+		d:
+		e:
+		f:
+		g:
+		h:
+		i:
 
 GAME BOARD DOC
 	index.php

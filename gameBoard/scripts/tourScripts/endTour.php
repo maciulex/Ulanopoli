@@ -10,12 +10,12 @@
     if ($gameData[4][$gameData[1]] == $_SESSION['id']) {
         echo $gameData[0];
         if ($gameData[0] == 2 || $gameData[0] == 1 || ($gameData[0] == 0 && $gameData[6][$gameData[1]] == 8)) {
-            $whoTour = $gameData[1];
-            $tour = "";
-            if (!isset($gameData[2][0])) {
+            if ($gameData[0] == 0 && $gameData[6][$gameData[1]] == 8) {
                 $gameData[2][0] = 1;
                 $gameData[2][1] = 0;
             }
+            $whoTour = $gameData[1];
+            $tour = "";
             if ($gameData[2][0] == $gameData[2][1]) {
                 $whoTour = $gameData[1];
             } else {

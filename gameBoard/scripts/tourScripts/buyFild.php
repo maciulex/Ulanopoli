@@ -14,7 +14,7 @@
     $fild = $gameData[6][$gameData[1]];
     $eventCode = 2;
     if ($gameData[4][$gameData[1]] == $_SESSION['id']) {
-        if ($gameData[0] == 1) {
+        if ($gameData[0] == 1 || ($gameData[0] == 0 && $gameData[6][$gameData[1]] == 8)) {
             $result = $connection -> query("SELECT * FROM filds WHERE id = ".$fild);
             $row = $result -> fetch_object();
             $lvl = array($row->l1,$row->l2,$row->l3,$row->l4,$row->l5);
@@ -41,7 +41,21 @@
                         break;
                         case "2":
                             //użycie karty
-                            
+                            if (strpos($gameData[8][$gameData[1]],"a") !== false) {
+                                $pos = strpos($gameData[8][$gameData[1]],"a");
+                                $numberOfCards = intval($gameData[8][$gameData[1]][$pos+2]);
+                                $numberOfCards-=1;
+                                if ($numberOfCards < 1) {
+                                    $str1 = substr($gameData[8][$gameData[1]],0,$pos-1);
+                                    $str2 = substr($gameData[8][$gameData[1]],$pos+3,strlen($gameData[8][$gameData[1]]));
+                                    $gameData[8][$gameData[1]] = $str1.$str2;
+                                }
+                                $eventCode = 0;
+                                $gameData[3][$gameData[1]] = 0;
+                                $logsValue .= "Gracz używa karty by wyjść na wolność!";
+                            } else {
+                                $logsValue .= "<span>System wykrył żę gracz chciał użyć karty mimo że jej nie miał :< </span>";
+                            }
                         break;
                         default:
                             $logsValue .= "<span>Gracz próbuje zrobić coś nielegalnego!</span>";
@@ -204,15 +218,15 @@
                 break;
             }
             $logsValue .= "</div>";
-            $sql = 'UPDATE game SET money = "'.implode(":",$gameData[9]).'", wealth = "'.implode(":", $gameData[11]).'", fildsNfo = "'.implode(";",$gameData[5]).'", eventCode = '.$eventCode.', islands ="'.implode(":",$gameData[10]).'", movesCodes = "'.implode(":", $gameData[3]).'" WHERE gameID = '. $_SESSION['gameId'];
+            $sql = 'UPDATE game SET money = "'.implode(":",$gameData[9]).'", wealth = "'.implode(":", $gameData[11]).'", fildsNfo = "'.implode(";",$gameData[5]).'", eventCode = '.$eventCode.', islands ="'.implode(":",$gameData[10]).'", movesCodes = "'.implode(":", $gameData[3]).'", cards = "'.implode(":", $gameData[8]).'" WHERE gameID = '. $_SESSION['gameId'];
             $sql2 = 'UPDATE game SET logs = CONCAT(logs, \''.$logsValue.'\') WHERE gameID = '.$_SESSION["gameId"];
             $connection -> multi_query($sql.";".$sql2);
         } else {
-            echo "Error";
+            echo "Error1";
             exit();
         }
     } else {
-        echo "Error";
+        echo "Error2";
         exit();
     }
     function updateLogs() {

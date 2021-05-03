@@ -82,7 +82,7 @@ function getLogs() {
     var xml = new XMLHttpRequest;
     xml.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
-            console.log(this.responseText);
+            //console.log(this.responseText);
             document.querySelector("#logPlace").innerHTML = this.responseText;
         }
     }
@@ -194,11 +194,15 @@ async function myTourEngine() {
                     cityClicked("N2");
                 break;
                 case "0":
+                    console.log("dupa Wielka");
                     if (Cplayers[meIntVal].moveCode != 0) {
+                        console.log("dupa");
                         buyFilds();
                     } else if (await throwCube() != "true") {
+                        console.log("dupa1");
                         await buyFilds();    
                     } else {
+                        console.log("dupa2");
                         sellData[0] = true;
                         await sellFild();
                         cityClicked("N2");
@@ -214,7 +218,7 @@ async function myTourEngine() {
         }
     } 
     async function throwCube() {
-        alert("Rzut kostką!");
+        //alert("Rzut kostką!");
         var result = await xmlCreator("makeMove.php");
         result = result.split(":");
         document.querySelector("#throwResult").innerHTML = "Kostka 1: "+result[0]+" Kostka 2: "+result[1];
@@ -239,8 +243,12 @@ async function myTourEngine() {
             break;
             case 8:
                 //bezludna wyspa
-                document.querySelector("#buyFild").innerHTML += '<button onclick="fildsDealer(1)">Zapłać 200k</button>';
-                document.querySelector("#buyFild").innerHTML += '<button onclick="fildsDealer(2)">Użyj karty</button>';
+                var buttonState = "";
+                if (Cplayers[meIntVal].cards.indexOf("a") == -1) {
+                    buttonState = "disabled";
+                }
+                document.querySelector("#buyFild").innerHTML += `<button onclick="fildsDealer(1)">Zapłać 200k</button>`;
+                document.querySelector("#buyFild").innerHTML += `<button onclick="fildsDealer(2)" ${buttonState}>Użyj karty</button>`;
                 document.querySelector("#buyFild").innerHTML += '<button onclick="endTourG()">Czekaj</button>';
             break;
             case 4:

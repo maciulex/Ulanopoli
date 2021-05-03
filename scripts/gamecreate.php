@@ -108,13 +108,13 @@
             echo $PmoneyR;
             $players = "0:0:0:0";
             if ($passcodeSet == true) {
-                $sql = 'INSERT INTO game(serverName, gamePasscode, gameStatus, activePlayer, time, timeForTour, tour, baseMoney,maxPlayers,players,place,cards,money, whosTour,movesCodes,islands,wealth,logs) VALUES (?,?,0,0,?,?,0,?,?,?,"0:0:0:0","000:000:000:000",?,0,"0:0:0:0","0:0:0:0",?,"")';
+                $sql = 'INSERT INTO game(serverName, gamePasscode, gameStatus, activePlayer, time, timeForTour, tour, baseMoney,maxPlayers,players,place,cards,money, whosTour,movesCodes,islands,wealth,logs) VALUES (?,?,0,0,?,?,0,?,?,?,"0:0:0:0","0:0:0:0",?,0,"0:0:0:0","0:0:0:0",?,"")';
                 $stmt = $connection -> prepare($sql);
                 $stmt -> bind_param("ssiiiisss", $name, $passcode, $gameTime, $roundTime, $money, $gamePlayer, $players, $PmoneyR, $PmoneyR);
                 $stmt -> execute();
                 $stmt -> close();
             } else {
-                $sql = 'INSERT INTO game(serverName, gameStatus, activePlayer, time, timeForTour, tour, baseMoney,maxPlayers,players,place,cards,money, whosTour,movesCodes,islands,wealth,logs) VALUES (?,0,0,?,?,0,?,?,?,"0:0:0:0","000:000:000:000",?,0,"0:0:0:0","0:0:0:0",?,"")';
+                $sql = 'INSERT INTO game(serverName, gameStatus, activePlayer, time, timeForTour, tour, baseMoney,maxPlayers,players,place,cards,money, whosTour,movesCodes,islands,wealth,logs) VALUES (?,0,0,?,?,0,?,?,?,"0:0:0:0","0:0:0:0",?,0,"0:0:0:0","0:0:0:0",?,"")';
                 $stmt = $connection -> prepare($sql);
                 $stmt -> bind_param("siiiisss", $name,$gameTime,$roundTime,$money,$gamePlayer,$players,$PmoneyR,$PmoneyR);
                 $stmt -> execute();

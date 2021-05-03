@@ -24,7 +24,7 @@
             $gameData[] = explode(";",$row -> fildsNfo);
             $gameData[] = explode(":",$row -> place);
             $gameData[] = intval($row -> gameStatus);
-            $gameData[] = $row -> cards;
+            $gameData[] = explode(":",$row -> cards);
             $gameData[] = explode(":",$row -> money);
             $gameData[] = explode(":",$row -> islands);
             $gameData[] = explode(":",$row -> wealth);
