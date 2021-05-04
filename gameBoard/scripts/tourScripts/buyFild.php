@@ -15,7 +15,7 @@
     $fild = $gameData[6][$gameData[1]];
     $eventCode = 2;
     if ($gameData[4][$gameData[1]] == $_SESSION['id']) {
-        if ($gameData[0] == 1 || ($gameData[0] == 0 && $gameData[6][$gameData[1]] == 8) || ($gameData[0]==4 && $gameData[6][$gameData[1]] == 16)) {
+        if ($gameData[0] == 1 || ($gameData[0] == 0 && $gameData[6][$gameData[1]] == 8) || ($gameData[0]==4 && $gameData[6][$gameData[1]] == 16) || ($gameData[0]==5 && $gameData[6][$gameData[1]] == 24)) {
             $result = $connection -> query("SELECT * FROM filds WHERE id = ".$fild);
             $row = $result -> fetch_object();
             $lvl = array($row->l1,$row->l2,$row->l3,$row->l4,$row->l5);
@@ -136,11 +136,11 @@
                 case 16:
                     //Mistrzostwa świata
                     if ($_GET['l'] == 1) {
-                        $eventCode = 4;
                         if ($gameData[9][$gameData[1]] >= 50000) {
                             $logsValue .= "Gracz kupuje Mistrzostwa świata!";
                             $gameData[9][$gameData[1]]  -=50000;
                             $gameData[11][$gameData[1]] -=50000;
+                            $eventCode = 4;
                         } else {
                             $logsValue .= "Biedak próbuje kupić mistrzostwa ale go nie stać xD";
                         }
@@ -167,7 +167,33 @@
                 break;
                 case 24:
                     //Podróż
-    
+                    if ($_GET['l'] == 1) {
+                        if ($gameData[9][$gameData[1]] >= 50000) {
+                            $logsValue .= "Gracz kupuje Podróż!";
+                            $gameData[9][$gameData[1]]  -=50000;
+                            $gameData[11][$gameData[1]] -=50000;
+                            $eventCode = 5;
+                        } else {
+                            $logsValue .= "Biedak próbuje kupić podróż ale go nie stać xD";
+                        }
+                        echo "true";
+                    } else {
+                        if (!isset($_GET['id']) || intval($_GET['id']) > 31 || intval($_GET['id']) < 0) {
+                            echo "ERRGOR";
+                            exit();
+                        }
+                        $gameData[6][$gameData[1]] = $_GET['id'];
+                        $eventCode = 1;
+                        $logsValue .= "Gracz kupił podróż na pole o numerze: ".(intval($_GET['id'])+1);
+                        if ($_GET['l'] < 24) {
+                            $gameData[9][$gameData[1]] += 200000;
+                            $gameData[11][$gameData[1]] += 200000;
+                            $logsValue .= "Gracz otrzymuje 200k za przekroczenie startu.";
+                        }
+                        //echo "git ".$gameData[5][$_GET['id']];
+                        echo "Trued";
+                        //exit();
+                    }
                 break;
                 case 30:
                     //Podatek
@@ -247,7 +273,7 @@
                 break;
             }
             $logsValue .= "</div>";
-            $sql = 'UPDATE game SET money = "'.implode(":",$gameData[9]).'", wealth = "'.implode(":", $gameData[11]).'", fildsNfo = "'.implode(";",$gameData[5]).'", eventCode = '.$eventCode.', islands ="'.implode(":",$gameData[10]).'", movesCodes = "'.implode(":", $gameData[3]).'", cards = "'.implode(":", $gameData[8]).'" '.$chempionFild.' WHERE gameID = '. $_SESSION['gameId'];
+            $sql = 'UPDATE game SET money = "'.implode(":",$gameData[9]).'", wealth = "'.implode(":", $gameData[11]).'", fildsNfo = "'.implode(";",$gameData[5]).'", eventCode = '.$eventCode.', islands ="'.implode(":",$gameData[10]).'", movesCodes = "'.implode(":", $gameData[3]).'", cards = "'.implode(":", $gameData[8]).'" '.$chempionFild.', place = "'.implode(":",$gameData[6]).'" WHERE gameID = '. $_SESSION['gameId'];
             //echo $sql;
             $sql2 = 'UPDATE game SET logs = CONCAT(logs, \''.$logsValue.'\') WHERE gameID = '.$_SESSION["gameId"];
             $connection -> multi_query($sql.";".$sql2);

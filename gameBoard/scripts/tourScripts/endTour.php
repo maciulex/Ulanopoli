@@ -17,7 +17,7 @@
             }
             $whoTour = $gameData[1];
             $tour = "";
-            if ($gameData[2][0] == $gameData[2][1]) {
+            if ($gameData[2][0] == $gameData[2][1] || $gameData[0] == 1) {
                 $whoTour = $gameData[1];
             } else {
                 $players = $gameData[4];

@@ -11,10 +11,10 @@
     if ($gameData[4][$gameData[1]] == $_SESSION['id']) {
         if ($gameData[0] == 0) {
             if ($gameData[3][$gameData[1]] == 0) {
-                //$trow1 = rand(1,6);
-                //$trow2 = rand(1,6);
-                $trow1 = 0;
-                $trow2 = 0;
+                $trow1 = rand(1,6);
+                $trow2 = rand(1,6);
+                //$trow1 = 0;
+                //$trow2 = 0;
                 $eventCode = 1;
                 $logsValue .= "<span>Rzut kostkami: ".$trow1.", ".$trow2."</span>";
                 $gameData[6][$gameData[1]] += $trow1 + $trow2;
@@ -81,6 +81,9 @@
                 break;
                 case 16:
                     $logsValue .= "<span>Gracz Wylądował na polu Mistrzostw świata!</span>";
+                break;
+                case 24:
+                    $logsValue .= "<span>Gracz Wylądował na polu Podróży!</span>";
                 break;
             }
             echo $trow1.":".$trow2;

@@ -8,7 +8,7 @@ var intervals;
 var meIntVal;
 var sellData = [false, 0, []];
 var chempionData = [false, 0];
-
+var travelData = [false, 0];
 class Game {
     constructor (gameStatus, serverName, activePlayer, baseMoney, maxPlayer, time, timeForTour, tour, players, startTime, whosTour, fildsNfo, timeLeft = 3600,chempionFild) {
         this.gameStatus =   gameStatus;
@@ -150,17 +150,44 @@ function wordChampions(arg,addic=0) {
             console.log(this.responseText);
             if (this.responseText == "true") {
                 chempionData[0] = true;
-                var state = "";
-                if (chempionData[1] == 0) {
-                    state = "disabled";
-                }
+                let state = (chempionData[1] == 0) ? "disabled" : "" ;
                 cityClicked("N2");
                 deleteCityFromSold();
                 document.querySelector("#buyFild").innerHTML = `<button onclick="wordChampions(2, ${chempionData[1]})" ${state}>Zakończ</button>`;
-                document.querySelector("#sellOrFildInfo").innerHTML += `<span>Wybierz pole do mistrzostw świata</span>`;
+                if (chempionData[0] == true) {
+                    document.querySelector("#sellOrFildInfo").innerHTML += `<span>Wybierz pole do mistrzostw świata</span>`;
+                } else {
+                    document.querySelector("#sellOrFildInfo").innerHTML += `<span>Wybierz pole do którego chcesz polecieć</span>`;
+                }
             } else if (this.responseText == "Trued") {
                 chempionData[0] = false;
                 chempionData[1] = 0;
+                document.querySelector("#buyFild").innerHTML = '<button onclick="endTourG()">Zakończ turę</button>';
+                document.querySelector("#sellOrFildInfo").innerHTML = "";
+            } else {
+                alert("Somekinda uginda ERROR");
+            }
+        }
+    }
+    xml.open("GET", "scripts/tourScripts/buyFild.php?l="+arg+"&id="+addic, true);
+    xml.send();
+}
+function travelF(arg,addic=0) {
+    var xml = new XMLHttpRequest;
+    xml.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            console.log(this.responseText);
+            if (this.responseText == "true") {
+                travelData[0] = true;
+                let state = (travelData[1] == 0) ? "disabled" : "" ;
+                cityClicked("N2");
+                deleteCityFromSold();
+                document.querySelector("#buyFild").innerHTML = `<button onclick="travelF(2, ${travelData[1]})" ${state}>Zakończ</button>`;
+                document.querySelector("#sellOrFildInfo").innerHTML += `<span>Wybierz pole do mistrzostw świata</span>`;
+                document.querySelector("#sellOrFildInfo").innerHTML += `<span>Wybierz pole do którego chcesz polecieć</span>`;
+            } else if (this.responseText == "Trued") {
+                travelData[0] = false;
+                travelData[1] = 0;
                 document.querySelector("#buyFild").innerHTML = '<button onclick="endTourG()">Zakończ turę</button>';
                 document.querySelector("#sellOrFildInfo").innerHTML = "";
             } else {
@@ -221,12 +248,17 @@ async function myTourEngine() {
             data = data.split(";");
             console.log(data);
             switch (data[1]) {
+                case "5":
+                    travelData[0] = true;
+                    var state = (travelData[1] == 0) ? "disabled" : "";
+                    cityClicked("N2");
+                    deleteCityFromSold();
+                    document.querySelector("#buyFild").innerHTML = `<button onclick="travelF(2, ${chempionData[1]})" ${state}>Zakończ</button>`;
+                    document.querySelector("#sellOrFildInfo").innerHTML += `<span>Wybierz pole do którego chcesz polecieć</span>`;
+                break;
                 case "4":
                     chempionData[0] = true;
-                    var state = "";
-                    if (chempionData[1] == 0) {
-                        state = "disabled";
-                    }
+                    var state = (chempionData[1] == 0) ? "disabled" : "";
                     cityClicked("N2");
                     deleteCityFromSold();
                     document.querySelector("#buyFild").innerHTML = `<button onclick="wordChampions(2, ${chempionData[1]})" ${state}>Zakończ</button>`;
@@ -280,6 +312,7 @@ async function myTourEngine() {
                 break;
             }
         }
+        var state;
         switch(place) {
             case 0:
                 //start
@@ -288,10 +321,7 @@ async function myTourEngine() {
             break;
             case 8:
                 //bezludna wyspa
-                var buttonState = "";
-                if (Cplayers[meIntVal].cards.indexOf("a") == -1) {
-                    buttonState = "disabled";
-                }
+                var buttonState =  (Cplayers[meIntVal].cards.indexOf("a") == -1) ? "disabled" : "";
                 document.querySelector("#buyFild").innerHTML += `<button onclick="fildsDealer(1)">Zapłać 200k</button>`;
                 document.querySelector("#buyFild").innerHTML += `<button onclick="fildsDealer(2)" ${buttonState}>Użyj karty</button>`;
                 document.querySelector("#buyFild").innerHTML += '<button onclick="endTourG()">Czekaj</button>';
@@ -330,12 +360,16 @@ async function myTourEngine() {
             break;
             case 16:
                 //Mistrzostwa świata
-                document.querySelector("#buyFild").innerHTML = '<button onclick="wordChampions(1)">Kup mistrzostwa świata za: 50k</button>';
+                state = (Cplayers[meIntVal].money < 50000) ? "disabled" : "";
+                document.querySelector("#buyFild").innerHTML = `<button onclick="wordChampions(1)" ${state}>Kup mistrzostwa świata za: 50k</button>`;
                 document.querySelector("#buyFild").innerHTML += `<button onclick="endTourG()">Zakończ</button>`;
             break;
             case 24:
                 //Podróż
                 document.querySelector("#buyFild").innerHTML = '<button onclick="endTourG()">Zakończ</button>';
+                state = (Cplayers[meIntVal].money < 50000) ? "disabled" : "";
+                document.querySelector("#buyFild").innerHTML = `<button onclick="travelF(1)" ${state}>Kup podróż za: 50k</button>`;
+                document.querySelector("#buyFild").innerHTML += `<button onclick="endTourG()">Zakończ</button>`;
             break;
             case 30:
                 //Podatek
@@ -449,11 +483,22 @@ function cityClicked(cityId) {
                 place.innerHTML += "<span><br>Mistrzostwa obecnie organizujesz na: "+fildsDataGame[chempionData[1]][5]+"!</span>";
             }
         }
-        let state = "";
-        if (chempionData[1] == 0) {
-            state = "disabled";
-        }
+        let state = (chempionData[1] == 0) ? "disabled": "";
         document.querySelector("#buyFild").innerHTML = `<button onclick="wordChampions(2, ${chempionData[1]})" ${state}>Zakończ</button>`;
+        return;
+    } else if (travelData[0] == true) {
+        let fild = Cgame.fildsNfo[cityId].split(":");
+        if (fild[0] == meIntVal+1 || fild[0] == 0) {
+            travelData[1] = cityId;
+            place.innerHTML = "<span onclick=\"deleteCityFromSold()\">Chcesz polecieć na pole: "+fildsDataGame[cityId][5]+"</span>";
+        } else {
+            place.innerHTML = "<span>Podróż możesz mieć tylko na swoim polu/lub na puste!</span>";
+            if (travelData[1] != 0) {
+                place.innerHTML += "<span><br>Jedziesz obecnie na: "+fildsDataGame[travelData[1]][5]+"!</span>";
+            }
+        }
+        let state = (travelData[1] == 0) ? "disabled": "";
+        document.querySelector("#buyFild").innerHTML = `<button onclick="travelF(2, ${travelData[1]})" ${state}>Zakończ</button>`;
         return;
     }
     if (sellData[0] == false) {
@@ -470,7 +515,7 @@ function cityClicked(cityId) {
         var fildData = Cgame.fildsNfo[cityId].split(":");    
         fildData[0] = parseInt(fildData[0]);
         if (fildData[0]-1 == meIntVal) {
-            var state = true;
+            let state = true;
             for (var i = 0; i < sellData[2].length; i++) {
                 if (sellData[2][i][0] == cityId) {
                     state = false;
@@ -489,11 +534,7 @@ function cityClicked(cityId) {
         for (var i = 0; i < sellData[2].length; i++) {
             place.innerHTML += `<div onclick="deleteCityFromSold(${i})">${sellData[2][i][1]}, Wartość: ${sellData[2][i][2]}</div>`;
         }
-        if (Cplayers[meIntVal].money*(-1) < sellData[1]) {
-            var state = "";
-        } else {
-            var state = "disabled";
-        }
+        let state = (Cplayers[meIntVal].money*(-1) < sellData[1]) ? "" : "disabled" ;
         document.querySelector("#buyFild").innerHTML = `<button onclick="sellFild()" ${state}>Sprzedaj i zakończ</button>`;
         document.querySelector("#buyFild").innerHTML += `<button onclick="???" >Zbankrutuj</button>`;
     }
@@ -505,6 +546,10 @@ function deleteCityFromSold(i) {
         chempionData[1] = 0;
         place.innerHTML = "";
         return;
+    } else if (travelData[0] == true) {
+        travelData[1] = 0;
+        place.innerHTML = "";
+        return;
     }
     place.innerHTML = "";
     sellData[1]-=sellData[2][i][2];
@@ -514,11 +559,7 @@ function deleteCityFromSold(i) {
     for (var z = 0; z < sellData[2].length; z++) {
         place.innerHTML += `<div onclick="deleteCityFromSold(${z})">${sellData[2][z][1]}, Wartość: ${sellData[2][z][2]}</div>`;
     }
-    if (Cplayers[meIntVal].money*(-1) < sellData[1]) {
-        var state = "";
-    } else {
-        var state = "disabled";
-    }
+    let state = (Cplayers[meIntVal].money*(-1) < sellData[1]) ? "" : "disabled" ;
     document.querySelector("#buyFild").innerHTML = `<button onclick="sellFild()" ${state}>Sprzedaj i zakończ</button>`;
     document.querySelector("#buyFild").innerHTML += `<button onclick="???" >Zbankrutuj</button>`;
     return;

@@ -21,7 +21,7 @@ BAZA DANYCH
 		time	     = maksymalny czas gry
 		timeForTour  = czas na pojedyńczą ture
 		tour		 = tura +1 po ruchu każdego z graczy
-		eventCode	 = 0-nic nie zostało zrobione, 1-kostki zostały rzucone, 2 decyzje do pól podjęte, 3-potrzebna sprzedarz/bankructwo
+		eventCode	 = 0-nic nie zostało zrobione, 1-kostki zostały rzucone, 2 decyzje do pól podjęte, 3-potrzebna sprzedarz/bankructwo, 4 pole specjalne: mistrzostwa/podróż
 		logs		 = pełen zapis rozgrywki
 		players		 = Id graczy w zapise 12:13:14:15 gdzie ":" odziela id poszczególnych graczy
 		startTime	 = godzina rozpoczęcia gry
