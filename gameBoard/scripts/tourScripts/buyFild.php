@@ -36,7 +36,7 @@
                                 $gameData[9][$gameData[1]] -= 200000;
                                 $gameData[11][$gameData[1]] -= 200000;
                                 $gameData[3][$gameData[1]] = 0;
-                                $eventCode = 0;
+                                $eventCode = 6;
                                 $logsValue .= "<span>Gracz wykupuje wolność. Stan konta po transakcji: ".$gameData[9][$gameData[1]].", przed: ".($gameData[9][$gameData[1]]+200000)."</span>";
                             }
                         break;
@@ -51,7 +51,7 @@
                                     $str2 = substr($gameData[8][$gameData[1]],$pos+3,strlen($gameData[8][$gameData[1]]));
                                     $gameData[8][$gameData[1]] = $str1.$str2;
                                 }
-                                $eventCode = 0;
+                                $eventCode = 6;
                                 $gameData[3][$gameData[1]] = 0;
                                 $logsValue .= "Gracz używa karty by wyjść na wolność!";
                             } else {
@@ -256,15 +256,15 @@
                                 exit();   
                             } else {
                                 $logsValue .= "<span>Cena: ".$lvl[$lvlNumber]."</span><span>Pieniądze: ".$gameData[9][$gameData[1]]."</span>";
+                                $logsValue .= "<span>Powodzenie!</span>";
                                 $gameData[9][$gameData[1]] -= $lvl[$lvlNumber]*2;
                                 $gameData[11][$gameData[1]] -= $lvl[$lvlNumber];
                                 $gameData[9][$fildData[0]-1] += $lvl[$lvlNumber]*2;
                                 $gameData[9][$fildData[0]-1] += $lvl[$lvlNumber];
-                                $fildData = ($gameData[1]+1).":".$lvlNumber.":".$fildData[2];
-                                $gameData[5][$fild] = $fildData;
-                                $logsValue .= "<span>Powodzenie!</span>";
                                 $logsValue .= "<span>Kupujący (".($gameData[1]+1).") - Saldo po operacji: ".$gameData[9][$gameData[1]].", Majątek po operacji: ".$gameData[11][$gameData[1]]."</span>";
                                 $logsValue .= "<span>Sprzedawca (".$fildData[0].") - Saldo po operacji: ".$gameData[9][$fildData[0]-1].", Majątek po operacji: ".$gameData[9][$fildData[0]-1]."</span>";
+                                $fildData = ($gameData[1]+1).":".$lvlNumber.":".$fildData[2];
+                                $gameData[5][$fild] = $fildData;
                             }
                         }
                     } else {

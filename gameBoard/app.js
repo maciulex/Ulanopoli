@@ -93,6 +93,18 @@ function getLogs() {
     xml.send();
 }
 
+function bancruit() {
+    var xml = new XMLHttpRequest;
+    xml.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            console.log(this.responseText);
+            document.querySelector("#buyFild").innerHTML = '<button onclick="endTourG()">Zakończ</button>';
+        }
+    }
+    xml.open('POST', "scripts/tourScripts/bancruit.php", true);
+    xml.send();
+}
+
 async function refleshCheck() {
     var baseData = await getChangingGameData();
     Cgame.fildsNfo = baseData[6].split(";");
@@ -188,8 +200,8 @@ function travelF(arg,addic=0) {
             } else if (this.responseText == "Trued") {
                 travelData[0] = false;
                 travelData[1] = 0;
-                document.querySelector("#buyFild").innerHTML = '<button onclick="endTourG()">Zakończ turę</button>';
                 document.querySelector("#sellOrFildInfo").innerHTML = "";
+                myTourEngine();
             } else {
                 alert("Somekinda uginda ERROR");
             }
@@ -281,7 +293,7 @@ async function myTourEngine() {
                     } else {
                         console.log("dupa2");
                         sellData[0] = true;
-                        await sellFild();
+                        //await sellFild();
                         cityClicked("N2");
                     }
                 break;
@@ -304,6 +316,7 @@ async function myTourEngine() {
         return result[2];
     }
     async function buyFilds() {
+        await refleshCheck();
         var place;
         for (var i = 0; i < Cgame.maxPlayer; i++) {
             if (Cplayers[i].me == true) {
@@ -346,10 +359,11 @@ async function myTourEngine() {
                         var price = 200000;
                     break;
                 }
-                if (fild[0] != "0") {
+                if (fild[0] !== "0") {
                     document.querySelector("#buyFild").innerHTML = '<button onclick="endTourG()">Zakończ</button>';
                 } else {
                     document.querySelector("#buyFild").innerHTML = `<button onclick="fildsDealer(1)">Kup wyspę za: ${price}</button>`;
+                    document.querySelector("#buyFild").innerHTML += '<button onclick="endTourG()">Zakończ</button>';
                 }
             break;
             case 12:
@@ -536,7 +550,7 @@ function cityClicked(cityId) {
         }
         let state = (Cplayers[meIntVal].money*(-1) < sellData[1]) ? "" : "disabled" ;
         document.querySelector("#buyFild").innerHTML = `<button onclick="sellFild()" ${state}>Sprzedaj i zakończ</button>`;
-        document.querySelector("#buyFild").innerHTML += `<button onclick="???" >Zbankrutuj</button>`;
+        document.querySelector("#buyFild").innerHTML += `<button onclick="bancruit()" >Zbankrutuj</button>`;
     }
     return;
 }
@@ -561,7 +575,7 @@ function deleteCityFromSold(i) {
     }
     let state = (Cplayers[meIntVal].money*(-1) < sellData[1]) ? "" : "disabled" ;
     document.querySelector("#buyFild").innerHTML = `<button onclick="sellFild()" ${state}>Sprzedaj i zakończ</button>`;
-    document.querySelector("#buyFild").innerHTML += `<button onclick="???" >Zbankrutuj</button>`;
+    document.querySelector("#buyFild").innerHTML += `<button onclick="bancruit()" >Zbankrutuj</button>`;
     return;
 }
 
@@ -578,6 +592,9 @@ async function sellFild() {
             if (this.responseText == "LIFU") {
                 document.querySelector("#sellOrFildInfo").innerHTML = "";
                 document.querySelector("#buyFild").innerHTML = '<button onclick="endTourG()">Zakończ</button>';
+                sellData[0] = false;
+                sellData[1] = 0;
+                sellData[2] = [];
             } else {
                 alert("przeładuj strone ERROR");
             }
@@ -604,7 +621,6 @@ function drawFilds() {
             break;
             default:
                 if (localData[0] != 0) {
-                    document.querySelector("#N"+i).removeAttribute('class');
                     //console.log("KAME HAME");
                     if (document.getElementsByClassName("Player"+localData[0]).length > 0) {
                         document.querySelector(".Player"+localData[0]).classList.remove("Player"+(localData[0]-1));
@@ -612,6 +628,9 @@ function drawFilds() {
                    document.querySelector("#N"+i).classList.add("Player"+(localData[0]-1));
                    document.querySelector("#L"+i).innerHTML = parseInt(localData[1])+1;
                    document.querySelector("#C"+i).innerHTML = fildsDataGame[i][parseInt(localData[1])]/2;
+                } else {
+                    document.querySelector("#N"+i).removeAttribute('class');
+                    document.querySelector("#C"+i).innerHTML = 0;
                 }
             break;
         }
@@ -644,13 +663,13 @@ async function onLoad() {
     var fildsNfo = allGameData[13].split(";");
     var id =       allGameData[10].split(":");
     var place =    allGameData[14].split(":");
+    console.log(allGameData);
     var money =    allGameData[15].split(":");
     var cards =    allGameData[16].split(":");
     var moveCode = allGameData[18].split(":");
     var islands =  allGameData[19].split(":");
     var wealth =   allGameData[20].split(":");
     var nicks =    allGameData[22].split(":");
-    console.log(allGameData);
     Cgame = new Game (allGameData[1],allGameData[0],allGameData[2],allGameData[3],allGameData[4],allGameData[5],allGameData[6],allGameData[7],players,allGameData[11],allGameData[12],fildsNfo,timeLeft,parseInt(allGameData[allGameData.length-2]));
     for (var i = 0; i < allGameData[4]; i++) {
         var me = false;

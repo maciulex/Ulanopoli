@@ -21,7 +21,7 @@ BAZA DANYCH
 		time	     = maksymalny czas gry
 		timeForTour  = czas na pojedyńczą ture
 		tour		 = tura +1 po ruchu każdego z graczy
-		eventCode	 = 0-nic nie zostało zrobione, 1-kostki zostały rzucone, 2 decyzje do pól podjęte, 3-potrzebna sprzedarz/bankructwo, 4 pole specjalne: mistrzostwa/podróż
+		eventCode	 = 0-nic nie zostało zrobione, 1-kostki zostały rzucone, 2 decyzje do pól podjęte, 3-potrzebna sprzedarz/bankructwo, 4 pole specjalne: mistrzostwa, 5 podróż, 6 kontynuacja rundy
 		logs		 = pełen zapis rozgrywki
 		players		 = Id graczy w zapise 12:13:14:15 gdzie ":" odziela id poszczególnych graczy
 		startTime	 = godzina rozpoczęcia gry
@@ -35,6 +35,8 @@ BAZA DANYCH
 		islands      = ilość posiadanych wysp w zapise 1:2:1:1 gdzie : odziela liczbe wysp dla każdego gracza
 		wealth		 = bogactwo jest to suma wartości odkupienia wszystkich posiadłości + pieniądze
 		championsFild= zawiera int'a z numerem pola mającym mistrzostwa świata powinno 
+		bancruit     = zawiera stringa w formie 0:0:0:0 gdzie każde zero odpowiada stanu płynności finansowej a 1 odpowiada bankrutctwu 
+		winner       = zawiera pozycje wygranego gracz : sposób wygranej (txt)
 	filds
 
 	KARTY
@@ -163,4 +165,5 @@ GAME BOARD DOC
 		dane są w postaci arraya jeden raz explodowanego oprócz cards z nimi nic nie było robione
 		 [0]eventCode, [1]whosTour, [2]trowed, [3]movesCodes, [4]players, [5]fildsNfo, 
 		 [6]place, [7]gameStatus, [8]cards, [9]money, [10]islands, [11]wealth [12] championsFild
+0:0:1;2:1:1;0:0:1;0:0:1;0:0:1;0:0:1;1:4:1;0:0:1;0:0:1;1:0:1;0:0:1;0:0:1;0:0:1;1:1:1;0:0:1;0:0:1;0:0:1;0:0:1;0:0:1;0:0:1;0:0:1;0:0:1;1:0:1;0:0:1;0:0:1;0:0:1;0:0:1;0:0:1;0:0:1;2:0:1;0:0:1;1:0:1
 0:0:1;2:1:1;0:0:1;0:0:1;0:0:1;0:0:1;1:4:1;0:0:1;0:0:1;1:0:1;0:0:1;0:0:1;0:0:1;1:1:1;0:0:1;0:0:1;0:0:1;0:0:1;0:0:1;0:0:1;0:0:1;0:0:1;1:0:1;0:0:1;0:0:1;0:0:1;0:0:1;0:0:1;0:0:1;2:0:1;0:0:1;1:0:1

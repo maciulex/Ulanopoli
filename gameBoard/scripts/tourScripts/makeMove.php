@@ -63,10 +63,10 @@
             switch ($gameData[6][$gameData[1]]) {
                 case 30:
                     $logsValue .= "<span>Gracz wylądował na polu podatku!</span>";
-                    $logsValue .= "<span>Opłata wynosi 10% majątku</span>";
+                    $logsValue .= "<span>Opłata wynosi 5% majątku</span>";
                     $logsValue .= "<span>Saldo przed operacją: ".$gameData[9][$gameData[1]].", po operacji: ".($gameData[9][$gameData[1]]-($gameData[11][$gameData[1]]*0.05))."</span>";
-                    $gameData[9][$gameData[1]]-=($gameData[11][$gameData[1]]*0.1);
-                    $gameData[11][$gameData[1]]-=($gameData[11][$gameData[1]]*0.1);
+                    $gameData[9][$gameData[1]]-=($gameData[11][$gameData[1]]*0.05);
+                    $gameData[11][$gameData[1]]-=($gameData[11][$gameData[1]]*0.05);
                 break;
                 case 8:
                     if ($gameData[3][$gameData[1]] != 0) {
