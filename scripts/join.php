@@ -4,7 +4,7 @@
         header("Location: ../index.php");
         exit();
     }
-    if (isset($_SESSION['serverName'])) { 
+    if (isset($serverName)) { 
         exit();
     }
     $playerID = intval($_SESSION['id']);
@@ -32,7 +32,7 @@
             $stmt -> bind_param("i", $gameId);
             $stmt -> execute();
             $stmt -> store_result();
-            $stmt -> bind_result($maxPlayers, $activePlayers, $money, $players, $_SESSION['serverName'], $_SESSION['serverStatus'],$_SESSION['gameTime'], $_SESSION['timeForTour']);
+            $stmt -> bind_result($maxPlayers, $activePlayers, $money, $players, $serverName, $_SESSION['serverStatus'],$_SESSION['gameTime'], $_SESSION['timeForTour']);
             $alfa = $stmt->num_rows;
             $stmt -> fetch();
             $stmt -> close();
@@ -42,7 +42,7 @@
             $stmt -> bind_param("is", $gameId, $passcode);
             $stmt -> execute();
             $stmt -> store_result();
-            $stmt -> bind_result($maxPlayers, $activePlayers, $money, $players, $_SESSION['serverName'], $_SESSION['serverStatus'],$_SESSION['gameTime'], $_SESSION['timeForTour']);
+            $stmt -> bind_result($maxPlayers, $activePlayers, $money, $players, $serverName, $_SESSION['serverStatus'],$_SESSION['gameTime'], $_SESSION['timeForTour']);
             $alfa = $stmt->num_rows;
             $stmt -> fetch();
             $stmt -> close();
@@ -74,12 +74,9 @@
             $stmt2 -> execute();
             $stmt2 -> close();
             mysqli_close($connection);
-            $_SESSION['maxPlayers'] = $maxPlayers;
-            $_SESSION['money'] = $money;
-            $_SESSION['place'] = 0;
             header("Location: ../queue.php");
         } else {
-            unset($_SESSION['serverName'], $_SESSION['serverStatus'],$_SESSION['serverActivplayers'],$_SESSION['gameTime'], $_SESSION['timeForTour'],$_SESSION['Players']);
+            unset($serverName, $_SESSION['serverStatus'],$_SESSION['serverActivplayers'],$_SESSION['gameTime'], $_SESSION['timeForTour'],$_SESSION['Players']);
             $_SESSION['error'] = "Nie udało się dołączyć!<br>";
             header("Location: ../gamesList.php");
         }

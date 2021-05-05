@@ -148,10 +148,12 @@ section img {
 }
 
 .statistics {
-    width: 100%;
+    width: 105%;
     height: 50%;
     text-align: left;
     margin: 0 auto;
+    left: -50px;
+    position: relative;
 }
 
 .statistics div {
@@ -203,8 +205,8 @@ section img {
 aside {
     position: absolute;
     top: 75px;
-    left: 80vw;
-    width: 20vw;
+    left: 83vw;
+    width: 17vw;
     height: calc(100vh - 75px);
     background: #34495e;
 }

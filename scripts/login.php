@@ -31,7 +31,6 @@
 		if ($userNum > 0 && password_verify($passcode, $hash)) {
 			$_SESSION['id'] = $id;
 			$_SESSION['nick'] = $nick;
-			$_SESSION['mail'] = $id;
 			$_SESSION['logged'] = true;
 			$_SESSION['theme'] = $theme;
 			$_SESSION['gameStatsPlayer'] = $statistic;

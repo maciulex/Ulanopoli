@@ -1,167 +1,157 @@
-function loadGamers(data2) {
+function doAll() {
+    var placeInData;
+    var data;
+    var ping = Date.now();
     var xmlrequest = new XMLHttpRequest();
     xmlrequest.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
-            var data = this.responseText;
-            document.getElementById("sryBroIKnowButSpanIsIdealForThat").innerHTML = "";
-            if (data != null && data != "") { 
-                drawPlayers(data);	
+            document.getElementById("otherPlayers").innerHTML = "";
+            document.getElementById("meHolder").innerHTML = "";
+
+            //[0] gamestatus [1]activePlayer, [2]maxPlayers, [3]baseMoney
+            //[4] time [5]players, [6]bool img, [7]nicks, [8]stats [9]bool me 
+            //[10] time for tour
+
+            data = this.responseText.split(";;");
+            if (data == null || data == "Fatal_ERROR" || data == "ERROR") { 
+                //alert("error");
+                //console.log("error");
             } else {
-                makeColors(lastData[3]);
+                data[5] = data[5].split(":");
+                data[6] = data[6].split(":");
+                data[7] = data[7].split(":");
+                data[8] = data[8].split("::");
+                data[9] = data[9].split(":");
+                //console.log(data);
+                for (var i = 0; i < 4; i++) {
+                    if (data[5][i] == "0") {
+                        continue;
+                    }
+                    if (data[9][i] != "true") {
+                        goWithBlock(i, "otherPlayers");
+                    } else {
+                        placeInData = i;
+                        goWithBlock(i, "meHolder");
+                    }
+                    dealRestData();
+                }
             }
+            console.log("Ping: "+(Date.now()-ping));
         }
     }
-    xmlrequest.open("GET", "scripts/playersQueueInfo.php?q="+data2, true);
+    xmlrequest.open("GET", "scripts/queueData.php", true);
     xmlrequest.send();
-    function drawPlayers(data) {
-        var players = data.split("::");
-        for (var i = 0; i < players.length; i++) {
-            var player = players[i].split(";;");
-            var morePlayer = player[0].split("..");
-            var id = morePlayer[0];
-            var nicks = morePlayer[1];
-            var stats = player[1];
-            goWithBlock(id,nicks,i);
-            ifEgzist(id);
-            makeStat(stats, id);
-        }
-        makeColors(lastData[3]);
+
+    function goWithBlock(i , where) {
+        //console.log(i);
+        var img = (data[6][i] == "true") ? data[5][i]+".jpg": "def.jpg";
+        document.getElementById(where).innerHTML += `
+        <section>
+            <span class="profileIMG"><img src="avatars/${img}"></span>
+            <div class="statisticsContainer">
+                <div class="profileInfo">
+                    <div class="nickname">
+                        <span class="${makeColors(i)}">${data[7][i]}</span>
+                    </div>
+                </div>
+                <div class="statistics">
+                    <div class="stats1">
+                        <span>${makeStat(data[8][i], "1")}</span>
+                    </div>
+                    <div class="stats2">
+                        <span>${makeStat(data[8][i], "2")}</span>
+                    </div>
+                    <div class="stats3">
+                        <span>${makeStat(data[8][i], "3")}</span>
+                    </div>
+                </div>
+            </div>
+        </section>`;
     }
-    function ifEgzist(id) {
-        var xmlrequest = new XMLHttpRequest();
-        xmlrequest.onreadystatechange = function () {
-            if (this.readyState == 4 && this.status == 200) {
-                var data = this.responseText;
-                if (data == "false") {
-                    document.getElementById("profileIMG"+id).innerHTML = "<img src=\"avatars/def.jpg\">";
-                } else {
-                    document.getElementById("profileIMG"+id).innerHTML = "<img src=\"avatars/"+id+".jpg\">";
-                }	
-            }
-        }
-        xmlrequest.open("GET", "scripts/playersQueueInfo.php?d="+id, true);
-        xmlrequest.send();	
-    }
-    function goWithBlock(id,nicks,s) {
-        document.getElementById("sryBroIKnowButSpanIsIdealForThat").innerHTML += "<section><span id=\"profileIMG"+id+"\"></span><div class=\"statisticsContainer\"><div class=\"profileInfo\"><div class=\"nickname\"><span id=\"nick"+id+"\">"+nicks+"</span></div></div><div class=\"statistics\"><div class=\"stats1\"><span id=\"stats1"+id+"\"></span></div><div class=\"stats2\"><span id=\"stats2"+id+"\"></span></div><div class=\"stats3\"><span id=\"stats3"+id+"\"></span></div></div></div></section>";
-    }
-}
-function makeStat(stats, s) {
-    var stats = stats;
-    stats = stats.split(":");
-    function plainText(i) {
+
+    function makeColors(i) {
         switch (i) {
             case 0:
-                return "Rozegrane gry: ";
+                return "blue";
             break;
             case 1:
-                return "Wygrane gry: ";
+                return "orange";
             break;
             case 2:
-                return "Największy majątek: ";
+                return "purple";
             break;
             case 3:
-                return "Najwięcej w portfelu: ";
-            break;
-            case 4:
-                return "Przegrane: ";
-            break;
-            case 5:
-                return "Wygrane/przegrane: ";
+                return "green";
             break;
         }
     }
-    for (var i = 0; i<stats.length;i++) {
-        var whileV = stats[i].split(";");
-        if (whileV[0][0] == "1") {
-            document.getElementById("stats"+whileV[0][2]+""+s).innerHTML = plainText(i) + whileV[1]; 
-        }
-    }
-}
-function loadGameInfo() {
-    var xmlrequest = new XMLHttpRequest();
-    xmlrequest.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-            var res = new Date().getTime()-pingS;
-            console.log("ping: "+res);
-            var data = this.responseText.split(";");
-            if (data[3] != lastData[3]) {
-                lastData=data;
-                loadGamers(lastData[3]);
+    function makeStat(stats, s) {
+        stats = stats.split(":");
+        function statisticGetText(i) {
+            switch (i) {
+                case 0:
+                    return "Rozegrane gry: ";
+                break;
+                case 1:
+                    return "Wygrane gry: ";
+                break;
+                case 2:
+                    return "Największy majątek: ";
+                break;
+                case 3:
+                    return "Najwięcej w portfelu: ";
+                break;
+                case 4:
+                    return "Przegrane: ";
+                break;
+                case 5:
+                    return "Wygrane/przegrane: ";
+                break;
             }
-            doDataThing(data);	
+        }
+        for (var i = 0; i < stats.length; i++) {
+            var whileV = stats[i].split(";");
+            if (whileV[0][0] == "1" && whileV[0][2] == s) {
+                
+                return statisticGetText(i)+" "+whileV[1]; 
+            }
         }
     }
-    xmlrequest.open("GET", "scripts/gameInfoLoad.php", true);
-    xmlrequest.send();
-    var pingS = new Date().getTime();
-}
-
-
-var interval = setInterval(loadGameInfo, 700);
-function doDataThing(data) {
-    var statusP = document.getElementById("status");
-    var host = lastData[3].split(":");
-    console.log(data +" "+ lastData);
-
-    if (data[2] == lastData[4] && host[0] == di) {
-        console.log(data +" "+ lastData);
-        document.getElementById("startButt").innerHTML = "<button onclick=\"gameStarto()\">Rozpocznij grę!</button>";
-    } else {
-        document.getElementById("startButt").innerHTML = "";
-    }
-    if (data[1] != "0") {
-        var href = window.location.href.slice(0, -9);
-        window.location.href = href+"gameBoard/index.php";
-    }
-    if (data[2] < maxplayer) {
-        statusP.innerHTML = "Oczekiwanie na graczy ("+data[2]+"/"+maxplayer+").";
-    } else {
-        statusP.innerHTML = "Oczekiwanie na rozpoczęcie przez niebieskiego!";
-    }
-}
-function gameStarto() {
-    var xmlrequest = new XMLHttpRequest();
-    xmlrequest.open("GET", "scripts/gameStarto.php", true);
-    xmlrequest.send();
-}
-function makeMoney(money) {
-    switch (money) {
-        case 1000000:
-            return "1mln";
-        break;
-        case 2000000:
-            return "2mln";
-        break;
-        case 3000000:
-            return "3mln";
-        break;
-    }
-}
-function makeColors(data) {
-data = data.split(":");
-    for (var i = 0; i <=3; i++) {
-        if (data[i] == 0) {
-            continue;
+    function dealRestData() {
+        var statusPlace = document.querySelector("#gameStatus");  
+        if (data[1] == data[2] && data[5][placeInData] == window.idMy) {
+            document.getElementById("startButt").innerHTML = "<button onclick=\"gameStarto()\">Rozpocznij grę!</button>";
+        } else {
+            document.getElementById("startButt").innerHTML = "";
         }
-        var mystyle;
-        switch (i) {
-            case 0:
-                mystyle = "blue";
+        //if (data[1] != "0") {
+        //    var href = window.location.href.slice(0, -9);
+        //    window.location.href = href+"gameBoard/index.php";
+        //}
+        if (data[1] < data[2]) {
+            statusPlace.innerHTML = "Oczekiwanie na graczy ("+data[1]+"/"+data[2]+").";
+        } else {
+            statusPlace.innerHTML = "Oczekiwanie na rozpoczęcie przez niebieskiego!";
+        }
+        document.querySelector("#gameTime").innerHTML = data[4];
+        document.querySelector("#gameTimeForTour").innerHTML = data[10];
+        document.querySelector("#gameStartMoney").innerHTML = makeMoney(data[3]);
+
+    }
+    function makeMoney(money) {
+        switch (parseInt(money)) {
+            case 1000000:
+                return "1mln";
             break;
-            case 1:
-                mystyle = "orange";
+            case 2000000:
+                return "2mln";
             break;
-            case 2:
-                mystyle = "purple";
-            break;
-            case 3:
-                mystyle = "green";
+            case 3000000:
+                return "3mln";
             break;
         }
-        document.getElementById("nick"+data[i]).classList.add(mystyle);
     }
 }
-loadGameInfo();
-makeStat(window.IDZ, window.di);
-document.getElementById("social").innerHTML = makeMoney(moneyC);
+
+doAll();
+var interval = setInterval(doAll, 700);

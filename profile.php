@@ -20,7 +20,7 @@
                 $file_tmp =$_FILES['image']['tmp_name'];
                 $file_type=$_FILES['image']['type'];
                 @$file_ext=strtolower(end(explode('.',$_FILES['image']['name'])));
-                $extensions= array("jpeg","jpg","png");
+                $extensions= array("jpg");
                 unset($_FILES['image']);
                 if(in_array($file_ext,$extensions)=== false){
                    $errors[]="Takie roszerzenie pliku jest zabronione prześlij JPEG lub PNG plik.";
@@ -168,7 +168,7 @@
                 <br><br><br><br><br><br>
                 Zmiana profilowego:<br>
             </form>
-            Zalecana wielkość 4/3 (wysokość/szerokość) i maksymalny rozmiar 2mb.
+            Zalecana wielkość 4/3 (wysokość/szerokość) i maksymalny rozmiar 2mb. tylko i wyłącznie jpg.
             <form action="" method="post" enctype="multipart/form-data">
                     <input type="file" name="image"><br>
                     <input type="submit" value="Prześlij" name="submit">
