@@ -23,8 +23,9 @@
 				<div id="greyBox">
 					<div id="textHolder">	
 						<div>
-							<button id="LogInB" onclick="log()">Logowanie</button>
+							<button id="RegInB" onclick="log()">Logowanie</button>
 							<button id="RegInB" onclick="reg()">Rejestracja</button>
+							<a href="info.php"><button>O stronie</button></a>
 						</div>
 						<div id="form">
 							<div id="changeble">

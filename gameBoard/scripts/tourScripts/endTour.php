@@ -11,6 +11,14 @@
     if ($gameData[4][$gameData[1]] == $_SESSION['id']) {
         echo $gameData[0];
         if ($gameData[0] == 2 || $gameData[0] == 1 || (($gameData[0] == 6 || $gameData[0] == 0) && $gameData[6][$gameData[1]] == 8)) {
+            if ($gameData[9][$gameData[1]] < 0) {
+                $logsValue = "System wykrył że gracz jednak musi coś sprzedać!";
+                $sql = 'UPDATE game SET, eventCode = 3, WHERE gameID = '.$_SESSION["gameId"];
+                $sql2 = 'UPDATE game SET logs = CONCAT(\''.$logsValue.'\',logs) WHERE gameID = '.$_SESSION["gameId"];
+                $connection -> multi_query($sql.";".$sql2);
+                mysqli_close($connection);
+                exit();
+            }
             if ($gameData[0] == 0 && $gameData[6][$gameData[1]] == 8 || !isset($gameData[2][0])) {
                 $gameData[2][0] = 1;
                 $gameData[2][1] = 0;
@@ -79,6 +87,7 @@
             $sql2 = 'UPDATE game SET logs = CONCAT(\''.$logsValue.'\',logs) WHERE gameID = '.$_SESSION["gameId"];
             $connection -> multi_query($sql.";".$sql2);
             header("Location: win.php");
+            mysqli_close($connection);
             exit();
         } else {
             echo "Error2";

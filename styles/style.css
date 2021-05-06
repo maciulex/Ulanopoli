@@ -44,12 +44,15 @@ input {
 	position: relative;
 	top: 10%;
 }
-#RegInB {
+.RegInB {
 	margin-left: 2.5%;
-}
-#LogInB {
 	margin-right: 2.5%;
+
 }
+
 #form {
 	margin-top: 10%;
+}
+#changeble span {
+	font-size: 20px;
 }

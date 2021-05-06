@@ -84,6 +84,26 @@
         $win[1] = intval($arr[6])-1;
         $win[2] = "Z konstruował monopol liniowy";
     }
+
+    checkWin();
+
+    //eliminacja 
+    $eliminationVar = -1;
+    for ($i = 0; $i < 4; $i++) {
+        if ($gameData[13][$i] != 1) {
+            if ($eliminationVar != -1) {
+                $eliminationVar = false;
+                break;
+            }
+            $eliminationVar = $i;
+        }
+    }
+    if ($eliminationVar != false) {
+        $win[0] = true;
+        $win[1] = $eliminationVar;
+        $win[0] = "Gracz wygrał poprzez eliminacje przeciwników.";
+    }
+    
     checkWin();
     function checkWin() {
         global $win, $gameData, $connection;
@@ -99,7 +119,7 @@
             $conditionUser = implode(" OR ",$conditionUser);
             $sqlUser = "UPDATE users SET inGame = 0 WHERE ".$conditionUser;
             $sql = 'UPDATE game SET gameStatus = 2, whosTour = 6, winner = "'.$win[1].":".$win[2].'" WHERE gameID = '.$_SESSION['gameId'];
-            echo $sql.";".$sqlUser;
+            //echo $sql.";".$sqlUser;
             $connection -> multi_query($sql.";".$sqlUser);
         }
     }

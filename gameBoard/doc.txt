@@ -1,4 +1,10 @@
 To repair/to do
+	sznsa
+	jak ktoś sprzedaje wyspe to niech mu się usunei z islands
+
+
+
+
 	gameBoard/app.js/onLoad timeLeft
 	można spróbować zatrzymać interwał reflsha podczas tury gracza
 	dodanie zwiększonej ceny na polu mistrzost świata

@@ -6,7 +6,7 @@ function log() {
 function reg() {
 	document.getElementById("blueBox").style.height = "115%";
 	document.getElementById("greyBox").style.width = "70%";
-	document.getElementById("changeble").innerHTML = "<form method=\"post\" action=\"scripts/register.php\">Nick: <input type=\"text\" name=\"nick\"><br><br>email: <input type=\"email\" name=\"email\"><br><br>Hasło: <input type=\"password\" name=\"passcode\"><br><br>Powtórz Hasło: <input type=\"password\" name=\"passcode2\"><br><br>Akceptuje regulamin: <input type=\"checkbox\" name=\"ch1\"><br><br><button>Zarejestruj</button></form>"
+	document.getElementById("changeble").innerHTML = "<form method=\"post\" action=\"scripts/register.php\">Nick: <input type=\"text\" name=\"nick\"><br><br>email: <input type=\"email\" name=\"email\"><br><br>Hasło: <input type=\"password\" name=\"passcode\"><br><br>Powtórz Hasło: <input type=\"password\" name=\"passcode2\"><br><br>Akceptuje <a href=\"https://www.sejm.gov.pl/prawo/konst/polski/kon1.htm\" target=\"blank\">regulamin</a>: <input type=\"checkbox\" name=\"ch1\"><br><br><button>Zarejestruj</button></form>"
 }
 
 var passCheckStatus = false;

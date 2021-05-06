@@ -61,9 +61,7 @@
 					var href = window.location.href.slice(0, -13);
 					if (b==true) {
 						var pac = prompt("Podaj hasło jeżeli, jeżeli nie ma nic nie wpisuj");
-						if (pac.length > 3) {
-							window.location.replace(href+"scripts/join.php?q="+a+"&p="+pac);
-						}
+						window.location.replace(href+"scripts/join.php?q="+a+"&p="+pac);
 					} else {
 						window.location.replace(href+"scripts/join.php?q="+a);
 					}'; 
