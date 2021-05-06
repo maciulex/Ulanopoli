@@ -9,6 +9,7 @@
 	<meta charset="utf-8">
 	<script>
 		var nick = "<?php echo $_SESSION['nick']; ?>";
+		var serverId = <?php echo $_SESSION['gameId']; ?>;
 	</script>
 	<script src="app.js" defer></script>
 </head>

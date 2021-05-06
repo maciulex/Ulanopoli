@@ -240,7 +240,7 @@
                         } else if (intval($fildData[0]) == 0) {
                             //Kupienie pustego pola;
                             $logsValue .= "<p>Gracz próbuje kupić puste pole</p>";
-                            if ($gameData[9][$gameData[1]] < $lvl[$lvlNumber] && ) {
+                            if ($gameData[9][$gameData[1]] < $lvl[$lvlNumber]) {
                                 echo "Error to low money";
                                 $logsValue .= "<span>Błąd za mało pieniędzy, posiadane: ".$gameData[9][$gameData[1]].", wymagane: ".$lvl[$lvlNumber]."</span>";
                                 updateLogs();

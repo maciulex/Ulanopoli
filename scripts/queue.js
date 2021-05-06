@@ -119,7 +119,13 @@ function doAll() {
     }
     function dealRestData() {
         var statusPlace = document.querySelector("#gameStatus");  
-        if (data[1] == data[2] && data[5][placeInData] == window.idMy) {
+        console.log(data[5][placeInData]);
+        console.log(data[5]);
+        console.log(placeInData);
+
+        console.log(window.idMy);
+
+        if (data[1] == data[2] && parseInt(data[5][0]) == window.idMy) {
             document.getElementById("startButt").innerHTML = "<button onclick=\"gameStarto()\">Rozpocznij grę!</button>";
         } else {
             document.getElementById("startButt").innerHTML = "";

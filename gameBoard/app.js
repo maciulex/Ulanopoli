@@ -109,9 +109,10 @@ function bancruit() {
 async function refleshCheck() {
     var baseData = await getChangingGameData();
     //console.log(baseData);
-    Cgame.fildsNfo = baseData[6].split(";");
-    Cgame.whosTour = baseData[5].split(";");
-    Cgame.tour  = baseData[2].split(";");
+    Cgame.gameStatus = parseInt(baseData[0]);
+    Cgame.tour  =      baseData[2].split(";");
+    Cgame.whosTour =   baseData[5].split(";");
+    Cgame.fildsNfo =   baseData[6].split(";");
     Cgame.chempionFild=parseInt(baseData[14]);
     var place   = baseData[7].split(":");
     var money   = baseData[8].split(":");
@@ -131,7 +132,7 @@ async function refleshCheck() {
     }
     //console.log(baseData);
     if (Cgame.gameStatus == 2) {
-        window.location.href = "../gameWined/index.php";
+        window.location.href = "../gameWined/index.php?server="+window.serverId;
     }
     if (Cplayers[baseData[5]].me == true) {
         //console.log("It's me mario 1");
