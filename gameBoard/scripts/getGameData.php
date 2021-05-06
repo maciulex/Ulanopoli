@@ -17,33 +17,32 @@
         $maxPlayers;
         $sql = "SELECT * FROM game WHERE gameID = ".$_SESSION["gameId"];
         $result = $connection -> query($sql);
-        while ($row = $result -> fetch_object()) {
-            echo $row->serverName.";;";
-            echo $row->gameStatus.";;";
-            echo $row->activePlayer.";;";
-            echo $row->baseMoney.";;";
-            echo $row->maxPlayers.";;";
-            $maxPlayers = $row->maxPlayers;
-            echo $row->time.";;";
-            echo $row->timeForTour.";;";
-            echo $row->tour.";;";
-            echo $row->eventCode.";;";
-            echo $row->logs.";;";
-            echo $row->players.";;";
-            $players = $row->players;
-            echo $row->startTime.";;";
-            echo $row->whosTour.";;";
-            echo $row->fildsNfo.";;";
-            echo $row->place.";;";
-            echo $row->money.";;";
-            echo $row->cards.";;";
-            echo $row->trowed.";;";
-            echo $row->movesCodes.";;";
-            echo $row->islands.";;";
-            echo $row->wealth.";;";
-            echo $row->championsFild.";;";
-
-        }
+        $row = $result -> fetch_object();
+        echo $row->serverName.";;";
+        echo $row->gameStatus.";;";
+        echo $row->activePlayer.";;";
+        echo $row->baseMoney.";;";
+        echo $row->maxPlayers.";;";
+        $maxPlayers = $row->maxPlayers;
+        echo $row->time.";;";
+        echo $row->timeForTour.";;";
+        echo $row->tour.";;";
+        echo $row->eventCode.";;";
+        echo $row->logs.";;";
+        echo $row->players.";;";
+        $players = $row->players;
+        echo $row->startTime.";;";
+        echo $row->whosTour.";;";
+        echo $row->fildsNfo.";;";
+        echo $row->place.";;";
+        echo $row->money.";;";
+        echo $row->cards.";;";
+        echo $row->trowed.";;";
+        echo $row->movesCodes.";;";
+        echo $row->islands.";;";
+        echo $row->wealth.";;";
+        echo $row->championsFild.";;";
+        $rounds = $row->rounds.";;";
         $players = explode(":", $players);
         for ($i = 0; $i < $maxPlayers; $i++) {
             $sql = "SELECT * FROM users WHERE id = ".intval($players[$i]);
@@ -52,6 +51,7 @@
                 echo $row->nickname.":";
             }
         }
+        echo ";;".$rounds;
 
     }
 ?>

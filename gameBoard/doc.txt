@@ -37,6 +37,7 @@ BAZA DANYCH
 		championsFild= zawiera int'a z numerem pola mającym mistrzostwa świata powinno 
 		bancruit     = zawiera stringa w formie 0:0:0:0 gdzie każde zero odpowiada stanu płynności finansowej a 1 odpowiada bankrutctwu 
 		winner       = zawiera pozycje wygranego gracz : sposób wygranej (txt)
+		rounds 		 = zawiera informacje ile kto zrobił kółek 
 	filds
 
 	KARTY
@@ -143,7 +144,7 @@ GAME BOARD DOC
 					[3]baseMoney, [4]maxPlayers, [5]time, [6]timeForTour, [7]tour, [8]eventCode,
 					[9]logs, [10]players, [11]startTime, [12]whosTour, [13]fildsNfo, [14]place, 
 					[15]money, [16]cards, [17]trowed, [18]movesCodes, [19]islands, [20]wealth, 
-					[21] championsFild [22]nicki graczy	
+					[21] championsFild [22]nicki graczy	[23] rounds
 	getGameChangingData.php
 		zwraca dane które podczas rozgrywki się zmieniają
 		w razie nie powodzenia zwróci 'Error'
@@ -165,5 +166,6 @@ GAME BOARD DOC
 		dane są w postaci arraya jeden raz explodowanego oprócz cards z nimi nic nie było robione
 		 [0]eventCode, [1]whosTour, [2]trowed, [3]movesCodes, [4]players, [5]fildsNfo, 
 		 [6]place, [7]gameStatus, [8]cards, [9]money, [10]islands, [11]wealth [12] championsFild
+		 [13] bancruit [14] bancruit [15] rounds
 0:0:1;2:1:1;0:0:1;0:0:1;0:0:1;0:0:1;1:4:1;0:0:1;0:0:1;1:0:1;0:0:1;0:0:1;0:0:1;1:1:1;0:0:1;0:0:1;0:0:1;0:0:1;0:0:1;0:0:1;0:0:1;0:0:1;1:0:1;0:0:1;0:0:1;0:0:1;0:0:1;0:0:1;0:0:1;2:0:1;0:0:1;1:0:1
 0:0:1;2:1:1;0:0:1;0:0:1;0:0:1;0:0:1;1:4:1;0:0:1;0:0:1;1:0:1;0:0:1;0:0:1;0:0:1;1:1:1;0:0:1;0:0:1;0:0:1;0:0:1;0:0:1;0:0:1;0:0:1;0:0:1;1:0:1;0:0:1;0:0:1;0:0:1;0:0:1;0:0:1;0:0:1;2:0:1;0:0:1;1:0:1

@@ -76,7 +76,7 @@
             }
             $sql = 'UPDATE game SET trowed = NULL, eventCode = 0, whosTour = '.$whoTour.$tour.$movesCodes.' WHERE gameID = '.$_SESSION["gameId"];
             echo $sql;
-            $sql2 = 'UPDATE game SET logs = CONCAT(logs, \''.$logsValue.'\') WHERE gameID = '.$_SESSION["gameId"];
+            $sql2 = 'UPDATE game SET logs = CONCAT(\''.$logsValue.'\',logs) WHERE gameID = '.$_SESSION["gameId"];
             $connection -> multi_query($sql.";".$sql2);
             header("Location: win.php");
             exit();

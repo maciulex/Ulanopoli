@@ -33,6 +33,7 @@
             echo $row->islands.";;";
             echo $row->wealth.";;";
             echo $row->championsFild.";;";
+            echo $row->rounds;
         }
     }
 ?>

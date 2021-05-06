@@ -29,7 +29,7 @@ class Game {
 }
 
 class Player {
-    constructor (id,name,money,place,cards,me,islands,wealth,moveCode) {
+    constructor (id,name,money,place,cards,me,islands,wealth,moveCode,rounds) {
         this.id =      id;
         this.name =    name;
         this.money =   money;
@@ -39,6 +39,7 @@ class Player {
         this.islands = islands;
         this.wealth =  wealth;
         this.moveCode = moveCode;
+        this.rounds = moveCode;
     }
 }
 
@@ -107,6 +108,7 @@ function bancruit() {
 
 async function refleshCheck() {
     var baseData = await getChangingGameData();
+    //console.log(baseData);
     Cgame.fildsNfo = baseData[6].split(";");
     Cgame.whosTour = baseData[5].split(";");
     Cgame.tour  = baseData[2].split(";");
@@ -117,6 +119,7 @@ async function refleshCheck() {
     var moveCode= baseData[11].split(":");
     var islands = baseData[12].split(":");
     var wealth  = baseData[13].split(":");
+    var rounds  = baseData[15].split(":");
     for (var i = 0; i < Cgame.maxPlayer; i++) {
         Cplayers[i].place   = parseInt(place[i]);
         Cplayers[i].money   = parseInt(money[i]);
@@ -124,6 +127,7 @@ async function refleshCheck() {
         Cplayers[i].cards   = cards[i];
         Cplayers[i].islands = parseInt(islands[i]);
         Cplayers[i].moveCode= parseInt(moveCode[i]);
+        Cplayers[i].rounds= parseInt(rounds[i]);
     }
     //console.log(baseData);
     if (Cplayers[baseData[5]].me == true) {
@@ -393,19 +397,21 @@ async function myTourEngine() {
                 var fild = Cgame.fildsNfo[place].split(":");
                 var price = [];
                 var disable = ["","","","",""];
+                //kupienie pustego
                 if (fild[0] == 0) {
                     for (var i = 0; i < 5; i++) {
                         console.log(fildsDataGame[place][i]);
-                        if (Cplayers[meIntVal].money > fildsDataGame[place][i]) {
+                        if (Cplayers[meIntVal].money > fildsDataGame[place][i] && i != 4) {
                             price.push(fildsDataGame[place][i]);
                         } else {
                             price.push(fildsDataGame[place][i]);
                             disable[i] = "disabled";  
                         }
                     }
+                //ulepszenie
                 } else if (Cplayers[(fild[0]-1)].me == true) {
                     for (var i = 0; i < 5; i++) {
-                        if (fild[1] >= i) {
+                        if (fild[1] >= i || (fild[1] != 3 && i == 4)) {
                             price.push(fildsDataGame[place][i]);
                             disable[i] = "disabled";
                         } else {
@@ -419,7 +425,7 @@ async function myTourEngine() {
                     }
                 } else {
                     for (var i = 0; i < 5; i++) {
-                        if (fild[1] > i) {
+                        if (fild[1] > i || fild[1] == 4 || (fild[1] != 3 && i == 4)) {
                             price.push(fildsDataGame[place][i]*2);
                             disable[i] = "disabled";
                         } else {
@@ -641,7 +647,7 @@ function drawFilds() {
         document.querySelector("#player"+(i+1)+" .moneyNumber").innerHTML = Cplayers[i].money;
     }
     //console.log(Cgame.chempionFild);
-    if (!isNaN(Cgame.chempionFild)) {
+    if (!isNaN(Cgame.chempionFild) && Cgame.chempionFild != "") {
         //console.log(Cgame.fildsNfo[Cgame.chempionFild]);
         var fild = Cgame.fildsNfo[Cgame.chempionFild].split(":");
         var price = (fildsDataGame[Cgame.chempionFild][fild[1]]/2)*parseFloat(fild[2]);
@@ -670,6 +676,7 @@ async function onLoad() {
     var islands =  allGameData[19].split(":");
     var wealth =   allGameData[20].split(":");
     var nicks =    allGameData[22].split(":");
+    var rounds =    allGameData[23].split(":");
     Cgame = new Game (allGameData[1],allGameData[0],allGameData[2],allGameData[3],allGameData[4],allGameData[5],allGameData[6],allGameData[7],players,allGameData[11],allGameData[12],fildsNfo,timeLeft,parseInt(allGameData[allGameData.length-2]));
     for (var i = 0; i < allGameData[4]; i++) {
         var me = false;
@@ -677,7 +684,7 @@ async function onLoad() {
             me = true;
             meIntVal = i;
         }
-        var placeholderClass = new Player (parseInt(id[i]),nicks[i],parseInt(money[i]),parseInt(place[i]),cards[i], me, parseInt(islands[i]), parseInt(wealth[i]),parseInt(moveCode[i]));
+        var placeholderClass = new Player (parseInt(id[i]),nicks[i],parseInt(money[i]),parseInt(place[i]),cards[i], me, parseInt(islands[i]), parseInt(wealth[i]),parseInt(moveCode[i]), parseInt(rounds[i]));
         Cplayers.push(placeholderClass);
         idPositons.push(id[i]);
     }

@@ -124,10 +124,10 @@ function doAll() {
         } else {
             document.getElementById("startButt").innerHTML = "";
         }
-        //if (data[1] != "0") {
-        //    var href = window.location.href.slice(0, -9);
-        //    window.location.href = href+"gameBoard/index.php";
-        //}
+        if (data[1] != "0") {
+            var href = window.location.href.slice(0, -9);
+            window.location.href = href+"gameBoard/index.php";
+        }
         if (data[1] < data[2]) {
             statusPlace.innerHTML = "Oczekiwanie na graczy ("+data[1]+"/"+data[2]+").";
         } else {
@@ -151,6 +151,12 @@ function doAll() {
             break;
         }
     }
+}
+
+function gameStarto() {
+    var xmlrequest = new XMLHttpRequest();
+    xmlrequest.open("GET", "scripts/gameStarto.php", true);
+    xmlrequest.send();
 }
 
 doAll();

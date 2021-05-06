@@ -10,6 +10,7 @@
         exit();
     }
     $chempionFild="";
+    $rounds = "";
     $logsValue = '<div class="L_BuyFilds">';
     $lvlNumber = intval($_GET['l'])-1; 
     $fild = $gameData[6][$gameData[1]];
@@ -188,6 +189,8 @@
                         if ($_GET['l'] < 24) {
                             $gameData[9][$gameData[1]] += 200000;
                             $gameData[11][$gameData[1]] += 200000;
+                            $gameData[14][$gameData[1]] += 1;
+                            $rounds = ', rounds = "'.implode(":",$gameData[14]).'"';
                             $logsValue .= "Gracz otrzymuje 200k za przekroczenie startu.";
                         }
                         //echo "git ".$gameData[5][$_GET['id']];
@@ -205,6 +208,10 @@
                         $fildData = explode(":",$gameData[5][$fild]);
                         $fildData[0] = intval($fildData[0]);
                         $fildData[1] = intval($fildData[1]);
+                        if ($fildData[1] != 3 && $lvlNumber == 4) {
+                            echo "ERROR";
+                            $logsValue .= "<span>Błąd: Gracz kupuje hotel mimo że budynek ma poziom < 4</span>";
+                        }
                         echo " ".$fildData[1] ." ". $lvlNumber;
                         //ulepszenie
                         if ($fildData[0] == $gameData[1]+1) {
@@ -233,7 +240,7 @@
                         } else if (intval($fildData[0]) == 0) {
                             //Kupienie pustego pola;
                             $logsValue .= "<p>Gracz próbuje kupić puste pole</p>";
-                            if ($gameData[9][$gameData[1]] < $lvl[$lvlNumber]) {
+                            if ($gameData[9][$gameData[1]] < $lvl[$lvlNumber] && ) {
                                 echo "Error to low money";
                                 $logsValue .= "<span>Błąd za mało pieniędzy, posiadane: ".$gameData[9][$gameData[1]].", wymagane: ".$lvl[$lvlNumber]."</span>";
                                 updateLogs();
@@ -254,6 +261,8 @@
                                 $logsValue .= "<span>Błąd za mało pieniędzy, posiadane: ".$gameData[9][$gameData[1]].", wymagane: ".$lvl[$lvlNumber]."</span>";
                                 updateLogs();
                                 exit();   
+                            } else if ($fildData[1] == 4) {
+                                $logsValue .= "<span>Nie da się odkupić hotelu innego gracza!</span>";
                             } else {
                                 $logsValue .= "<span>Cena: ".$lvl[$lvlNumber]."</span><span>Pieniądze: ".$gameData[9][$gameData[1]]."</span>";
                                 $logsValue .= "<span>Powodzenie!</span>";
@@ -273,7 +282,7 @@
                 break;
             }
             $logsValue .= "</div>";
-            $sql = 'UPDATE game SET money = "'.implode(":",$gameData[9]).'", wealth = "'.implode(":", $gameData[11]).'", fildsNfo = "'.implode(";",$gameData[5]).'", eventCode = '.$eventCode.', islands ="'.implode(":",$gameData[10]).'", movesCodes = "'.implode(":", $gameData[3]).'", cards = "'.implode(":", $gameData[8]).'" '.$chempionFild.', place = "'.implode(":",$gameData[6]).'" WHERE gameID = '. $_SESSION['gameId'];
+            $sql = 'UPDATE game SET money = "'.implode(":",$gameData[9]).'", wealth = "'.implode(":", $gameData[11]).'", fildsNfo = "'.implode(";",$gameData[5]).'", eventCode = '.$eventCode.', islands ="'.implode(":",$gameData[10]).'", movesCodes = "'.implode(":", $gameData[3]).'", cards = "'.implode(":", $gameData[8]).'" '.$chempionFild.$rounds.', place = "'.implode(":",$gameData[6]).'" WHERE gameID = '. $_SESSION['gameId'];
             //echo $sql;
             $sql2 = 'UPDATE game SET logs = CONCAT(logs, \''.$logsValue.'\') WHERE gameID = '.$_SESSION["gameId"];
             $connection -> multi_query($sql.";".$sql2);
@@ -287,7 +296,7 @@
     }
     function updateLogs() {
         $logsValue .= "</div>";
-        $sql = 'UPDATE game SET logs = CONCAT(logs, \''.$logsValue.'\') WHERE gameID = '.$_SESSION["gameId"];
+        $sql = 'UPDATE game SET logs = CONCAT(\''.$logsValue.'\',logs) WHERE gameID = '.$_SESSION["gameId"];
         $connection -> query($sql);
     }
     

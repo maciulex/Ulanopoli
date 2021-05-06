@@ -8,13 +8,14 @@
     $trow1=-1;
     $trow2=1;
     $eventCode=1;
+    $rounds = "";
     if ($gameData[4][$gameData[1]] == $_SESSION['id']) {
         if ($gameData[0] == 0) {
             if ($gameData[3][$gameData[1]] == 0) {
                 $trow1 = rand(1,6);
                 $trow2 = rand(1,6);
-                //$trow1 = 0;
-                //$trow2 = 0;
+                $trow1 = 0;
+                $trow2 = 0;
                 $eventCode = 1;
                 $logsValue .= "<span>Rzut kostkami: ".$trow1.", ".$trow2."</span>";
                 $gameData[6][$gameData[1]] += $trow1 + $trow2;
@@ -22,6 +23,8 @@
                     $gameData[6][$gameData[1]] -= 31;
                     $gameData[9][$gameData[1]] += 200000;
                     $gameData[11][$gameData[1]] += 200000;
+                    $gameData[14][$gameData[1]] += 1;
+                    $rounds = ', rounds = "'.implode(":",$gameData[14]).'"';
                     $logsValue .= "<span>Gracz przekroczył start! Dodanie 200k Saldo po operacji: ".$gameData[9][$gameData[1]].", przed operacją: ".($gameData[9][$gameData[1]]-200000)."</span>";
                 } 
                 $fildInfo = explode(":",$gameData[5][$gameData[6][$gameData[1]]]);
@@ -97,8 +100,9 @@
                 echo ":false";
             }
             $logsValue .= "</div>";
-            $sql = 'UPDATE game SET money = "'.implode(":",$gameData[9]).'",wealth="'.implode(":",$gameData[11]).'", place = "'.implode(":",$gameData[6]).'", trowed = "'.$trow1.$trow2.'", eventCode = '.$eventCode.', movesCodes = "'.implode(":",$gameData[3]).'" WHERE gameID = '.$_SESSION["gameId"];
-            $sql2 = 'UPDATE game SET logs = CONCAT(logs, \''.$logsValue.'\') WHERE gameID = '.$_SESSION["gameId"];
+            $sql = 'UPDATE game SET money = "'.implode(":",$gameData[9]).'",wealth="'.implode(":",$gameData[11]).'", place = "'.implode(":",$gameData[6]).'", trowed = "'.$trow1.$trow2.'", eventCode = '.$eventCode.', movesCodes = "'.implode(":",$gameData[3]).'"'.$rounds.' WHERE gameID = '.$_SESSION["gameId"];
+            echo $sql;
+            $sql2 = 'UPDATE game SET logs = CONCAT(\''.$logsValue.'\',logs) WHERE gameID = '.$_SESSION["gameId"];
             $connection -> multi_query($sql.";".$sql2);
             exit();
         } else {

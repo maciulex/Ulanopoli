@@ -13,7 +13,7 @@
         echo "Connection_Error";
         exit();
     } else {
-        $sql = "SELECT eventCode, whosTour, trowed, movesCodes, players, fildsNfo, place, gameStatus, cards, money, islands, wealth, championsFild,bancruit FROM game WHERE gameID = ". $_SESSION["gameId"];
+        $sql = "SELECT eventCode, whosTour, trowed, movesCodes, players, fildsNfo, place, gameStatus, cards, money, islands, wealth, championsFild,bancruit,rounds FROM game WHERE gameID = ". $_SESSION["gameId"];
         $result = $connection -> query($sql);
         while ($row = $result -> fetch_object()) {
             $gameData[] = intval($row -> eventCode);
@@ -30,6 +30,7 @@
             $gameData[] = explode(":",$row -> wealth);
             $gameData[] = intval($row -> championsFild);
             $gameData[] = explode(":",$row -> bancruit);
+            $gameData[] = explode(":",$row -> rounds);
             for ($i = 0; $i < 4; $i++) {
                 $gameData[3][$i] = intval($gameData[3][$i]);
                 $gameData[4][$i] = intval($gameData[4][$i]);
@@ -38,6 +39,7 @@
                 $gameData[10][$i] = intval($gameData[10][$i]);
                 $gameData[11][$i] = intval($gameData[11][$i]);
                 $gameData[13][$i] = intval($gameData[13][$i]);
+                $gameData[14][$i] = intval($gameData[14][$i]);
             }
         }
     }

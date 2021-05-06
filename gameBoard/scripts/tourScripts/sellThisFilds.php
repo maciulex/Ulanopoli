@@ -61,7 +61,7 @@
             $logsValue .= "<span>Saldo przed operacją: ".$gameData[9][$gameData[1]]." Saldo po operacji: ".($gameData[9][$gameData[1]] + $fildsMoney)."<span>";
             $gameData[9][$gameData[1]] += $fildsMoney;
             $sql = 'UPDATE game SET money = "'.implode(":",$gameData[9]).'", wealth = "'.implode(":", $gameData[11]).'", fildsNfo = "'.implode(";",$gameData[5]).'", eventCode = 2 WHERE gameID = '. $_SESSION['gameId'];
-            $sql2 = 'UPDATE game SET logs = CONCAT(logs, \''.$logsValue.'\') WHERE gameID = '.$_SESSION["gameId"];
+            $sql2 = 'UPDATE game SET logs = CONCAT(\''.$logsValue.'\',logs) WHERE gameID = '.$_SESSION["gameId"];
             $connection -> multi_query($sql.";".$sql2);
             echo "LIFU";
         }
