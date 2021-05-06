@@ -61,7 +61,7 @@
         $win[1] = 3;
         $win[2] = "Z konstruował 3 monopole.";
     }
-    //checkWin();
+    checkWin();
 
     //monopol liniowy
     if ($arr[0] != false && $arr[0] == $arr[1] && $arr[1] == $gameData[5][4][0]) {

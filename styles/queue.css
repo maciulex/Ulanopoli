@@ -209,4 +209,5 @@ aside {
     width: 17vw;
     height: calc(100vh - 75px);
     background: #34495e;
+    color: white;
 }

@@ -33,8 +33,8 @@ function doAll() {
                         placeInData = i;
                         goWithBlock(i, "meHolder");
                     }
-                    dealRestData();
                 }
+                dealRestData();
             }
             console.log("Ping: "+(Date.now()-ping));
         }
@@ -124,7 +124,8 @@ function doAll() {
         } else {
             document.getElementById("startButt").innerHTML = "";
         }
-        if (data[1] != "0") {
+        console.log(data[1]);
+        if (data[0] != "0") {
             var href = window.location.href.slice(0, -9);
             window.location.href = href+"gameBoard/index.php";
         }

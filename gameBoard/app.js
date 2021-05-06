@@ -130,6 +130,9 @@ async function refleshCheck() {
         Cplayers[i].rounds= parseInt(rounds[i]);
     }
     //console.log(baseData);
+    if (Cgame.gameStatus == 2) {
+        window.location.href = "../gameWined/index.php";
+    }
     if (Cplayers[baseData[5]].me == true) {
         //console.log("It's me mario 1");
         if (myTour != true) {

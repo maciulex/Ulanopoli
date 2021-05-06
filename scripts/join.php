@@ -47,6 +47,12 @@
             $stmt -> fetch();
             $stmt -> close();
         }  
+        if ($_SESSION['serverStatus'] == "2") {
+            unset($serverName, $_SESSION['serverStatus'],$_SESSION['serverActivplayers'],$_SESSION['gameTime'], $_SESSION['timeForTour'],$_SESSION['Players']);
+            header("Location: ../gameWined/index.php?server=".$gameId);
+            mysqli_close($connection);
+            exit();
+        }
         $_SESSION['Players'] = $players;  
         $players = explode(":",$players);
         for ($i = 0; $i<4; $i++) {

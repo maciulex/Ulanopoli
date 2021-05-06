@@ -166,6 +166,6 @@ GAME BOARD DOC
 		dane są w postaci arraya jeden raz explodowanego oprócz cards z nimi nic nie było robione
 		 [0]eventCode, [1]whosTour, [2]trowed, [3]movesCodes, [4]players, [5]fildsNfo, 
 		 [6]place, [7]gameStatus, [8]cards, [9]money, [10]islands, [11]wealth [12] championsFild
-		 [13] bancruit [14] bancruit [15] rounds
+		 [13] bancruit  [14] rounds
 0:0:1;2:1:1;0:0:1;0:0:1;0:0:1;0:0:1;1:4:1;0:0:1;0:0:1;1:0:1;0:0:1;0:0:1;0:0:1;1:1:1;0:0:1;0:0:1;0:0:1;0:0:1;0:0:1;0:0:1;0:0:1;0:0:1;1:0:1;0:0:1;0:0:1;0:0:1;0:0:1;0:0:1;0:0:1;2:0:1;0:0:1;1:0:1
 0:0:1;2:1:1;0:0:1;0:0:1;0:0:1;0:0:1;1:4:1;0:0:1;0:0:1;1:0:1;0:0:1;0:0:1;0:0:1;1:1:1;0:0:1;0:0:1;0:0:1;0:0:1;0:0:1;0:0:1;0:0:1;0:0:1;1:0:1;0:0:1;0:0:1;0:0:1;0:0:1;0:0:1;0:0:1;2:0:1;0:0:1;1:0:1

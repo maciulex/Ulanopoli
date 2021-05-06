@@ -3,7 +3,7 @@
 	if (!isset($_SESSION['logged'])) {
 		header("Location: index.php");
 		exit();
-	}
+	}	
 	if (!isset($_SESSION['serverName'])) {
 		require_once "base.php";
 		$connection = new mysqli($host,	$db_user, $db_passcode, $db_name);
@@ -62,7 +62,7 @@
 					if (b==true) {
 						var pac = prompt("Podaj hasło jeżeli, jeżeli nie ma nic nie wpisuj");
 						if (pac.length > 3) {
-							window.location.replace(href+"join.php?q="+a+"&p="+pac);
+							window.location.replace(href+"scripts/join.php?q="+a+"&p="+pac);
 						}
 					} else {
 						window.location.replace(href+"scripts/join.php?q="+a);
@@ -101,7 +101,7 @@
 							
 						}
 					}
-					xmlrequest.open("GET", "gameInfoLoad.php", true);
+					xmlrequest.open("GET", "scripts/gameInfoLoad.php", true);
 					xmlrequest.send();
 					var pingS = new Date().getTime();
 				}
