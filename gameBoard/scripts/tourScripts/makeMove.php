@@ -9,6 +9,7 @@
     $trow2=1;
     $eventCode=1;
     $rounds = "";
+    //print_r($gameData);
     if ($gameData[4][$gameData[1]] == $_SESSION['id']) {
         if ($gameData[0] == 0) {
             if ($gameData[3][$gameData[1]] == 0) {
@@ -56,7 +57,7 @@
                         $gameData[9][$fildInfo[0]-1] += $price;
                         $gameData[11][$fildInfo[0]-1] += $price;
                     }
-                    $logsValue .= "<span>Gracz(".($gameData[1]+1).") wylądował na polu innego gracza(".$fildInfo[0].").</span>";
+                    $logsValue .= "<span>Gracz(".($gameData[15][$gameData[1]]).") wylądował na polu innego gracza(".$gameData[15][$fildInfo[0]-1].").</span>";
                     $logsValue .= "<span>Koszt: ".($data[$fildInfo[1]]/2)."</span>";
                     $logsValue .= "<span>Saldo gracza: ".$gameData[9][$gameData[1]].", przed: ".($gameData[9][$gameData[1]]+$price)."</span>";
                     $logsValue .= "<span>Saldo właściciela pola: ".$gameData[9][$fildInfo[0]-1].", przed: ".($gameData[9][$fildInfo[0]-1]-$price)."</span>";

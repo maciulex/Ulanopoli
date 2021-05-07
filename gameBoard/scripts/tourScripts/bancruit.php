@@ -33,7 +33,7 @@
     }
     $gameData[13][$gameData[1]] = 1;
     print_r($gameData[5]);
-    $logsValue = "<span>Gracz z numerem: ".$gameData[1]." zbankrutował ):</span>";
+    $logsValue = "<span>Gracz ".$gameData[15][$gameData[1]]." zbankrutował ):</span>";
     $sql = 'UPDATE game SET bancruit = "'.implode(":", $gameData[13]).'", fildsNfo = "'.implode(";",$gameData[5]).'", eventcode = 2 WHERE gameID = '.$_SESSION['gameId'];
     $sql2 = 'UPDATE game SET logs = CONCAT(\''.$logsValue.'\',logs) WHERE gameID = '.$_SESSION["gameId"];
     echo $sql;

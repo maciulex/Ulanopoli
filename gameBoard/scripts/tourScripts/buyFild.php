@@ -270,8 +270,8 @@
                                 $gameData[11][$gameData[1]] -= $lvl[$lvlNumber];
                                 $gameData[9][$fildData[0]-1] += $lvl[$lvlNumber]*2;
                                 $gameData[9][$fildData[0]-1] += $lvl[$lvlNumber];
-                                $logsValue .= "<span>Kupujący (".($gameData[1]+1).") - Saldo po operacji: ".$gameData[9][$gameData[1]].", Majątek po operacji: ".$gameData[11][$gameData[1]]."</span>";
-                                $logsValue .= "<span>Sprzedawca (".$fildData[0].") - Saldo po operacji: ".$gameData[9][$fildData[0]-1].", Majątek po operacji: ".$gameData[9][$fildData[0]-1]."</span>";
+                                $logsValue .= "<span>Kupujący (".$gameData[15][$gameData[1]].") - Saldo po operacji: ".$gameData[9][$gameData[1]].", Majątek po operacji: ".$gameData[11][$gameData[1]]."</span>";
+                                $logsValue .= "<span>Sprzedawca (".$gameData[15][$fildData[0]-1].") - Saldo po operacji: ".$gameData[9][$fildData[0]-1].", Majątek po operacji: ".$gameData[9][$fildData[0]-1]."</span>";
                                 $fildData = ($gameData[1]+1).":".$lvlNumber.":".$fildData[2];
                                 $gameData[5][$fild] = $fildData;
                             }

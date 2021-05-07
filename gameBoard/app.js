@@ -110,8 +110,8 @@ async function refleshCheck() {
     var baseData = await getChangingGameData();
     //console.log(baseData);
     Cgame.gameStatus = parseInt(baseData[0]);
-    Cgame.tour  =      baseData[2].split(";");
-    Cgame.whosTour =   baseData[5].split(";");
+    Cgame.tour  =      parseInt(baseData[2]);
+    Cgame.whosTour =   parseInt(baseData[5]);
     Cgame.fildsNfo =   baseData[6].split(";");
     Cgame.chempionFild=parseInt(baseData[14]);
     var place   = baseData[7].split(":");
@@ -134,7 +134,7 @@ async function refleshCheck() {
     if (Cgame.gameStatus == 2) {
         window.location.href = "../gameWined/index.php?server="+window.serverId;
     }
-    if (Cplayers[baseData[5]].me == true) {
+    if (Cplayers[Cgame.whosTour].me == true) {
         //console.log("It's me mario 1");
         if (myTour != true) {
             console.log("It's me mario 2");
@@ -235,6 +235,7 @@ function endTourG() {
 }
 
 async function myTourEngine() {
+    console.log("Pupa");
     var data;
     async function xmlCreator(what) {
         return new Promise (function (resolve) {
@@ -256,7 +257,6 @@ async function myTourEngine() {
     }
     async function tourDealer() {
         data = await xmlCreator("tourValidityCheck.php");
-        data.split("::");
         if (data == "Fatal_Error") {
             alert("Duży problem proszę się wylogować i zalogować.");
             return;
@@ -264,37 +264,16 @@ async function myTourEngine() {
             alert("Duży problem proszę skontaktować się z administratorem.");
             return;
         }
-        if (data != "false") {
-            data = data.split(";");
+        data = data.split(";");
+        console.log(data);
+        if (data[0] != "false") {
             console.log(data);
             switch (data[1]) {
-                case "5":
-                    travelData[0] = true;
-                    var state = (travelData[1] == 0) ? "disabled" : "";
-                    cityClicked("N2");
-                    deleteCityFromSold();
-                    document.querySelector("#buyFild").innerHTML = `<button onclick="travelF(2, ${chempionData[1]})" ${state}>Zakończ</button>`;
-                    document.querySelector("#sellOrFildInfo").innerHTML += `<span>Wybierz pole do którego chcesz polecieć</span>`;
-                break;
-                case "4":
-                    chempionData[0] = true;
-                    var state = (chempionData[1] == 0) ? "disabled" : "";
-                    cityClicked("N2");
-                    deleteCityFromSold();
-                    document.querySelector("#buyFild").innerHTML = `<button onclick="wordChampions(2, ${chempionData[1]})" ${state}>Zakończ</button>`;
-                    document.querySelector("#sellOrFildInfo").innerHTML += `<span>Wybierz pole do mistrzostw świata</span>`;
-                    console.log("I'm here");
-                break;
-                case "3":
-                    sellData[0] = true;
-                    //await sellFild();
-                    cityClicked("N2");
-                break;
                 case "0":
                     console.log("dupa Wielka");
                     if (Cplayers[meIntVal].moveCode != 0) {
                         console.log("dupa");
-                        buyFilds();
+                        await buyFilds();
                     } else if (await throwCube() != "true") {
                         console.log("dupa1");
                         await buyFilds();    
@@ -306,10 +285,33 @@ async function myTourEngine() {
                     }
                 break;
                 case "1":
-                    buyFilds();
+                    await buyFilds();
                 break;  
                 case "2":
                     document.querySelector("#buyFild").innerHTML = '<button onclick="endTourG()">Zakończ</button>';
+                break;
+                case "3":
+                    sellData[0] = true;
+                    //await sellFild();
+                    cityClicked("N2");
+                    deleteCityFromSold(0);
+                break;
+                case "4":
+                    chempionData[0] = true;
+                    var state = (chempionData[1] == 0) ? "disabled" : "";
+                    cityClicked("N2");
+                    deleteCityFromSold();
+                    document.querySelector("#buyFild").innerHTML = `<button onclick="wordChampions(2, ${chempionData[1]})" ${state}>Zakończ</button>`;
+                    document.querySelector("#sellOrFildInfo").innerHTML += `<span>Wybierz pole do mistrzostw świata</span>`;
+                    console.log("I'm here");
+                break;
+                case "5":
+                    travelData[0] = true;
+                    var state = (travelData[1] == 0) ? "disabled" : "";
+                    cityClicked("N2");
+                    deleteCityFromSold();
+                    document.querySelector("#buyFild").innerHTML = `<button onclick="travelF(2, ${chempionData[1]})" ${state}>Zakończ</button>`;
+                    document.querySelector("#sellOrFildInfo").innerHTML += `<span>Wybierz pole do którego chcesz polecieć</span>`;
                 break;
             }
         }
@@ -317,6 +319,7 @@ async function myTourEngine() {
     async function throwCube() {
         //alert("Rzut kostką!");
         var result = await xmlCreator("makeMove.php");
+        console.log(result);
         result = result.split(":");
         document.querySelector("#throwResult").innerHTML = "Kostka 1: "+result[0]+" Kostka 2: "+result[1];
         console.log(result[2]);
@@ -656,6 +659,9 @@ function drawFilds() {
         var fild = Cgame.fildsNfo[Cgame.chempionFild].split(":");
         var price = (fildsDataGame[Cgame.chempionFild][fild[1]]/2)*parseFloat(fild[2]);
         document.querySelector("#C"+Cgame.chempionFild).innerHTML = price;
+        document.querySelector("#chempionsData").innerHTML = "Mistrzostwa śwaita są na polu: "+fildsDataGame[Cgame.chempionFild][5]+" Mnożnik wynosi: "+fild[2];
+    } else {
+        document.querySelector("#chempionsData").innerHTML = "Obecnie nie ma organizowanych mistrzostw świata";
     }
     return;
 }

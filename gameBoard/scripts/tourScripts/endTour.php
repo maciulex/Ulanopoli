@@ -47,11 +47,11 @@
                     $logsValue .= "<span>Tura: ".(intval($row->tour)+1)."</span>";
                     $logsValue .= "<hr class=\"L_tourHrEnd\">";
                     $logsValue .= "<hr class=\"L_tourHrNext\">";
-                    $logsValue .= "<span>Tura gracza: ".($whoTour+1)."</span>";
+                    $logsValue .= "<span>Tura gracza: ".($gameData[15][$whoTour])."</span>";
                 } else {
                     $whoTour = $gameData[1]+1;
                     $logsValue .= "<hr class=\"L_tourHrNext\">";
-                    $logsValue .= "<span>Tura gracza: ".($whoTour+1)."</span>";
+                    $logsValue .= "<span>Tura gracza: ".($gameData[15][$whoTour])."</span>";
                 }
             }
             if ($gameData[6][$gameData[1]] == 8 && $gameData[3][$gameData[1]] != 0) {

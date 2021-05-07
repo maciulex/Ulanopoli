@@ -1,6 +1,6 @@
 <?php session_start(); ?>
 <!DOCTYPE html>
-<html>
+<html lang="pl-PL">
 <head>
 	<title>Prototyp planszy</title>
 	<link rel="stylesheet" type="text/css" href="style.css">
@@ -40,6 +40,9 @@
 		</div>
 		<div id="sellOrFildInfo">
 			
+		</div>
+		<div id="chempionsData" style="position:relative;bottom: -20vh;">
+			dsa
 		</div>
 	</div>
 	<div id="logPlace" style="width: 35vh;height: 40vh;background-color:grey; margin-top: -15vh;float: right;overflow-y:auto">

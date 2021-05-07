@@ -42,5 +42,15 @@
                 $gameData[14][$i] = intval($gameData[14][$i]);
             }
         }
+        $gameData[] = array();
+        for ($i = 0; $i < 4; $i++) {
+            if ($gameData[4][$i] == 0) {
+                continue;
+            }
+            $sql = "SELECT nickname FROM users WHERE id = ".$gameData[4][$i];
+            $result = $connection -> query($sql);
+            $row = $result -> fetch_object();
+            $gameData[15][] = $row->nickname;
+        }
     }
 ?>
