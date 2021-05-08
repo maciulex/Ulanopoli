@@ -54,6 +54,7 @@
                                 }
                                 $eventCode = 6;
                                 $gameData[3][$gameData[1]] = 0;
+                                $gameData[8][$gameData[1]][$pos+2] = $numberOfCards;
                                 $logsValue .= "Gracz używa karty by wyjść na wolność!";
                             } else {
                                 $logsValue .= "<span>System wykrył żę gracz chciał użyć karty mimo że jej nie miał :< </span>";

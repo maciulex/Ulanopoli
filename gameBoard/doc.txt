@@ -35,7 +35,7 @@ BAZA DANYCH
 		fildsNfo	 = Informacje na temat poszczególnych pól | miejsce id gracza w kolumnie players posiadającego pole + 1 : poziom pola : boost pola za każdą liczbe +0.1 do czynszu ; <- odzielacz poszczególnych pól
 		place        = miejsce gracza na planszy range (0,31) w zapise 12:13:14:15 gdzie ":" odziela miejsce dla każdego gracza
 		money		 = pieniądze gracza w zapisie 12:13:14:15 gdzie ":" odziela pieniądze każdego gracza
-		cards		 = karty specjalne graczy w zapisie 12:13:14:15 gdzie ":" odziela karty dla każdego gracza
+		cards		 = karty specjalne graczy w zapisie 0ax2:0bx1:0bx1:0 gdzie ":" odziela karty dla każdego gracza
 		trowed		 = jakie liczby zostały wylosowane w zapise 5:3 gdzie ":" odziela każdą kostkę 
 		movesCodes 	 = co już zostało zrobione w rundzie | 0 - nic w tej rundzie się nie wydarzyło, 1 - kostki zostały rzucone, 2 - decyzje do zakupu pola zostały podjęte
 		islands      = ilość posiadanych wysp w zapise 1:2:1:1 gdzie : odziela liczbe wysp dla każdego gracza
@@ -47,15 +47,17 @@ BAZA DANYCH
 	filds
 
 	KARTY
-		a: Ucieczka z wyspy
-		b: 
-		c:
-		d:
-		e:
-		f:
-		g:
-		h:
-		i:
+		Działa 0
+		[0] a: Ucieczka z wyspy 
+		[1] b: Sprzedawanie pola innego gracz
+		[2] c: zniżka studęcka czynsz -50%
+		[3] d: podatek od bogactwa czynsz +50%
+		[4] e: idziesz na pole podatek
+		[5] f: idziesz na pole mistrzostw świata
+		[6] g: idziesz na bezludną wyspe
+		[7] h: wymuszona sprzedarz
+		[8] i: zmniejszenie poziomu pola 
+		[9] j: wyłączenie pola trzeba je włączyć za 50k
 
 GAME BOARD DOC
 	index.php

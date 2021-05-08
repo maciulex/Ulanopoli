@@ -1,4 +1,10 @@
-<?php session_start(); ?>
+<?php 
+	session_start();
+	if (!isset($_SESSION['logged']) || !isset($_SESSION['serverName']) || $_SESSION['serverStatus'] == 0) {
+	    header("Location: ../index.php");
+	    exit();
+	}
+?>
 <!DOCTYPE html>
 <html lang="pl-PL">
 <head>
@@ -18,10 +24,6 @@
 		echo '<span id="idk">';
 		include "../scripts/gameInfoLoad.php";
 		echo "</span>";
-	    if (!isset($_SESSION['logged']) || !isset($_SESSION['serverName']) || $_SESSION['serverStatus'] == 0) {
-	        header("Location: ../index.php");
-	        exit();
-	    }
 	?>
 	<div style="width: 30vh;height: 20vh;background-color:grey; margin-top: 20vh;">
 		<?php echo $_SESSION['nick']?><br>
