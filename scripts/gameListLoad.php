@@ -18,10 +18,10 @@
 	} else {
 		$sql = "";
 		if (isset($_REQUEST["q"])) {
-			$q =  filter_var($q, FILTER_SANITIZE_STRING);
-			$sql = "SELECT gameID, serverName, gamePasscode, gameStatus, activePlayer, maxPlayers FROM game where LOWER(serverName) LIKE LOWER(\"{$q}%\")";	
+			$q =  filter_var($_REQUEST["q"], FILTER_SANITIZE_STRING);
+			$sql = "SELECT gameID, serverName, gamePasscode, gameStatus, activePlayer, maxPlayers FROM game where LOWER(serverName) LIKE LOWER(\"{$q}%\") ORDER BY gameStatus ASC";	
 		} else {
-			$sql = "SELECT gameID, serverName, gamePasscode, gameStatus, activePlayer, maxPlayers FROM game";
+			$sql = "SELECT gameID, serverName, gamePasscode, gameStatus, activePlayer, maxPlayers FROM game ORDER BY gameStatus ASC";
 		}
 		$stmt = $connection -> query($sql);
 		$gameNum = $stmt->num_rows;

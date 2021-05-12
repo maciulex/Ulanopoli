@@ -57,7 +57,7 @@
 				<span style="padding: 1em;display: flex;">Status gry:&nbsp;<div id="serverStatus"></div></span>
                 <span style="padding: 1em;display: flex;">Liczba graczy:&nbsp;<div id="players"></div> </span>
                 <span style="padding: 1em;display: flex;"><a href="queue.php"><button>Powrót</button></a></span>
-                <span style="padding: 1em;display: flex;"><a href="leaveGame.php"><button>Wyjście z gry</button></a></span>
+                <span style="padding: 1em;display: flex;"><a href="scripts/leaveGame.php"><button>Wyjście z gry</button></a></span>
 			</div>
 			<script type="text/javascript" defer>
 				var status = '.$_SESSION['serverStatus'].';
@@ -139,29 +139,29 @@
             <form action="scripts/states.php"  method="post" name="f2">
                 Pole 1:
                 <select name="s1">
-                    <option value="2">Wygrane</option>
-                    <option value="5">Przegrane</option>
-                    <option value="4">Najwiecej pieniedzy</option>
-                    <option value="3">Najwiekszy majatek</option>
                     <option value="1">Rozegrane gry</option>
+                    <option value="2">Wygrane</option>
+                    <option value="3">Najwiekszy majatek</option>
+                    <option value="4">Najwiecej pieniedzy</option>
+                    <option value="5">Przegrane</option>
                     <option value="6">W/P</option>
                 </select><br>
                 Pole 2:
                 <select name="s2">
-                    <option value="2">Wygrane</option>
-                    <option value="5">Przegrane</option>
-                    <option value="4">Najwiecej pieniedzy</option>
-                    <option value="3">Najwiekszy majatek</option>
                     <option value="1">Rozegrane gry</option>
+                    <option value="2">Wygrane</option>
+                    <option value="3">Najwiekszy majatek</option>
+                    <option value="4">Najwiecej pieniedzy</option>
+                    <option value="5">Przegrane</option>
                     <option value="6">W/P</option>
                 </select><br>
                 Pole 3:
                 <select name="s3">
-                    <option value="2">Wygrane</option>
-                    <option value="5">Przegrane</option>
-                    <option value="4">Najwiecej pieniedzy</option>
-                    <option value="3">Najwiekszy majatek</option>
                     <option value="1">Rozegrane gry</option>
+                    <option value="2">Wygrane</option>
+                    <option value="3">Najwiekszy majatek</option>
+                    <option value="4">Najwiecej pieniedzy</option>
+                    <option value="5">Przegrane</option>
                     <option value="6">W/P</option>
                 </select>
                 <input type="submit">
@@ -172,11 +172,15 @@
             <form action="" method="post" enctype="multipart/form-data">
                     <input type="file" name="image"><br>
                     <input type="submit" value="Prześlij" name="submit">
-            </form>
+            </form><br><br>
+            <button onclick="closeSettings()">Zamknij ustawienia</button>
         </main>
         <script>
             function openSettings() {
                 document.querySelector('.settings').style.visibility = 'visible';
+            }
+            function closeSettings() {
+                document.querySelector('.settings').style.visibility = 'hidden';
             }
         </script>
         <script type="text/javascript" defer>    

@@ -19,7 +19,7 @@
 <body>
 	<header>
 		<header>
-        <a href="gamesList.php" class="logo">Ulanopoli</a>
+        <a href="../gamesList.php" class="logo">Ulanopoli</a>
         <?php 
         if (isset($_SESSION["error"])) {
                 echo $_SESSION["error"]; 

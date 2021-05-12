@@ -15,7 +15,13 @@ To repair/to do
 		buyFild.php 84: //MAYBY WYGRANA
 BAZA DANYCH 
 	users
-
+		statistic - stores statistic records form: 1 <- position range 0-3 where 0 is not visible in queue etc . <- separator ? <- statistic value ; <- separator of statistics  
+			[0] Rozegrane gry
+			[1] Wygrane
+			[2] Największy majątek
+			[3] Najwięcej pieniędzy
+			[4]	Przegrane
+			[5] Wygrane/Przegrane
 	game
 		gameID 		 = Primary key - id gry (int)
 		serverName   = Nazwa gry (string) 

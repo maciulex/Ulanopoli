@@ -25,8 +25,8 @@ function loadGames(a) {
 	} else {
 		xmlrequest.open("GET", "scripts/gameListLoad.php?q="+a.value, true);
 	}
-	xmlrequest.send();
 	var pingS = new Date().getTime();
+	xmlrequest.send();
 }
 function Beauty(a,b) {
 	switch (b) {
@@ -45,38 +45,31 @@ function Beauty(a,b) {
 			}
 		break;
 		case 3:
-			if (a == 0) {
-				return "Nie rozpączęte";			
-			} else if (a==1) {
-				return "Rozpączęte";				
-			} else {
-				return "Zakończone";
+			switch (a) {
+				case "0":
+					return "Nie rozpączęte";			
+				break;
+				case "1":
+					return "Rozpączęte";				
+				break;
+				case "2":
+					return "Zakończone";
+				break;
 			}
 		break;
 	}
 	return;
 }
 function loadData(data) {
-	var id,serverName,passcode,status = 0,players,maxPlayers;
 	var resultPlace = document.getElementById("searchResult");
-	if (data == "Dupa! Brak serwerów!") {
+	if (data[0] == "Dupa! Brak serwerów!") {
 		resultPlace.innerHTML = data;
 	} else {
-		var resultPlace = document.getElementById("searchResult");
+		var id = data[0].split(":"), serverName = data[1].split(":"), passcode = data[2].split(":"), status = data[3].split(":"), players = data[4].split(":"), maxPlayers = data[5].split(":");
 		document.getElementById("searchResult").innerHTML = "";
-		id = data[0].split(":");
-		serverName = data[1].split(":");
-		passcode = data[2].split(":");
-		for (var i = 0; i <= data[3].length-1; i++) {
-			if (i%2 != 1) {
-				status += data[3][i];
-			}		
-		}
-		players = data[4].split(":");
-		maxPlayers = data[5].split(":");
 		document.getElementById("onlineGames").innerHTML = id.length-1;
 		for (var i = 0; i<id.length-1;i++) {
-			resultPlace.innerHTML += `<section><div class=\"option\">${serverName[i]}</div><div class=\"option\">${Beauty(passcode[i],1)}</div><div class=\"option\">${Beauty(players[i],2)+"/"+Beauty(maxPlayers[i],2)}</div><div class=\"option\">${Beauty(status[i+1],3)}</div><div class=\"option\" id=\"test\"><button onclick=\"gameJoin(${id[i]},${passcode[i]})\">Dołącz</button></div></section>`
+			resultPlace.innerHTML += `<section><div class=\"option\">${serverName[i]}</div><div class=\"option\">${Beauty(passcode[i],1)}</div><div class=\"option\">${Beauty(players[i],2)+"/"+Beauty(maxPlayers[i],2)}</div><div class=\"option\">${Beauty(status[i],3)}</div><div class=\"option\" id=\"test\"><button onclick=\"gameJoin(${id[i]},${passcode[i]})\">Dołącz</button></div></section>`
 		}
 	}
 	return;

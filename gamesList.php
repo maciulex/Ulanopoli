@@ -119,8 +119,8 @@
 	?>
 	<div class="whiteBox"></div>
 	<header>
-		<a href="scripts/logout.php"><button>Wyloguj</button></a>
-		<div id="profil-ico">
+		<a href="scripts/logout.php"><button style="margin:20px;">Wyloguj</button></a>
+		<div id="profil-ico" style="margin:20px;">
 			<a href="profile.php" id="href">
 				<img class="png" src="ico/icons8-user-64.png">
 			</a>
