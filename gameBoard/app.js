@@ -267,8 +267,8 @@ async function myTourEngine() {
             xml.onreadystatechange = function () {
                 if (this.readyState == 4 && this.status == 200) {
                     if (this.responseText != "Error") {    
-                        //console.log("xmlCreator: "+what);
-                        //console.log("res: "+this.responseText);
+                        console.log("xmlCreator: "+what);
+                        console.log("res: "+this.responseText);
                         resolve(this.responseText);
                     } else {
                         //console.log("xmlCreator: "+what);
@@ -301,12 +301,12 @@ async function myTourEngine() {
             switch (data[1]) {
                 case "6":
                 case "0":
-                    //console.log("Case 0");
+                    console.log("Case 0");
                     if (Cplayers[meIntVal].moveCode != 0) {
                         //console.log("Buyging filds // moveCode != 0 // that means probably uninhabited island");
                         await buyFilds();
                     } else if (await throwCube() != "true") {
-                        //console.log("Throwing cubes -> buying filds");
+                        console.log("Throwing cubes -> buying filds");
                         await buyFilds();    
                     } else {
                         //console.log("else sellData[0] -> True");
@@ -356,7 +356,7 @@ async function myTourEngine() {
     async function throwCube() {
         //console.groupCollapsed("Starting trowing cubes");
         var result = await xmlCreator("makeMove.php");
-        //console.log("result: "+result);
+        console.log("result: "+result);
         result = result.split(":");
         document.querySelector("#throwResult").innerHTML = "Kostka 1: "+result[0]+" Kostka 2: "+result[1];
         //console.log("all drawed, starting refleshCheck");
@@ -522,6 +522,10 @@ function getCard() {
             console.log("%cERRROR", "color:red");console.groupEnd("getCard");
             alert("cards error");
             return;
+        } else {
+            data = data.split(":");
+            document.querySelector("#buyFild").innerHTML = '<button onclick="endTourG()">Zakończ</button>';
+            document.querySelector("#sellOrFildInfo").innerHTML = "Dostałeś kartę: "+data[2];
         }
         console.groupEnd("getCard");
     }

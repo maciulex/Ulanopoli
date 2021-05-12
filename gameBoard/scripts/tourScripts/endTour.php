@@ -19,9 +19,10 @@
                 mysqli_close($connection);
                 exit();
             }
-            if ($gameData[0] == 0 && $gameData[6][$gameData[1]] == 8 || !isset($gameData[2][0])) {
-                $gameData[2][0] = 1;
-                $gameData[2][1] = 0;
+            if ($gameData[0] == 0 || !isset($gameData[2][0])) {
+                $gameData[2] = "01";
+            } else if ($gameData[6][$gameData[1]] == 8 && $gameData[3][$gameData[1]] == 0) {
+                $gameData[2] = "11";
             }
             $whoTour = $gameData[1];
             $tour = "";

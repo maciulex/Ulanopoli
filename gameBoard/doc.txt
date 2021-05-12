@@ -49,9 +49,9 @@ BAZA DANYCH
 	KARTY
 		Działa 0
 		[0] a: Ucieczka z wyspy 
-		[1] b: Sprzedawanie pola innego gracz
-		[2] c: zniżka studęcka czynsz -50%
-		[3] d: podatek od bogactwa czynsz +50%
+		[1] b: zniżka studęcka czynsz -50%
+		[2] c: podatek od bogactwa czynsz +50%
+		[3] d: Sprzedawanie pola innego gracz
 		[4] e: idziesz na pole podatek
 		[5] f: idziesz na pole mistrzostw świata
 		[6] g: idziesz na bezludną wyspe

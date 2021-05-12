@@ -4,7 +4,7 @@
         echo "Fatal_Error";
         exit();
     } 
-    if ($gameData[4][$gameData[1]] != $_SESSION['id']) {
+    if ($gameData[4][$gameData[1]] != $_SESSION['id'] && ($gameData[0] == 1 || $gameData[0])) {
         echo "ERROR";
         mysqli_close($connection);
         exit();
@@ -27,17 +27,21 @@
             exit();
         }
         $cardSymbol;
-        $cardId = rand(0,0);
+        $cardFullName;
+        $cardId = rand(0,2);
         switch ($cardId) {
             case 0:
                 //island escape
                 $cardSymbol = "a";
+                $cardFullName = "Kartę ucieczki z wyspy";
             break;
             case 1:
-
+                $cardSymbol = "b";
+                $cardFullName = "Zniżka studencka -50% czynszu";
             break;
             case 2:
-                
+                $cardSymbol = "c";
+                $cardFullName = "Podatek od bogactwa +50% czynszu.";
             break;
             case 3:
 
@@ -67,13 +71,13 @@
             $numberOfCards = intval($gameData[8][$gameData[1]][$pos+2]);
             $numberOfCards+=1;
             $gameData[8][$gameData[1]][$pos+2] = $numberOfCards;
-            $logsValue .= "Gracz używa karty by wyjść na wolność!";
+            $logsValue .= "<span>Gracz dostaje kartę: $cardFullName!</span>";
         } else {
             echo "2";
             $gameData[8][$gameData[1]].=$cardSymbol."x"."1";
         }
-        echo ":true";
-        $sql = "UPDATE game SET cards = \"".implode(":",$gameData[8])."\" WHERE gameID=".$_SESSION['gameId'];
+        echo ":true:".$cardFullName;
+        $sql = "UPDATE game SET cards = \"".implode(":",$gameData[8])."\", eventCode=2 WHERE gameID=".$_SESSION['gameId'];
         $sql2 = 'UPDATE game SET logs = CONCAT(\''.$logsValue.'\',logs) WHERE gameID = '.$_SESSION["gameId"];
         $connection -> multi_query($sql.";".$sql2);
     }

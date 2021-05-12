@@ -9,6 +9,7 @@
     $trow2=1;
     $eventCode=1;
     $rounds = "";
+    $cards = "";
     //print_r($gameData);
     if ($gameData[4][$gameData[1]] == $_SESSION['id']) {
         if ($gameData[0] == 0) {
@@ -44,23 +45,47 @@
                         $data[] = $row->l1;
                     }
                     $price = 0;
+                    $cardMultiplayer = 1;
+                    function getCardString($strpos) {
+                        global $gameData,$cards;
+                        if ($gameData[8][$gameData[1]][$strpos+2] == "1") {
+                            $str1 = substr($gameData[8][$gameData[1]], 0,$strpos);
+                            $str2 = substr($gameData[8][$gameData[1]], $strpos+3);
+                            $gameData[8][$gameData[1]] = $str1.$str2;
+                        } else {
+                            $cardNumber = intval($gameData[8][$gameData[1]][$strpos+2]);
+                            $cardNumber-=1;
+                            $gameData[8][$gameData[1]][$strpos+2] = $cardNumber;
+                        }
+                        $cards = ", cards = \"".implode(":", $gameData[8])."\"";
+                    }
+                    if (strpos($gameData[8][$gameData[1]], "b")) {
+                        $cardMultiplayer = 0.5;
+                        $logsValue .= "<span>Gracz używa zniżki studenckiej.</span>";
+                        getCardString(strpos($gameData[8][$gameData[1]], "b"));
+
+                    } else if (strpos($gameData[8][$gameData[1]], "c")) {
+                        $cardMultiplayer = 2;
+                        $logsValue .= "<span>Gracz płaci podatek do czynszu.</span>";
+                        getCardString(strpos($gameData[8][$gameData[1]], "c"));
+                    }
                     if ($gameData[12] != $gameData[6][$gameData[1]]) {
                         $price = $data[$fildInfo[1]]/2;
-                        $gameData[9][$gameData[1]] -= $price;
-                        $gameData[11][$gameData[1]] -= $price;
-                        $gameData[9][$fildInfo[0]-1] += $price;
-                        $gameData[11][$fildInfo[0]-1] += $price;
+                        $gameData[9][$gameData[1]] -= $price*$cardMultiplayer;
+                        $gameData[11][$gameData[1]] -= $price*$cardMultiplayer;
+                        $gameData[9][$fildInfo[0]-1] += $price*$cardMultiplayer;
+                        $gameData[11][$fildInfo[0]-1] += $price*$cardMultiplayer;
                     } else {
                         $price = ($data[$fildInfo[1]]/2)*floatval($fildInfo[2]);
-                        $gameData[9][$gameData[1]] -= $price;
-                        $gameData[11][$gameData[1]] -= $price;
-                        $gameData[9][$fildInfo[0]-1] += $price;
-                        $gameData[11][$fildInfo[0]-1] += $price;
+                        $gameData[9][$gameData[1]] -= $price*$cardMultiplayer;
+                        $gameData[11][$gameData[1]] -= $price*$cardMultiplayer;
+                        $gameData[9][$fildInfo[0]-1] += $price*$cardMultiplayer;
+                        $gameData[11][$fildInfo[0]-1] += $price*$cardMultiplayer;
                     }
                     $logsValue .= "<span>Gracz(".($gameData[15][$gameData[1]]).") wylądował na polu innego gracza(".$gameData[15][$fildInfo[0]-1].").</span>";
-                    $logsValue .= "<span>Koszt: ".($data[$fildInfo[1]]/2)."</span>";
-                    $logsValue .= "<span>Saldo gracza: ".$gameData[9][$gameData[1]].", przed: ".($gameData[9][$gameData[1]]+$price)."</span>";
-                    $logsValue .= "<span>Saldo właściciela pola: ".$gameData[9][$fildInfo[0]-1].", przed: ".($gameData[9][$fildInfo[0]-1]-$price)."</span>";
+                    $logsValue .= "<span>Koszt: ".(($data[$fildInfo[1]]/2)*$cardMultiplayer)."</span>";
+                    $logsValue .= "<span>Saldo gracza: ".$gameData[9][$gameData[1]].", przed: ".($gameData[9][$gameData[1]]+($price*$cardMultiplayer))."</span>";
+                    $logsValue .= "<span>Saldo właściciela pola: ".$gameData[9][$fildInfo[0]-1].", przed: ".($gameData[9][$fildInfo[0]-1]-($price*$cardMultiplayer))."</span>";
 
                 }
             }
@@ -91,9 +116,7 @@
                 break;
             }
             echo $trow1.":".$trow2;
-            if ($gameData[11][$gameData[1]] < 0) {
-                //endthisguygame
-            } else if ($gameData[9][$gameData[1]] < 0) {
+            if ($gameData[9][$gameData[1]] < 0) {
                 $eventCode = 3;
                 echo ":true";
                 $logsValue .= "<span class=\"L_SellMessage\">Gracz musi sprzedać pola ponieważ jest na minusie (".$gameData[9][$gameData[1]].")!</span>";
@@ -101,7 +124,7 @@
                 echo ":false";
             }
             $logsValue .= "</div>";
-            $sql = 'UPDATE game SET money = "'.implode(":",$gameData[9]).'",wealth="'.implode(":",$gameData[11]).'", place = "'.implode(":",$gameData[6]).'", trowed = "'.$trow1.$trow2.'", eventCode = '.$eventCode.', movesCodes = "'.implode(":",$gameData[3]).'"'.$rounds.' WHERE gameID = '.$_SESSION["gameId"];
+            $sql = 'UPDATE game SET money = "'.implode(":",$gameData[9]).'",wealth="'.implode(":",$gameData[11]).'", place = "'.implode(":",$gameData[6]).'", trowed = "'.$trow1.$trow2.'", eventCode = '.$eventCode.', movesCodes = "'.implode(":",$gameData[3]).'"'.$rounds.$cards.' WHERE gameID = '.$_SESSION["gameId"];
             //echo $sql;
             $sql2 = 'UPDATE game SET logs = CONCAT(\''.$logsValue.'\',logs) WHERE gameID = '.$_SESSION["gameId"];
             $connection -> multi_query($sql.";".$sql2);
