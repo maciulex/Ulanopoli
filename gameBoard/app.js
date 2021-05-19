@@ -176,7 +176,6 @@ function fildsDealer(level) {
         if (this.readyState == 4 && this.status == 200) {
             console.log(this.responseText);
             endTour();
-
         }
     }
     xml.open("GET", "scripts/tourScripts/buyFild.php?l="+level, true);
@@ -692,6 +691,7 @@ function drawFilds() {
     //console.groupCollapsed("Draw Filds");
     for (var i = 0; i <= 31; i++) {
         //console.groupCollapsed("Draw Filds "+i);
+        //console.log(localData);
         var localData = fildsData[i].split(":");
         switch(i) {
             case 0:
@@ -824,7 +824,7 @@ async function onLoad() {
     }
     //console.log("Creating interval for reflesh check");
     //console.groupEnd("onLoad");
-    intervals = setInterval(refleshCheck, 2000);
+    intervals = setInterval(refleshCheck, 1000);
     //console.log("onLoad end");
     return;
 }

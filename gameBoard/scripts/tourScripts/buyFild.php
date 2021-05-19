@@ -17,7 +17,7 @@
     $eventCode = 2;
     if ($gameData[4][$gameData[1]] == $_SESSION['id']) {
         if ($gameData[0] == 1 || ($gameData[0] == 0 && $gameData[6][$gameData[1]] == 8) || ($gameData[0]==4 && $gameData[6][$gameData[1]] == 16) || ($gameData[0]==5 && $gameData[6][$gameData[1]] == 24)) {
-            $result = $connection -> query("SELECT * FROM filds WHERE id = ".$fild);
+            $result = $connection -> query("SELECT * FROM filds WHERE id = ".$fild." ORDER BY id ASC");
             $row = $result -> fetch_object();
             $lvl = array($row->l1,$row->l2,$row->l3,$row->l4,$row->l5);
             unset($row, $result);
@@ -187,7 +187,7 @@
                         $gameData[6][$gameData[1]] = $_GET['id'];
                         $eventCode = 1;
                         $logsValue .= "Gracz kupił podróż na pole o numerze: ".(intval($_GET['id'])+1);
-                        if ($_GET['l'] < 24) {
+                        if ($_GET['l'] > -1 && $_GET['l'] < 24) {
                             $gameData[9][$gameData[1]] += 200000;
                             $gameData[11][$gameData[1]] += 200000;
                             $gameData[14][$gameData[1]] += 1;

@@ -13,7 +13,7 @@
         echo "Error";
         exit();
     } else {
-        $sql = "SELECT * FROM filds WHERE 1";
+        $sql = "SELECT * FROM `filds` ORDER BY id ASC";
         $result = $connection -> query($sql);
         while ($row = $result -> fetch_object()) {
             echo $row->id."::";

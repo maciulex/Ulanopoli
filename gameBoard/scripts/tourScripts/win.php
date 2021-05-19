@@ -23,13 +23,14 @@
     $arr[] = ($gameData[5][1][0] == $gameData[5][2][0] && $gameData[5][2][0] == $gameData[5][3][0])     ? addFild($gameData[5][1][0])  : false;
     $arr[] = ($gameData[5][5][0] == $gameData[5][6][0] && $gameData[5][6][0] == $gameData[5][7][0])     ? addFild($gameData[5][5][0])  : false;
     $arr[] = ($gameData[5][9][0] == $gameData[5][10][0] && $gameData[5][10][0] == $gameData[5][11][0])  ? addFild($gameData[5][9][0])  : false;
-    $arr[] = ($gameData[5][13][0] == $gameData[5][14][0])                                               ? addFild($gameData[5][13][0]) : false;
+    $arr[] = ($gameData[5][13][0] == $gameData[5][15][0])                                               ? addFild($gameData[5][13][0]) : false;
     $arr[] = ($gameData[5][17][0] == $gameData[5][19][0])                                               ? addFild($gameData[5][17][0]) : false;
     $arr[] = ($gameData[5][21][0] == $gameData[5][22][0] && $gameData[5][22][0] == $gameData[5][23][0]) ? addFild($gameData[5][21][0]) : false;
     $arr[] = ($gameData[5][26][0] == $gameData[5][27][0])                                               ? addFild($gameData[5][26][0]) : false;
     $arr[] = ($gameData[5][29][0] == $gameData[5][31][0])                                               ? addFild($gameData[5][29][0]) : false;
     //potrujny monopol
-
+    print_r($gameData[5]);
+    print_r($arr);
     function addFild($arg) {
         global $gooMono;
         if ($arg == "1") {
