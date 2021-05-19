@@ -246,7 +246,7 @@ function endTourG() {
     var xml = new XMLHttpRequest;
     xml.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
-            //console.log(this.responseText);
+            console.log(this.responseText);
             document.querySelector("#throwResult").innerHTML = "";
             document.querySelector("#buyFild").innerHTML = "";
             myTour = false;

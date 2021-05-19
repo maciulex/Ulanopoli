@@ -10,10 +10,11 @@
 
     if ($gameData[4][$gameData[1]] == $_SESSION['id']) {
         echo $gameData[0];
-        if ($gameData[0] == 2 || $gameData[0] == 1 || (($gameData[0] == 6 || $gameData[0] == 0) && $gameData[6][$gameData[1]] == 8)) {
-            if ($gameData[9][$gameData[1]] < 0) {
+        //if ($gameData[0] == 2 || $gameData[0] == 1 || (($gameData[0] == 6 || $gameData[0] == 0) && $gameData[6][$gameData[1]] == 8)) {
+        if (true) {
+            if ($gameData[9][$gameData[1]] < 0 && $gameData[13][$gameData[1]] != 1) {
                 $logsValue = "System wykrył że gracz jednak musi coś sprzedać!";
-                $sql = 'UPDATE game SET, eventCode = 3, WHERE gameID = '.$_SESSION["gameId"];
+                $sql = 'UPDATE game SET eventCode = 3, WHERE gameID = '.$_SESSION["gameId"];
                 $sql2 = 'UPDATE game SET logs = CONCAT(\''.$logsValue.'\',logs) WHERE gameID = '.$_SESSION["gameId"];
                 $connection -> multi_query($sql.";".$sql2);
                 mysqli_close($connection);
@@ -65,26 +66,30 @@
                 $noMore = false;
                 for ($i = $whoTour; $i <= $playersNum; $i++) {
                     echo "56: Who tour: ".$whoTour." Player num: ".$playersNum." "; 
-                    if ($gameData[13][$i] == 1) {
-                        echo "58: game data 13: ".$gameData[13][$i]." i: ". $i ." ";
-                        $whoTour +=1;
-                        echo "60: Who tour: ".$whoTour." ";
+                    if ($gameData[13][$whoTour]+1 == 1) {
+                        continue;
                     } else {
-                        echo "62: break ";
-                        echo "game data 13: ".$gameData[13][$i]." i: ". $i ." ";
-                        echo "Who tour: ".$whoTour." ";
-                        break;
+                        $gameData[13][$whoTour] += 1;
                     }
-                    if ($i == $playersNum && $noMore == false) {
-                        echo "68: nomore ";
-                        $whoTour = 0;
-                        $i = 0;
-                        $noMore = true;
-                    }
+                    //if ($gameData[13][$i] == 1) {
+                    //    echo "58: game data 13: ".$gameData[13][$i]." i: ". $i ." ";
+                    //    $whoTour +=1;
+                    //    echo "60: Who tour: ".$whoTour." ";
+                    //} else {
+                    //    echo "62: break ";
+                    //    echo "game data 13: ".$gameData[13][$i]." i: ". $i ." ";
+                    //    echo "Who tour: ".$whoTour." ";
+                    //    break;
+                    //}
+                    //if ($i == $playersNum && $noMore == false) {
+                    //    echo "68: nomore ";
+                    //    $whoTour = 0;
+                    //    $i = 0;
+                    //    $noMore = true;
+                    //}
                 }
             }
             $sql = 'UPDATE game SET trowed = NULL, eventCode = 0, whosTour = '.$whoTour.$tour.$movesCodes.' WHERE gameID = '.$_SESSION["gameId"];
-            echo $sql;
             $sql2 = 'UPDATE game SET logs = CONCAT(\''.$logsValue.'\',logs) WHERE gameID = '.$_SESSION["gameId"];
             $connection -> multi_query($sql.";".$sql2);
             header("Location: win.php");

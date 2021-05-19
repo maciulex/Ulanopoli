@@ -89,20 +89,20 @@
     checkWin();
 
     //eliminacja 
-    $eliminationVar = -1;
+    $eliminationVar = -2;
     for ($i = 0; $i < 4; $i++) {
-        if ($gameData[13][$i] != 1) {
-            if ($eliminationVar != -1) {
-                $eliminationVar = false;
+        if ($gameData[13][$i] != 1 && $gameData[4][$i] != 0) {
+            if ($eliminationVar != -2) {
+                $eliminationVar = -2;
                 break;
             }
             $eliminationVar = $i;
         }
     }
-    if ($eliminationVar != false) {
+    if ($eliminationVar != -2) {
         $win[0] = true;
         $win[1] = $eliminationVar;
-        $win[0] = "Gracz wygrał poprzez eliminacje przeciwników.";
+        $win[2] = "Gracz wygrał poprzez eliminacje przeciwników.";
     }
     
     checkWin();
