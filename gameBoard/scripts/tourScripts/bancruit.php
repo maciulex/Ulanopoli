@@ -7,6 +7,7 @@
     } 
     if (!isset($_SESSION['id']) || $gameData[4][$gameData[1]]  != $_SESSION['id'] || !isset($_SESSION['gameId'])) {
         echo "Fatal_Error";
+        mysqli_close($connection);
         exit();
     }
     for ($i = 1; $i < 31; $i++) {
@@ -38,4 +39,5 @@
     $sql2 = 'UPDATE game SET logs = CONCAT(\''.$logsValue.'\',logs) WHERE gameID = '.$_SESSION["gameId"];
     echo $sql;
     $connection -> multi_query($sql.";".$sql2);
+    mysqli_close($connection);
 ?>

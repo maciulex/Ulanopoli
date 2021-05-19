@@ -311,7 +311,7 @@ async function myTourEngine() {
                         //console.log("else sellData[0] -> True");
                         sellData[0] = true;
                         //await sellFild();
-                        cityClicked("N2");
+                        cityClicked("N0");
                         deleteCityFromSold(0);
                     }
                 break;
@@ -327,14 +327,14 @@ async function myTourEngine() {
                     //console.log("Case 3 - selling");
                     sellData[0] = true;
                     //await sellFild();
-                    cityClicked("N2");
+                    cityClicked("N0");
                     deleteCityFromSold(0);
                 break;
                 case "4":
                     //console.log("case 4: chempionData[0] = true");
                     chempionData[0] = true;
                     var state = (chempionData[1] == 0) ? "disabled" : "";
-                    cityClicked("N2");
+                    cityClicked("N0");
                     deleteCityFromSold();
                     document.querySelector("#buyFild").innerHTML = `<button onclick="wordChampions(2, ${chempionData[1]})" ${state}>Zakończ</button>`;
                     document.querySelector("#sellOrFildInfo").innerHTML += `<span>Wybierz pole do mistrzostw świata</span>`;
@@ -343,7 +343,7 @@ async function myTourEngine() {
                     //console.log("case 5: travel on");
                     travelData[0] = true;
                     var state = (travelData[1] == 0) ? "disabled" : "";
-                    cityClicked("N2");
+                    cityClicked("N0");
                     deleteCityFromSold();
                     document.querySelector("#buyFild").innerHTML = `<button onclick="travelF(2, ${chempionData[1]})" ${state}>Zakończ</button>`;
                     document.querySelector("#sellOrFildInfo").innerHTML += `<span>Wybierz pole do którego chcesz polecieć</span>`;
@@ -608,7 +608,7 @@ function cityClicked(cityId) {
     } else {
         var fildData = Cgame.fildsNfo[cityId].split(":");    
         fildData[0] = parseInt(fildData[0]);
-        if (fildData[0]-1 == meIntVal) {
+        if (fildData[0]-1 == meIntVal || cityId == 0) {
             let state = true;
             for (var i = 0; i < sellData[2].length; i++) {
                 if (sellData[2][i][0] == cityId) {
@@ -618,7 +618,7 @@ function cityClicked(cityId) {
             }
             if (state) {
                 var fildName = document.querySelector("#N"+cityId).textContent;
-                var fildCost = fildsDataGame[cityId][fildData[1]];
+                var fildCost = fildsDataGame[cityId][fildData[1]][0];
                 sellData[1] += parseInt(fildCost);
                 sellData[2].unshift([parseInt(cityId),fildName,fildCost]);
             }
@@ -646,6 +646,7 @@ function deleteCityFromSold(i) {
         return;
     }
     place.innerHTML = "";
+    console.log(i);
     sellData[1]-=sellData[2][i][2];
     sellData[2].splice(i,1);
     place.innerHTML += "Wartość pól: "+sellData[1]+"<br>";
@@ -659,7 +660,7 @@ function deleteCityFromSold(i) {
     return;
 }
 
-async function sellFild() {
+async function sellFild() { 
     //console.log("Hur dur");
     var data = sellData[2][0][0];
     for (var i = 1; i < sellData[2].length;i++) {
@@ -668,7 +669,7 @@ async function sellFild() {
     var xml = new XMLHttpRequest;
     xml.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
-            //console.log(this.responseText);
+            console.log(this.responseText);
             if (this.responseText == "LIFU") {
                 document.querySelector("#sellOrFildInfo").innerHTML = "";
                 document.querySelector("#buyFild").innerHTML = '<button onclick="endTourG()">Zakończ</button>';
@@ -693,6 +694,7 @@ function drawFilds() {
         //console.groupCollapsed("Draw Filds "+i);
         //console.log(localData);
         var localData = fildsData[i].split(":");
+        localData[0] = parseInt(localData[0]);
         switch(i) {
             case 0:
             case 8:
@@ -707,8 +709,8 @@ function drawFilds() {
                 //console.log("This is standard fild");
                 if (localData[0] != 0) {
                     //console.log("This fild is someone");
-                    if (document.getElementsByClassName("Player"+localData[0]).length > 0) {
-                        document.querySelector(".Player"+localData[0]).classList.remove("Player"+(localData[0]-1));
+                    if (document.getElementsByClassName("#N"+i+" .Player"+(localData[0]+1)).length > 0) {
+                        document.querySelector("#N"+i+".Player"+(localData[0]+1)).classList.remove("Player"+(localData[0]+1));
                         //console.log("Deleting class");
                     }
                     //console.log("Making it: "+localData); 

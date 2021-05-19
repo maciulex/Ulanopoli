@@ -54,4 +54,6 @@
         echo ";;".$rounds;
 
     }
+    mysqli_close($connection);
+
 ?>

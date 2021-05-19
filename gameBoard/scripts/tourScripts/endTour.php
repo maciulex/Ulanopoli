@@ -92,6 +92,7 @@
             exit();
         } else {
             echo "Error2";
+            mysqli_close($connection);
             exit();
         }
     } else {

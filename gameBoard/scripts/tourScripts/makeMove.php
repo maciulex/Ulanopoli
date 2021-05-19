@@ -128,9 +128,11 @@
             //echo $sql;
             $sql2 = 'UPDATE game SET logs = CONCAT(\''.$logsValue.'\',logs) WHERE gameID = '.$_SESSION["gameId"];
             $connection -> multi_query($sql.";".$sql2);
+            mysqli_close($connection);
             exit();
         } else {
             echo "Error";
+            mysqli_close($connection);
             exit();
         }
     } else {

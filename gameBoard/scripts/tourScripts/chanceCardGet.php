@@ -80,6 +80,7 @@
         $sql = "UPDATE game SET cards = \"".implode(":",$gameData[8])."\", eventCode=2 WHERE gameID=".$_SESSION['gameId'];
         $sql2 = 'UPDATE game SET logs = CONCAT(\''.$logsValue.'\',logs) WHERE gameID = '.$_SESSION["gameId"];
         $connection -> multi_query($sql.";".$sql2);
+        mysqli_close($connection);
     }
 
 ?>

@@ -36,4 +36,6 @@
             echo $row->rounds;
         }
     }
+    mysqli_close($connection);
+
 ?>

@@ -7,6 +7,7 @@
     
     if (!isset($_GET['l'])) {
         echo "Fatal_Error";
+        mysqli_close($connection);
         exit();
     }
     $chempionFild="";
@@ -150,11 +151,13 @@
                     } else {
                         if (!isset($_GET['id'])) {
                             echo "ERRGOR";
+                            mysqli_close($connection);
                             exit();
                         }
                         $fild = explode(":",$gameData[5][$_GET['id']]);
                         if ($fild[0] != $gameData[1]+1) {
                             echo "ERRGOR";
+                            mysqli_close($connection);
                             exit();
                         }
                         $fild[2] = round( floatval($fild[2]) + ( floatval($fild[2])*0.5 ),1);
@@ -182,6 +185,7 @@
                     } else {
                         if (!isset($_GET['id']) || intval($_GET['id']) > 31 || intval($_GET['id']) < 0) {
                             echo "ERRGOR";
+                            mysqli_close($connection);
                             exit();
                         }
                         $gameData[6][$gameData[1]] = $_GET['id'];
@@ -196,6 +200,7 @@
                         }
                         //echo "git ".$gameData[5][$_GET['id']];
                         echo "Trued";
+                        mysqli_close($connection);
                         //exit();
                     }
                 break;
@@ -221,12 +226,14 @@
                                 echo "Error wrong lvl";
                                 $logsValue .= "<span>Błąd: Nie poprawny poziom, nie da się kupić niższego poziomu</span>";
                                 updateLogs();
+                                mysqli_close($connection);
                                 exit();
                             } else {
                                 if ($gameData[9][$gameData[1]] < $lvl[$lvlNumber]) {
                                     $logsValue .= "<span>Błąd za mało pieniędzy, posiadane: ".$gameData[9][$gameData[1]].", wymagane: ".$lvl[$lvlNumber]."</span>";
                                     echo "Error wrong money";
                                     updateLogs();
+                                mysqli_close($connection);
                                     exit();   
                                 } else {
                                     $logsValue .= "<span>Cena: ".$lvl[$lvlNumber]."</span><span>Pieniądze: ".$gameData[9][$gameData[1]]."</span>";
@@ -245,6 +252,7 @@
                                 echo "Error to low money";
                                 $logsValue .= "<span>Błąd za mało pieniędzy, posiadane: ".$gameData[9][$gameData[1]].", wymagane: ".$lvl[$lvlNumber]."</span>";
                                 updateLogs();
+                                mysqli_close($connection);
                                 exit();   
                             } else {
                                 $logsValue .= "<span>Cena: ".$lvl[$lvlNumber]."</span><span>Pieniądze: ".$gameData[9][$gameData[1]]."</span>";
@@ -261,6 +269,7 @@
                                 echo "Error";
                                 $logsValue .= "<span>Błąd za mało pieniędzy, posiadane: ".$gameData[9][$gameData[1]].", wymagane: ".$lvl[$lvlNumber]."</span>";
                                 updateLogs();
+                                mysqli_close($connection);
                                 exit();   
                             } else if ($fildData[1] == 4) {
                                 $logsValue .= "<span>Nie da się odkupić hotelu innego gracza!</span>";
@@ -287,8 +296,10 @@
             //echo $sql;
             $sql2 = 'UPDATE game SET logs = CONCAT(\''.$logsValue.'\',logs) WHERE gameID = '.$_SESSION["gameId"];
             $connection -> multi_query($sql.";".$sql2);
+            mysqli_close($connection);
         } else {
             echo "Error1";
+            mysqli_close($connection);
             exit();
         }
     } else {
@@ -299,6 +310,7 @@
         $logsValue .= "</div>";
         $sql = 'UPDATE game SET logs = CONCAT(\''.$logsValue.'\',logs) WHERE gameID = '.$_SESSION["gameId"];
         $connection -> query($sql);
+        mysqli_close($connection);
     }
     
 ?>

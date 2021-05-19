@@ -695,7 +695,7 @@
 				</div>
 				<div class="cornerBlock">
 					<div id="startBlock">
-						Start
+						<span id="N0">Start</span>
 						<div class="playersInCity">
 							<div id="playerInCity0">
 								<span id="PlayerB0"></span>

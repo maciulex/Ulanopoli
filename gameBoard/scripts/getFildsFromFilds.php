@@ -24,5 +24,6 @@
             echo $row->l5.":";
             echo $row->name.";";
         }
+        mysqli_close($connection);
     }
 ?>

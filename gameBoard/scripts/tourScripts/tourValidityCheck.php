@@ -9,6 +9,6 @@
     } else {
         echo false;
     }
-    
+    mysqli_close($connection);
     
 ?>

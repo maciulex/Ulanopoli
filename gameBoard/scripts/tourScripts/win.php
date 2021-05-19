@@ -106,6 +106,7 @@
     }
     
     checkWin();
+    mysqli_close($connection);
     function checkWin() {
         global $win, $gameData, $connection;
         if ($win[0] == true) {
@@ -122,6 +123,7 @@
             $sql = 'UPDATE game SET gameStatus = 2, whosTour = 6, winner = "'.$win[1].":".$win[2].'" WHERE gameID = '.$_SESSION['gameId'];
             //echo $sql.";".$sqlUser;
             $connection -> multi_query($sql.";".$sqlUser);
+            mysqli_close($connection);
         }
     }
 
