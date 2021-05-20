@@ -200,7 +200,6 @@
                         }
                         //echo "git ".$gameData[5][$_GET['id']];
                         echo "Trued";
-                        mysqli_close($connection);
                         //exit();
                     }
                 break;
@@ -233,7 +232,7 @@
                                     $logsValue .= "<span>Błąd za mało pieniędzy, posiadane: ".$gameData[9][$gameData[1]].", wymagane: ".$lvl[$lvlNumber]."</span>";
                                     echo "Error wrong money";
                                     updateLogs();
-                                mysqli_close($connection);
+                                    mysqli_close($connection);
                                     exit();   
                                 } else {
                                     $logsValue .= "<span>Cena: ".$lvl[$lvlNumber]."</span><span>Pieniądze: ".$gameData[9][$gameData[1]]."</span>";

@@ -123,6 +123,48 @@
             $sql = 'UPDATE game SET gameStatus = 2, whosTour = 6, winner = "'.$win[1].":".$win[2].'" WHERE gameID = '.$_SESSION['gameId'];
             //echo $sql.";".$sqlUser;
             $connection -> multi_query($sql.";".$sqlUser);
+            $readyQuerys = array();
+            for ($i = 0; $i < 4; $i++) {
+                if ($gameData[4][$i] == 0) {
+                    continue;
+                }
+                $result = $connection -> query("SELECT statistic FROM users WHERE id = ".$gameData[4][$i]);
+                $row = $result -> fetch_object();
+                $stats = $row -> statistic;
+                $stats = explode(":", $stats);
+
+                $stats[0] = explode(";",$stats[0]);
+                $stats[0][1] = intval($stats[0][1])+1; 
+                $stats[0] = implode(";",$stats[0]);
+
+                $stats[5] = explode(";",$stats[5]);
+                if ($win[1] == $i) {
+                    $stats[1] = explode(";",$stats[1]);
+                    $stats[1][1] = intval($stats[1][1])+1; 
+                } else {
+                    $stats[4] = explode(";",$stats[4]);
+                    $stats[4][1] = intval($stats[4][1])+1; 
+                }
+                $stats[5] = round($stats[1][1]/$stats[4][1],2);
+                $stats[1] = implode(";",$stats[1]);
+                $stats[4] = implode(";",$stats[4]);
+                $stats[5] = implode(";",$stats[5]);
+                
+                $stats[2] = explode(";",$stats[2]);
+                if (intval($stats[2][1]) < $gameData[11]) {
+                    $stats[2][1] = $gameData[11];
+                }
+                $stats[2] = implode(";",$stats[2]);
+
+                $stats[3] = explode(";",$stats[3]);
+                if (intval($stats[3][1]) < $gameData[9]) {
+                    $stats[3][1] = $gameData[11];
+                }
+                $stats[3] = implode(";",$stats[3]);
+                $readyQuerys[] = 'UPDATE SET statistic = "'.implode(":", $stats).'" FROM users WHERE id = '.$gameData[4][$i];
+            }
+            $_SESSION['xD'] = $readyQuerys;
+            $connection -> multi_query(implode(";",$readyQuerys));
             mysqli_close($connection);
         }
     }

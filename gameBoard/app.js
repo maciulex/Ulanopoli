@@ -219,7 +219,7 @@ function travelF(arg,addic=0) {
     var xml = new XMLHttpRequest;
     xml.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
-            //console.log(this.responseText);
+            console.log(this.responseText);
             if (this.responseText == "true") {
                 travelData[0] = true;
                 let state = (travelData[1] == 0) ? "disabled" : "" ;
