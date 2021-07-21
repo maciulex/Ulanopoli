@@ -133,7 +133,7 @@ function doAll() {
         console.log(data[1]);
         if (data[0] != "0") {
             var href = window.location.href.slice(0, -9);
-            window.location.href = href+"../gameBoard/index.php";
+            window.location.href = href+"gameBoard/index.php";
         }
         if (data[1] < data[2]) {
             statusPlace.innerHTML = "Oczekiwanie na graczy ("+data[1]+"/"+data[2]+").";

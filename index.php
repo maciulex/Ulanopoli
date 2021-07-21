@@ -1,13 +1,9 @@
 <?php
-	$PageName = "index";
-	$MainPageRoot = "";
 	session_start();
-	@include_once "base.php";
-	@$connection = new mysqli($host, $db_user, $db_passcode, $db_name);
-	if (!$connection->connect_errno > 0) {
-		include_once "authorizationCheck.php";
-	}  
-	@mysqli_close($connection);
+	if (isset($_SESSION['logged'])) {
+		header("Location: gamesList.php");
+		exit();
+	}
 ?>
 <!DOCTYPE html>
 <html>
